@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DATA QUESTZ</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="game-container">
+
+    <section class="start-screen" id="start-screen">
+
+    <h2>🕵️ Welcome Student!</h2>
+
+    <p>
+        Your mission is to help the database engine
+        filter records using SQL commands.
+    </p>
+
+    <button id="start-btn">
+        🚀 Start Mission
+    </button>
+
+</section>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>🗺️ DATA QUESTZ</h1>
+
+        <p>
+            Become the Database Engine and learn SQL through interactive challenges!
+        </p>
+
+    </header>
+
+
+    <!-- LEARNING OBJECTIVE -->
+
+    <section class="objective">
+
+        <h2>🎯 Learning Objective</h2>
+
+        <p>
+            Understand how SQL <strong>WHERE</strong> clauses filter records from a database table.
+        </p>
+
+    </section>
+
+
+    <!-- STATUS BAR -->
+
+    <div class="status-bar">
+
+        <div>
+            ⭐ Score:
+            <span id="score">0</span>
+        </div>
+
+        <div>
+            ❤️ Lives:
+            <span id="lives">3</span>
+        </div>
+
+        <div>
+            📚 Level:
+            <span id="level">1</span>
+        </div>
+
+        <div>
+            ⏱ Time:
+            <span id="timer">30</span>
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS BAR -->
+
+    <div class="progress">
+
+        <div id="progress-bar"></div>
+
+    </div>
+
+
+    <!-- SQL MISSION -->
+
+    <section class="mission">
+
+        <h2>💻 Database Query</h2>
+
+        <div id="query">
+
+            Loading...
+
+        </div>
+
+        <button id="hint-btn">
+
+            💡 Show Hint
+
+        </button>
+
+    </section>
+
+
+    <!-- HINT PANEL -->
+
+    <section class="hint-panel">
+
+        <h2>💡 Hint</h2>
+
+        <div id="hint-text">
+
+            Read the SQL query carefully before sorting the records.
+
+        </div>
+
+    </section>
+
+
+    <!-- LEARNING PANEL -->
+
+    <section class="learning-panel">
+
+        <h2>📖 Learn SQL</h2>
+
+        <div id="lesson">
+
+            SQL uses the <strong>WHERE</strong> clause to filter data.
+
+            <br><br>
+
+            If a record satisfies the condition, it belongs in the result table.
+
+            <br><br>
+
+            Otherwise, it should be discarded.
+
+        </div>
+
+    </section>
+
+
+    <!-- CARD AREA -->
+
+    <h3 class="instruction">
+
+        Drag each student into the correct bin.
+
+    </h3>
+
+    <div id="cards" class="cards">
+
+    </div>
+
+
+    <!-- DROP BINS -->
+
+    <div class="bins">
+
+        <div class="bin database" id="database">
+
+            📂 DATABASE
+
+        </div>
+
+        <div class="bin trash" id="trash">
+
+            🗑️ TRASH
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT TABLE -->
+
+    <section class="result-panel">
+
+        <h2>📊 Query Result</h2>
+
+        <table id="result-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Age</th>
+
+                    <th>Passed</th>
+
+                    <th>GPA</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- LEARNING FEEDBACK -->
+
+    <section class="feedback-panel">
+
+        <h2>🧠 Learning Feedback</h2>
+
+        <div id="message">
+
+            Welcome to DATA QUESTZ!
+
+            <br><br>
+
+            Read the SQL query and decide which records satisfy the WHERE clause.
+
+        </div>
+
+    </section>
+
+
+    <!-- SQL CHEAT SHEET -->
+
+    <section class="cheatsheet">
+
+        <h2>📚 SQL Cheat Sheet</h2>
+
+        <ul>
+
+            <li><strong>></strong> Greater than</li>
+
+            <li><strong><</strong> Less than</li>
+
+            <li><strong>=</strong> Equal to</li>
+
+            <li><strong>AND</strong> Both conditions must be TRUE</li>
+
+            <li><strong>OR</strong> Either condition can be TRUE</li>
+
+            <li><strong>TRUE</strong> Boolean value</li>
+
+            <li><strong>FALSE</strong> Boolean value</li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- NEXT LEVEL BUTTON -->
+
+    <button id="next-btn">
+
+        ▶ Next Mission
+
+    </button>
+
+    <!-- RESTART BUTTON -->
+
+    <button id="restart-btn">
+
+    🔄 Restart Game
+
+</button>
+
+</div>
+
+
+<script src="data.js"></script>
+<script src="questions.js"></script>
+<script src="script.js"></script>
+
+</body>
+
+</html>
