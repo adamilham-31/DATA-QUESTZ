@@ -171,13 +171,13 @@
 
         <div class="bin database" id="database">
 
-            📂 DATABASE
+            📂 TRUE
 
         </div>
 
         <div class="bin trash" id="trash">
 
-            🗑️ TRASH
+            🗑️ FALSE
 
         </div>
 
@@ -238,29 +238,68 @@
 
     <!-- SQL CHEAT SHEET -->
 
-    <section class="cheatsheet">
+<section class="cheatsheet">
 
-        <h2>📚 SQL Cheat Sheet</h2>
+    <details class="cheat-dropdown">
 
-        <ul>
+        <summary>
+            📚 SQL Cheat Sheet
+        </summary>
 
-            <li><strong>></strong> Greater than</li>
+        <div class="cheat-content">
 
-            <li><strong><</strong> Less than</li>
+            <h3>Comparison Operators</h3>
 
-            <li><strong>=</strong> Equal to</li>
+            <ul>
 
-            <li><strong>AND</strong> Both conditions must be TRUE</li>
+                <li><strong>></strong> Greater than</li>
 
-            <li><strong>OR</strong> Either condition can be TRUE</li>
+                <li><strong><</strong> Less than</li>
 
-            <li><strong>TRUE</strong> Boolean value</li>
+                <li><strong>=</strong> Equal to</li>
 
-            <li><strong>FALSE</strong> Boolean value</li>
+                <li><strong>>=</strong> Greater than or equal</li>
 
-        </ul>
+                <li><strong><=</strong> Less than or equal</li>
 
-    </section>
+            </ul>
+
+            <h3>Logical Operators</h3>
+
+            <ul>
+
+                <li><strong>AND</strong> Both conditions must be TRUE</li>
+
+                <li><strong>OR</strong> Either condition can be TRUE</li>
+
+                <li><strong>NOT</strong> Reverses a condition</li>
+
+            </ul>
+
+            <h3>Boolean Values</h3>
+
+            <ul>
+
+                <li><strong>TRUE</strong> Condition is satisfied</li>
+
+                <li><strong>FALSE</strong> Condition is not satisfied</li>
+
+            </ul>
+
+            <h3>Example</h3>
+
+            <pre>
+SELECT *
+FROM Students
+WHERE Age > 20
+AND Passed = TRUE;
+            </pre>
+
+        </div>
+
+    </details>
+
+</section>
 
 
     <!-- NEXT LEVEL BUTTON -->
