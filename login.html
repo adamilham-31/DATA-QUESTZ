@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DATA QUESTZ — Login</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="game-container">
+
+        <!-- LOGIN SCREEN -->
+
+        <section class="login-screen">
+
+            <div class="login-content">
+
+
+                <!-- LOGO -->
+
+                <div class="login-logo">
+                    🗺️
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h1>
+                    DATA QUESTZ
+                </h1>
+
+                <p class="login-subtitle">
+                    Learn, Think & Solve!
+                </p>
+
+
+                <!-- ROLE SELECTION -->
+
+                <div class="login-section">
+
+                    <h2>
+                        👤 Select Your Role
+                    </h2>
+
+                    <div class="role-buttons">
+
+                        <button
+                            id="student-role-btn"
+                            class="role-btn"
+                            type="button"
+                        >
+                            👨‍🎓 Student
+                        </button>
+
+                        <button
+                            id="lecturer-role-btn"
+                            class="role-btn"
+                            type="button"
+                        >
+                            👨‍🏫 Lecturer / Admin
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STUDENT ACCESS -->
+
+                <div
+                    id="student-login"
+                    class="login-form hidden-login"
+                >
+
+                    <p>
+                        Ready to begin your mission?
+                    </p>
+
+                    <button
+                        id="student-enter-btn"
+                        class="login-btn"
+                        type="button"
+                    >
+                        🚀 Enter Game
+                    </button>
+
+                </div>
+
+
+                <!-- LECTURER LOGIN -->
+
+                <div
+                    id="lecturer-login"
+                    class="login-form hidden-login"
+                >
+
+                    <label for="lecturer-username">
+                        👤 Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lecturer-username"
+                        placeholder="Enter username"
+                    >
+
+                    <label for="lecturer-password">
+                        🔑 Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="lecturer-password"
+                        placeholder="Enter password"
+                    >
+
+                    <button
+                        id="lecturer-login-btn"
+                        class="login-btn"
+                        type="button"
+                    >
+                        🔐 Login
+                    </button>
+
+                </div>
+
+
+                <!-- LOGIN MESSAGE -->
+
+                <div
+                    id="login-message"
+                    class="login-message"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- LOGIN JAVASCRIPT -->
+
+    <script src="login.js"></script>
+
+</body>
+
+</html>
