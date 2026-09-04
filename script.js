@@ -2872,6 +2872,24 @@ startBtn.onclick = () => {
 
 
 /* ==================================================
+   PLAY AGAIN
+================================================== */
+
+const playAgain =
+    new URLSearchParams(
+        window.location.search
+    ).get("playAgain");
+
+if (playAgain === "true") {
+
+    startScreen.style.display = "none";
+
+    startLevel();
+
+}
+
+
+/* ==================================================
    RESTART GAME
 ================================================== */
 

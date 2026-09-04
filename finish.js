@@ -197,7 +197,7 @@ finishPlayAgainBtn.onclick = () => {
     );
 
     window.location.href =
-        "index.html";
+        "index.html?playAgain=true";
 
 };
 
