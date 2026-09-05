@@ -998,6 +998,10 @@ function checkSQLAnswer(card, correctZone) {
     scoreText.textContent = score;
     livesText.textContent = lives;
 
+    if (feedbackPanel) {
+    feedbackPanel.style.display = "block";
+    }
+
     card.remove();
     remaining--;
 
