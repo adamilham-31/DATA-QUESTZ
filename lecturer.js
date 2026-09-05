@@ -712,26 +712,28 @@ saveQuestionBtn.addEventListener(
             image = previewImage.src;
         }
 
-        const questionData = {
-            id:
-                questionToEdit
-                    ? questionToEdit.id
-                    : "custom-" + Date.now(),
+    
+            const selectedStudents = [
+    ...document.querySelectorAll(".dataset-correct:checked")
+].map(input => ({
+    name: input.dataset.name,
+    age: Number(input.dataset.age),
+    passed: input.dataset.passed === "true",
+    gpa: Number(input.dataset.gpa)
+}));
 
-            type: mode,
-
-            answerMode: mode,
-
-            question: text,
-
-            answers,
-
-            hint,
-
-            explanation,
-
-            image
-        };
+const questionData = {
+    id: questionToEdit ? questionToEdit.id : "custom-" + Date.now(),
+    type: "sql-filter",
+    answerMode: mode,
+    question: text,
+    sql: text,
+    dataset: selectedStudents,
+    answers,
+    hint,
+    explanation,
+    image
+};
 
         const isEditing =
             Boolean(questionToEdit);
