@@ -1214,7 +1214,8 @@ logoutBtn.addEventListener(
             "dataQuestzRole"
         );
 
-        window.location.href ="login.html";
+        window.location.href =
+            "login.html";
     }
 );
 
@@ -1225,37 +1226,22 @@ logoutBtn.addEventListener(
 
 questionModal.addEventListener(
     "click",
-
     function (event) {
-
         if (event.target === questionModal) {
-
             closeQuestionCreator();
-
         }
-
     }
-
 );
-
 
 questionManagerModal.addEventListener(
     "click",
-    
     function (event) {
-        
         if (
             event.target === questionManagerModal
-        ) 
-        
-        {
-           
+        ) {
             closeQuestionManager();
-        
         }
-    
     }
-
 );
 
 
