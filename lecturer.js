@@ -1174,7 +1174,7 @@ answerMode.addEventListener(
 
 addAnswerBtn.addEventListener(
     "click",
-    () => addAnswerRow
+    () => addAnswerRow()
 );
 
 addQuestionBtn.addEventListener(
