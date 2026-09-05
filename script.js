@@ -1205,9 +1205,7 @@ function finishGame() {
         wrongAnswers
     );
 
-   setTimeout(() => {
     window.location.href = "finish.html";
-}, 800);
 }
 
 
