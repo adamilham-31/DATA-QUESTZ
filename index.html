@@ -19,12 +19,15 @@
 
 </head>
 
+
 <body>
 
     <div class="game-container">
 
 
-        <!-- START SCREEN -->
+        <!-- =====================================================
+             START SCREEN
+        ====================================================== -->
 
         <section
             class="start-screen"
@@ -49,21 +52,30 @@
                     🚀 Start Mission
                 </button>
 
+
+                <!-- Kept temporarily for script.js compatibility -->
+
                 <button
                     id="add-question-btn"
                     class="add-question-btn"
                     type="button"
+                    style="display: none;"
                 >
                     ➕ Create Question
                 </button>
+
+
+                <!-- Kept temporarily for script.js compatibility -->
 
                 <button
                     id="manage-question-btn"
                     class="manage-question-btn"
                     type="button"
+                    style="display: none;"
                 >
                     🗂️ Manage Questions
                 </button>
+
 
                 <button
                     id="logout-btn"
@@ -78,9 +90,12 @@
         </section>
 
 
-        <!-- GAME HEADER -->
 
-        <header>
+        <!-- =====================================================
+             DATA QUESTZ INTRO
+        ====================================================== -->
+
+        <header class="intro-header">
 
             <h1>
                 🗺️ DATA QUESTZ
@@ -88,13 +103,16 @@
 
             <p>
                 Learn, think and solve challenges
-                through interactive drag-and-drop missions!
+                through interactive drag-and-drop missions.
             </p>
 
         </header>
 
 
-        <!-- LEARNING OBJECTIVE -->
+
+        <!-- =====================================================
+             LEARNING OBJECTIVE
+        ====================================================== -->
 
         <section class="objective">
 
@@ -111,193 +129,18 @@
         </section>
 
 
-        <!-- STATUS BAR -->
 
-        <div class="status-bar">
-
-            <div>
-                ⭐ Score:
-                <span id="score">0</span>
-            </div>
-
-            <div>
-                ❤️ Lives:
-                <span id="lives">3</span>
-            </div>
-
-            <div>
-                📚 Level:
-                <span id="level">1</span>
-            </div>
-
-            <div>
-                ⏱ Time:
-                <span id="timer">30</span>
-            </div>
-
-        </div>
-
-
-        <!-- PROGRESS -->
-
-        <div class="progress">
-
-            <div id="progress-bar"></div>
-
-        </div>
-
-
-        <!-- QUESTION -->
-
-        <section class="mission">
-
-            <h2>
-                ❓ Question
-            </h2>
-
-            <div id="query">
-                Start the mission to begin.
-            </div>
-
-            <div
-                id="question-image-display"
-                class="question-image-display"
-            ></div>
-
-            <button
-                id="hint-btn"
-                type="button"
-            >
-                💡 Show Hint
-            </button>
-
-        </section>
-
-
-        <!-- HINT -->
-
-        <section class="hint-panel">
-
-            <h2>
-                💡 Hint
-            </h2>
-
-            <div id="hint-text">
-                Drag an answer into the correct zone.
-            </div>
-
-        </section>
-
-
-        <!-- LEARNING -->
-
-        <section class="learning-panel">
-
-            <h2>
-                📖 Learn
-            </h2>
-
-            <div id="lesson">
-                Read the question carefully
-                and think before answering.
-            </div>
-
-        </section>
-
-
-        <!-- ANSWER INSTRUCTION -->
-
-        <h3
-            class="instruction"
-            id="answer-instruction"
-        >
-            Drag each answer into the correct zone.
-        </h3>
-
-
-        <!-- ANSWER CARDS -->
-
-        <div
-            id="cards"
-            class="cards"
-        ></div>
-
-
-        <!-- DROP ZONES -->
-
-        <div class="bins">
-
-            <div
-                class="bin database"
-                id="database"
-            >
-                🟢 CORRECT
-            </div>
-
-            <div
-                class="bin trash"
-                id="trash"
-            >
-                🔴 WRONG
-            </div>
-
-        </div>
-
-
-        <!-- SQL RESULT TABLE -->
+        <!-- =====================================================
+             HOW TO PLAY
+        ====================================================== -->
 
         <section
-            class="result-panel"
-            id="result-panel"
+            class="how-to-play"
+            id="how-to-play"
         >
 
             <h2>
-                📊 Query Result
-            </h2>
-
-            <table id="result-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Passed</th>
-                        <th>GPA</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody></tbody>
-
-            </table>
-
-        </section>
-
-
-        <!-- FEEDBACK -->
-
-        <section class="feedback-panel">
-
-            <h2>
-                🧠 Learning Feedback
-            </h2>
-
-            <div id="message">
-                Welcome to DATA QUESTZ!
-            </div>
-
-        </section>
-
-
-        <!-- CHEAT SHEET -->
-
-        <section class="cheatsheet">
-
-            <h2>
-                📚 Quick Reference
+                ❓ How to Play
             </h2>
 
             <ul>
@@ -323,27 +166,364 @@
         </section>
 
 
-        <!-- NEXT MISSION -->
 
-        <button
-            id="next-btn"
-            type="button"
+        <!-- =====================================================
+             GAME INTERFACE
+        ====================================================== -->
+
+        <main
+            id="game-interface"
+            class="game-interface"
         >
-            ▶ Next Mission
-        </button>
 
 
-        <!-- RESTART GAME -->
+            <!-- =================================================
+                 STATUS BAR
+            ================================================== -->
 
-        <button
-            id="restart-btn"
-            type="button"
-        >
-            🔄 Restart Game
-        </button>
+            <div class="status-bar">
+
+                <div>
+                    ⭐ Score:
+                    <span id="score">0</span>
+                </div>
+
+                <div>
+                    ❤️ Lives:
+                    <span id="lives">3</span>
+                </div>
+
+                <div>
+                    📚 Level:
+                    <span id="level">1</span>
+                </div>
+
+                <div>
+                    ⏱ Time:
+                    <span id="timer">30</span>
+                </div>
+
+            </div>
 
 
-        <!-- FINISH GAME SCREEN -->
+
+            <!-- =================================================
+                 PROGRESS
+            ================================================== -->
+
+            <div class="progress">
+
+                <div id="progress-bar"></div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUESTION
+            ================================================== -->
+
+            <section class="mission">
+
+                <h2>
+                    ❓ Question
+                </h2>
+
+                <div id="query">
+                    Start the mission to begin.
+                </div>
+
+                <div
+                    id="question-image-display"
+                    class="question-image-display"
+                ></div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 HINT
+            ================================================== -->
+
+            <section
+                class="hint-box"
+                id="hint-panel"
+            >
+
+                <h2 id="hint-title">
+                    💡 Need Help?
+                </h2>
+
+                <p id="hint-instruction">
+                    Press the hint button when you need help.
+                </p>
+
+                <div
+                    id="hint-text"
+                    style="display: none;"
+                >
+                    Drag an answer into the correct zone.
+                </div>
+
+                <button
+                    id="hint-btn"
+                    type="button"
+                >
+                    💡 Show Hint
+                </button>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 LEARNING
+            ================================================== -->
+
+            <section class="learning-panel">
+
+                <h2>
+                    📖 Learn
+                </h2>
+
+                <div id="lesson">
+                    Read the question carefully
+                    and think before answering.
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ANSWER INSTRUCTION
+            ================================================== -->
+
+            <h3
+                class="instruction"
+                id="answer-instruction"
+            >
+                Drag each answer into the correct zone.
+            </h3>
+
+
+
+            <!-- =================================================
+                 ANSWER CARDS
+            ================================================== -->
+
+            <div
+                id="cards"
+                class="cards"
+            ></div>
+
+
+
+            <!-- =================================================
+                 DROP ZONES
+            ================================================== -->
+
+            <div class="bins">
+
+                <div
+                    class="bin database"
+                    id="database"
+                >
+                    🟢 CORRECT
+                </div>
+
+                <div
+                    class="bin trash"
+                    id="trash"
+                >
+                    🔴 WRONG
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SQL RESULT TABLE
+            ================================================== -->
+
+            <section
+                class="result-panel"
+                id="result-panel"
+            >
+
+                <h2>
+                    📊 Query Result
+                </h2>
+
+                <table id="result-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Passed</th>
+                            <th>GPA</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FEEDBACK
+            ================================================== -->
+
+            <section
+                class="feedback-panel"
+                id="feedback-panel"
+            >
+
+                <h2>
+                    🧠 Learning Feedback
+                </h2>
+
+                <div id="message">
+                    Welcome to DATA QUESTZ!
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CHEAT SHEET
+            ================================================== -->
+
+            <details class="cheatsheet">
+
+                <summary>
+                    📚 Quick Reference
+                </summary>
+
+
+                <h3>
+                    Comparison Operators
+                </h3>
+
+                <div class="cheat-item">
+                    <strong>&gt;</strong>
+                    Greater than
+                </div>
+
+                <div class="cheat-item">
+                    <strong>&lt;</strong>
+                    Less than
+                </div>
+
+                <div class="cheat-item">
+                    <strong>=</strong>
+                    Equal to
+                </div>
+
+                <div class="cheat-item">
+                    <strong>&gt;=</strong>
+                    Greater than or equal
+                </div>
+
+                <div class="cheat-item">
+                    <strong>&lt;=</strong>
+                    Less than or equal
+                </div>
+
+
+                <h3>
+                    Logical Operators
+                </h3>
+
+                <div class="cheat-item">
+                    <strong>AND</strong>
+                    Both conditions must be TRUE
+                </div>
+
+                <div class="cheat-item">
+                    <strong>OR</strong>
+                    Either condition can be TRUE
+                </div>
+
+                <div class="cheat-item">
+                    <strong>NOT</strong>
+                    Reverses a condition
+                </div>
+
+
+                <h3>
+                    Boolean Values
+                </h3>
+
+                <div class="cheat-item">
+                    <strong>TRUE</strong>
+                    Condition is satisfied
+                </div>
+
+                <div class="cheat-item">
+                    <strong>FALSE</strong>
+                    Condition is not satisfied
+                </div>
+
+
+                <h3>
+                    Example
+                </h3>
+
+                <div class="sql-example">
+
+                    SELECT *<br>
+                    FROM Students<br>
+                    WHERE Age &gt; 20<br>
+                    AND Passed = TRUE;
+
+                </div>
+
+            </details>
+
+
+
+            <!-- =================================================
+                 NEXT MISSION
+            ================================================== -->
+
+            <button
+                id="next-btn"
+                type="button"
+            >
+                ▶ Next Mission
+            </button>
+
+
+
+            <!-- =================================================
+                 RESTART GAME
+            ================================================== -->
+
+            <button
+                id="restart-btn"
+                type="button"
+            >
+                🔄 Restart Game
+            </button>
+
+        </main>
+
+
+
+        <!-- =====================================================
+             FINISH GAME SCREEN
+        ====================================================== -->
 
         <section
             id="finish-screen"
@@ -364,6 +544,7 @@
                     Congratulations! You completed all missions.
                 </p>
 
+
                 <div class="finish-stat">
 
                     <span class="finish-stat-label">
@@ -375,6 +556,7 @@
                     </strong>
 
                 </div>
+
 
                 <div class="finish-stat">
 
@@ -388,6 +570,7 @@
 
                 </div>
 
+
                 <div class="finish-performance">
 
                     <p>
@@ -399,6 +582,7 @@
                     </div>
 
                 </div>
+
 
                 <div class="finish-buttons">
 
@@ -423,7 +607,10 @@
         </section>
 
 
-        <!-- CREATE QUESTION MODAL -->
+
+        <!-- =====================================================
+             CREATE QUESTION MODAL
+        ====================================================== -->
 
         <div
             id="question-modal"
@@ -431,6 +618,7 @@
         >
 
             <div class="question-creator">
+
 
                 <button
                     id="close-question-btn"
@@ -455,6 +643,7 @@
                 </div>
 
 
+
                 <!-- QUESTION -->
 
                 <div class="creator-section">
@@ -469,6 +658,7 @@
                     ></textarea>
 
                 </div>
+
 
 
                 <!-- ANSWER MODE -->
@@ -503,6 +693,7 @@
                 </div>
 
 
+
                 <!-- ANSWER BUILDER -->
 
                 <div
@@ -525,6 +716,7 @@
 
                     <div id="answer-list"></div>
 
+
                     <button
                         id="add-answer-btn"
                         type="button"
@@ -534,6 +726,7 @@
                     </button>
 
                 </div>
+
 
 
                 <!-- TRUE / FALSE -->
@@ -566,6 +759,7 @@
 
                         </label>
 
+
                         <label>
 
                             <input
@@ -581,6 +775,7 @@
                     </div>
 
                 </div>
+
 
 
                 <!-- IMAGE -->
@@ -617,6 +812,7 @@
                 </div>
 
 
+
                 <!-- HINT -->
 
                 <div class="creator-section">
@@ -633,6 +829,7 @@
                 </div>
 
 
+
                 <!-- EXPLANATION -->
 
                 <div class="creator-section">
@@ -647,6 +844,7 @@
                     ></textarea>
 
                 </div>
+
 
 
                 <!-- BUTTONS -->
@@ -676,7 +874,10 @@
         </div>
 
 
-        <!-- QUESTION MANAGER MODAL -->
+
+        <!-- =====================================================
+             QUESTION MANAGER MODAL
+        ====================================================== -->
 
         <div
             id="question-manager-modal"
@@ -684,6 +885,7 @@
         >
 
             <div class="question-creator question-manager">
+
 
                 <button
                     id="close-manager-btn"
@@ -731,7 +933,10 @@
         </div>
 
 
-        <!-- DELETE CONFIRMATION -->
+
+        <!-- =====================================================
+             DELETE CONFIRMATION
+        ====================================================== -->
 
         <div
             id="delete-confirmation"
@@ -776,7 +981,10 @@
     </div>
 
 
-    <!-- JAVASCRIPT -->
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
 
     <script src="questions.js"></script>
     <script src="script.js"></script>

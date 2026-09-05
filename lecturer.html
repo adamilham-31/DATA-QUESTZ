@@ -2,9 +2,7 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="UTF-8">
-
+ <meta charset="UTF-8">
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -12,31 +10,23 @@
 
     <title>DATA QUESTZ — Lecturer</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="game-container">
+<div class="game-container">
 
-
-        <!-- LECTURER DASHBOARD -->
-
+    <!-- LECTURER DASHBOARD -->
         <section
-            class="lecturer-screen"
-            id="lecturer-screen"
+         id="lecturer-screen"
+        class="lecturer-screen"
         >
 
-            <div class="lecturer-content">
+        <div class="lecturer-content">
 
-
-                <!-- LECTURER HEADER -->
-
-                <div class="lecturer-header">
+            <!-- LECTURER HEADER -->
+            <div class="lecturer-header">
 
                     <div class="lecturer-brand">
 
@@ -45,15 +35,8 @@
                         </div>
 
                         <div>
-
-                            <h1>
-                                DATA QUESTZ
-                            </h1>
-
-                            <p>
-                                Lecturer Dashboard
-                            </p>
-
+                            <h1>DATA QUESTZ</h1>
+                            <p>Lecturer Dashboard</p>
                         </div>
 
                     </div>
@@ -66,34 +49,27 @@
                         🚪 Logout
                     </button>
 
-                </div>
+            </div>
 
+            <!-- DASHBOARD INTRO -->
+            <div class="lecturer-intro">
 
-                <!-- DASHBOARD INTRO -->
-
-                <div class="lecturer-intro">
-
-                    <h2>
-                        Lecturer Dashboard
-                    </h2>
+                    <h2>Lecturer Dashboard</h2>
 
                     <p class="lecturer-subtitle">
                         Manage your DATA QUESTZ questions
                     </p>
 
-                </div>
+            </div>
 
+            <!-- DASHBOARD BUTTONS -->
+            <div class="lecturer-buttons">
 
-                <!-- DASHBOARD BUTTONS -->
-
-                <div class="lecturer-buttons">
-
-                    <button
+                <button
                         id="add-question-btn"
                         class="add-question-btn"
                         type="button"
-                    >
-
+                >
                         <span class="dashboard-action-icon">
                             ➕
                         </span>
@@ -105,17 +81,14 @@
                         <span class="dashboard-action-description">
                             Add a new question for your students.
                         </span>
+                </button>
 
-                    </button>
-
-
-                    <button
+                <button
                         id="manage-question-btn"
                         class="manage-question-btn"
                         type="button"
                     >
-
-                        <span class="dashboard-action-icon">
+                    <span class="dashboard-action-icon">
                             🗂️
                         </span>
 
@@ -126,8 +99,7 @@
                         <span class="dashboard-action-description">
                             View, edit or delete your questions.
                         </span>
-
-                    </button>
+                </button>
 
                 </div>
 
@@ -136,30 +108,25 @@
         </section>
 
 
-        <!-- CREATE QUESTION MODAL -->
-
-        <div
+    <!-- CREATE QUESTION MODAL -->
+    <div
             id="question-modal"
             class="question-modal"
         >
 
             <div class="question-creator">
 
-
-                <!-- CLOSE -->
-
-                <button
+                <!-- CLOSE BUTTON -->
+            <button
                     id="close-question-btn"
                     class="close-question-btn"
                     type="button"
                 >
                     ✕
-                </button>
+            </button>
 
-
-                <!-- HEADER -->
-
-                <div class="creator-header">
+            <!-- HEADER -->
+            <div class="creator-header">
 
                     <h2 id="creator-title">
                         ➕ Create New Question
@@ -170,12 +137,10 @@
                         DATA QUESTZ challenge.
                     </p>
 
-                </div>
+            </div>
 
-
-                <!-- QUESTION -->
-
-                <div class="creator-section">
+            <!-- QUESTION -->
+            <div class="creator-section">
 
                     <label for="question-text">
                         ❓ Question
@@ -186,12 +151,10 @@
                         placeholder="What is in your mind?"
                     ></textarea>
 
-                </div>
+            </div>
 
-
-                <!-- ANSWER MODE -->
-
-                <div class="creator-section">
+            <!-- ANSWER MODE -->
+            <div class="creator-section">
 
                     <label for="answer-mode">
                         🎮 Answer Mode
@@ -218,21 +181,17 @@
                         by dragging the answer cards.
                     </p>
 
-                </div>
+            </div>
 
-
-                <!-- ANSWER BUILDER -->
-
-                <div
+            <!-- ANSWER BUILDER -->
+            <div
                     id="answer-builder"
                     class="answer-section"
                 >
 
                     <div class="section-title">
 
-                        <h3>
-                            📝 Answers
-                        </h3>
+                        <h3>📝 Answers</h3>
 
                         <p id="answer-mode-description">
                             Add as many answers as you want
@@ -243,66 +202,51 @@
 
                     <div id="answer-list"></div>
 
-                    <button
-                        id="add-answer-btn"
-                        type="button"
-                        class="add-answer-btn"
+                    <button 
+                    id="add-answer-btn"
+                    class="add-answer-btn"
+                    type="button"
                     >
                         ➕ Add Answer
                     </button>
 
-                </div>
+            </div>
 
-
-                <!-- TRUE / FALSE -->
-
-                <div
+            <!-- TRUE / FALSE -->
+            <div
                     id="true-false-builder"
                     class="answer-section hidden-section"
                 >
 
                     <div class="section-title">
-
-                        <h3>
-                            ✅ Correct Answer
-                        </h3>
-
+                        <h3>✅ Correct Answer</h3>
                     </div>
 
                     <div class="true-false-options">
 
-                        <label>
-
-                            <input
+                    <label>
+                        <input
                                 type="radio"
                                 name="true-false-answer"
                                 value="true"
                                 checked
-                            >
-
+                        >
                             TRUE
+                    </label>
 
-                        </label>
-
-
-                        <label>
-
+                    <label>
                             <input
                                 type="radio"
                                 name="true-false-answer"
                                 value="false"
-                            >
-
+                         >
                             FALSE
+                    </label>
 
-                        </label>
+                </div>
 
-                    </div>
-
-
-                    <!-- TRUE EXPLANATION -->
-
-                    <div class="true-false-explanation">
+                <!-- TRUE EXPLANATION -->
+                <div class="true-false-explanation">
 
                         <label for="true-explanation">
                             💡 TRUE Explanation
@@ -313,12 +257,10 @@
                             placeholder="Explain why TRUE is correct or incorrect..."
                         ></textarea>
 
-                    </div>
+                </div>
 
-
-                    <!-- FALSE EXPLANATION -->
-
-                    <div class="true-false-explanation">
+                <!-- FALSE EXPLANATION -->
+                <div class="true-false-explanation">
 
                         <label for="false-explanation">
                             💡 FALSE Explanation
@@ -331,12 +273,10 @@
 
                     </div>
 
-                </div>
+            </div>
 
-
-                <!-- IMAGE -->
-
-                <div class="creator-section">
+            <!-- UPLOAD IMAGE -->
+            <div class="creator-section">
 
                     <label for="question-image">
                         🖼️ Add Image
@@ -365,12 +305,10 @@
                         class="image-preview"
                     ></div>
 
-                </div>
+            </div>
 
-
-                <!-- HINT -->
-
-                <div class="creator-section">
+            <!-- HINT -->
+            <div class="creator-section">
 
                     <label for="question-hint">
                         💡 Hint
@@ -381,28 +319,16 @@
                         placeholder="Give students a helpful hint..."
                     ></textarea>
 
-                </div>
+            </div>
 
+            <!-- HIDDEN LEGACY EXPLANATION FIELD -->
+            <textarea
+                    id="question-explanation"
+                    style="display: none;"
+            ></textarea>
 
-                <!-- EXPLANATION -->
-
-                <div class="creator-section">
-
-                    <label for="question-explanation">
-                        🧠 Explanation
-                    </label>
-
-                    <textarea
-                        id="question-explanation"
-                        placeholder="Explain why the answer is correct..."
-                    ></textarea>
-
-                </div>
-
-
-                <!-- BUTTONS -->
-
-                <div class="creator-buttons">
+            <!-- BUTTONS -->
+            <div class="creator-buttons">
 
                     <button
                         id="cancel-question-btn"
@@ -427,18 +353,15 @@
         </div>
 
 
-        <!-- QUESTION MANAGER MODAL -->
-
-        <div
+    <!-- QUESTION MANAGER MODAL -->
+    <div
             id="question-manager-modal"
             class="question-modal"
         >
 
             <div class="question-creator question-manager">
 
-
-                <!-- CLOSE -->
-
+                <!-- CLOSE BUTTON -->
                 <button
                     id="close-manager-btn"
                     class="close-question-btn"
@@ -447,34 +370,25 @@
                     ✕
                 </button>
 
+            <!-- HEADER -->
+            <div class="creator-header">
 
-                <!-- HEADER -->
-
-                <div class="creator-header">
-
-                    <h2>
-                        🗂️ Manage Questions
-                    </h2>
+                    <h2>🗂️ Manage Questions</h2>
 
                     <p>
                         View and manage questions
                         from DATA QUESTZ.
                     </p>
+            </div>
 
-                </div>
-
-
-                <!-- QUESTION LIST -->
-
-                <div
+            <!-- QUESTION LIST -->
+            <div
                     id="question-manager-list"
                     class="question-manager-list"
-                ></div>
+            ></div>
 
-
-                <!-- BOTTOM BUTTON -->
-
-                <div class="creator-buttons">
+            <!-- BOTTOM BUTTON -->
+            <div class="creator-buttons">
 
                     <button
                         id="close-manager-bottom-btn"
@@ -484,25 +398,22 @@
                         Close
                     </button>
 
-                </div>
+            </div>
 
             </div>
 
-        </div>
+    </div>
 
 
-        <!-- DELETE CONFIRMATION -->
-
-        <div
+    <!-- DELETE CONFIRMATION -->
+    <div
             id="delete-confirmation"
             class="delete-confirmation"
         >
 
             <div class="delete-confirmation-box">
 
-                <h2>
-                    ⚠️ Delete Question?
-                </h2>
+                <h2>⚠️ Delete Question?</h2>
 
                 <p id="delete-confirmation-text">
                     Are you sure you want to delete
@@ -531,15 +442,14 @@
 
             </div>
 
-        </div>
+    </div>
 
     </div>
 
 
-    <!-- JAVASCRIPT -->
-
-    <script src="questions.js"></script>
-    <script src="lecturer.js"></script>
+<!-- JAVASCRIPT -->
+<script src="questions.js"></script>
+<script src="lecturer.js"></script>
 
 </body>
 

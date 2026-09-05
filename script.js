@@ -10,8 +10,6 @@
 
 const userRole = localStorage.getItem("dataQuestzRole");
 
-
-// Make sure user is logged in
 if (!userRole) {
     window.location.href = "login.html";
 }
@@ -47,7 +45,8 @@ let questionToEdit = null;
 const startBtn = document.getElementById("start-btn");
 const restartBtn = document.getElementById("restart-btn");
 const startScreen = document.getElementById("start-screen");
-
+const gameInterface = document.getElementById("game-interface");
+const howToPlay = document.getElementById("how-to-play");
 const logoutBtn = document.getElementById("logout-btn");
 
 const scoreText = document.getElementById("score");
@@ -59,7 +58,6 @@ const progress = document.getElementById("progress-bar");
 
 const queryText = document.getElementById("query");
 const cards = document.getElementById("cards");
-
 const message = document.getElementById("message");
 
 const database = document.getElementById("database");
@@ -69,11 +67,12 @@ const nextBtn = document.getElementById("next-btn");
 
 const hintBtn = document.getElementById("hint-btn");
 const hintText = document.getElementById("hint-text");
+const hintPanel = document.getElementById("hint-panel");
+const hintInstruction = document.getElementById("hint-instruction");
 
+const feedbackPanel = document.getElementById("feedback-panel");
 const lesson = document.getElementById("lesson");
-
-const answerInstruction =
-    document.getElementById("answer-instruction");
+const answerInstruction = document.getElementById("answer-instruction");
 
 const questionImageDisplay =
     document.getElementById("question-image-display");
@@ -81,200 +80,13 @@ const questionImageDisplay =
 
 /* ---------- SQL RESULT ---------- */
 
-const resultPanel =
-    document.getElementById("result-panel");
+const resultPanel = document.getElementById("result-panel");
 
 const resultTable =
     document.querySelector("#result-table tbody");
 
 
-/* ==================================================
-   SOUND EFFECTS
-================================================== */
-
-let audioContext = null;
-
-
-function getAudioContext() {
-
-    if (!audioContext) {
-        audioContext =
-            new (
-                window.AudioContext ||
-                window.webkitAudioContext
-            )();
-    }
-
-    if (audioContext.state === "suspended") {
-        audioContext.resume();
-    }
-
-    return audioContext;
-}
-
-
-function playTone(
-    frequency,
-    duration,
-    type = "sine",
-    volume = 0.08
-) {
-
-    const audio = getAudioContext();
-
-    const oscillator =
-        audio.createOscillator();
-
-    const gain =
-        audio.createGain();
-
-    oscillator.type = type;
-
-    oscillator.frequency.value =
-        frequency;
-
-    gain.gain.setValueAtTime(
-        volume,
-        audio.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audio.currentTime + duration
-    );
-
-    oscillator.connect(gain);
-    gain.connect(audio.destination);
-
-    oscillator.start();
-
-    oscillator.stop(
-        audio.currentTime + duration
-    );
-}
-
-
-/* ---------- CORRECT ANSWER ---------- */
-
-function playCorrectSound() {
-
-    playTone(
-        523.25,
-        0.12,
-        "sine",
-        0.08
-    );
-
-    setTimeout(() => {
-
-        playTone(
-            659.25,
-            0.18,
-            "sine",
-            0.08
-        );
-
-    }, 100);
-}
-
-
-/* ---------- WRONG ANSWER ---------- */
-
-function playWrongSound() {
-
-    playTone(
-        180,
-        0.25,
-        "sawtooth",
-        0.08
-    );
-}
-
-
-/* ---------- TIME OUT ---------- */
-
-function playTimeoutSound() {
-
-    playTone(
-        330,
-        0.15,
-        "square",
-        0.08
-    );
-
-    setTimeout(() => {
-
-        playTone(
-            220,
-            0.15,
-            "square",
-            0.08
-        );
-
-    }, 180);
-
-    setTimeout(() => {
-
-        playTone(
-            150,
-            0.35,
-            "square",
-            0.08
-        );
-
-    }, 360);
-}
-
-
-/* ---------- VICTORY ---------- */
-
-function playVictorySound() {
-
-    playTone(
-        523.25,
-        0.15,
-        "sine",
-        0.08
-    );
-
-    setTimeout(() => {
-
-        playTone(
-            659.25,
-            0.15,
-            "sine",
-            0.08
-        );
-
-    }, 150);
-
-    setTimeout(() => {
-
-        playTone(
-            783.99,
-            0.25,
-            "sine",
-            0.08
-        );
-
-    }, 300);
-
-    setTimeout(() => {
-
-        playTone(
-            1046.50,
-            0.45,
-            "sine",
-            0.08
-        );
-
-    }, 550);
-}
-
-
-/* ==================================================
-   QUESTION CREATOR ELEMENTS
-================================================== */
+/* ---------- QUESTION CREATOR ---------- */
 
 const addQuestionBtn =
     document.getElementById("add-question-btn");
@@ -313,9 +125,7 @@ const imagePreview =
     document.getElementById("image-preview");
 
 
-/* ==================================================
-   QUESTION MANAGER ELEMENTS
-================================================== */
+/* ---------- QUESTION MANAGER ---------- */
 
 const manageQuestionBtn =
     document.getElementById("manage-question-btn");
@@ -333,9 +143,7 @@ const questionManagerList =
     document.getElementById("question-manager-list");
 
 
-/* ==================================================
-   DELETE CONFIRMATION ELEMENTS
-================================================== */
+/* ---------- DELETE CONFIRMATION ---------- */
 
 const deleteConfirmation =
     document.getElementById("delete-confirmation");
@@ -351,11 +159,180 @@ const cancelDeleteBtn =
 
 
 /* ==================================================
+   SOUND EFFECTS
+================================================== */
+
+let audioContext = null;
+
+function getAudioContext() {
+    if (!audioContext) {
+        audioContext = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    return audioContext;
+}
+
+
+function playTone(
+    frequency,
+    duration,
+    type = "sine",
+    volume = 0.08
+) {
+    const audio = getAudioContext();
+
+    const oscillator = audio.createOscillator();
+    const gain = audio.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+
+    gain.gain.setValueAtTime(
+        volume,
+        audio.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audio.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audio.currentTime + duration
+    );
+}
+
+
+function playCorrectSound() {
+    playTone(
+        523.25,
+        0.12,
+        "sine",
+        0.28
+    );
+
+    setTimeout(() => {
+        playTone(
+            659.25,
+            0.18,
+            "sine",
+            0.28
+        );
+    }, 100);
+}
+
+
+function playWrongSound() {
+    playTone(
+        180,
+        0.25,
+        "sawtooth",
+        0.28
+    );
+}
+
+
+function playTimeoutSound() {
+    playTone(
+        330,
+        0.15,
+        "square",
+        0.28
+    );
+
+    setTimeout(() => {
+        playTone(
+            220,
+            0.15,
+            "square",
+            0.28
+        );
+    }, 180);
+
+    setTimeout(() => {
+        playTone(
+            150,
+            0.35,
+            "square",
+            0.28
+        );
+    }, 360);
+}
+
+
+function playStartSound() {
+    playTone(
+        392,
+        0.15,
+        "sine",
+        0.28
+    );
+
+    setTimeout(() => {
+        playTone(
+            523.25,
+            0.2,
+            "sine",
+            0.28
+        );
+    }, 120);
+}
+
+
+function playVictorySound() {
+    playTone(
+        523.25,
+        0.15,
+        "sine",
+        0.28
+    );
+
+    setTimeout(() => {
+        playTone(
+            659.25,
+            0.15,
+            "sine",
+            0.28
+        );
+    }, 150);
+
+    setTimeout(() => {
+        playTone(
+            783.99,
+            0.25,
+            "sine",
+            0.28
+        );
+    }, 300);
+
+    setTimeout(() => {
+        playTone(
+            1046.50,
+            0.45,
+            "sine",
+            0.28
+        );
+    }, 550);
+}
+
+
+/* ==================================================
    ROLE PROTECTION
 ================================================== */
 
 if (userRole === "student") {
-
     if (addQuestionBtn) {
         addQuestionBtn.style.display = "none";
     }
@@ -367,7 +344,6 @@ if (userRole === "student") {
 
 
 if (userRole === "lecturer") {
-
     if (startBtn) {
         startBtn.style.display = "none";
     }
@@ -390,32 +366,12 @@ let customQuestions = JSON.parse(
     localStorage.getItem("dataQuestzQuestions") || "[]"
 );
 
-
-/*
-    IDs of custom questions that have been deleted.
-*/
-
 let deletedQuestions = JSON.parse(
-    localStorage.getItem(
-        "dataQuestzDeletedQuestions"
-    ) || "[]"
+    localStorage.getItem("dataQuestzDeletedQuestions") || "[]"
 );
 
-
-/*
-    Indexes of original questions that have been deleted.
-
-    Original questions come from questions.js,
-    so we cannot physically remove them from that file
-    through localStorage.
-
-    Instead, we remember their indexes here.
-*/
-
 let deletedOriginalQuestions = JSON.parse(
-    localStorage.getItem(
-        "dataQuestzDeletedOriginals"
-    ) || "[]"
+    localStorage.getItem("dataQuestzDeletedOriginals") || "[]"
 );
 
 
@@ -424,7 +380,6 @@ let deletedOriginalQuestions = JSON.parse(
 ================================================== */
 
 function saveCustomQuestions() {
-
     localStorage.setItem(
         "dataQuestzQuestions",
         JSON.stringify(customQuestions)
@@ -433,7 +388,6 @@ function saveCustomQuestions() {
 
 
 function saveDeletedQuestions() {
-
     localStorage.setItem(
         "dataQuestzDeletedQuestions",
         JSON.stringify(deletedQuestions)
@@ -442,7 +396,6 @@ function saveDeletedQuestions() {
 
 
 function saveDeletedOriginalQuestions() {
-
     localStorage.setItem(
         "dataQuestzDeletedOriginals",
         JSON.stringify(deletedOriginalQuestions)
@@ -455,7 +408,6 @@ function saveDeletedOriginalQuestions() {
 ================================================== */
 
 function escapeHTML(value) {
-
     return String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -466,24 +418,21 @@ function escapeHTML(value) {
 
 
 /* ==================================================
-   GET ACTIVE QUESTIONS
+   QUESTION HELPERS
 ================================================== */
 
 function getAllQuestions() {
-
     const activeOriginalQuestions =
         questions.filter(
             (question, index) =>
                 !deletedOriginalQuestions.includes(index)
         );
 
-
     const activeCustomQuestions =
         customQuestions.filter(
             question =>
                 !deletedQuestions.includes(question.id)
         );
-
 
     return [
         ...activeOriginalQuestions,
@@ -492,14 +441,8 @@ function getAllQuestions() {
 }
 
 
-/* ==================================================
-   QUESTION TYPE NAME
-================================================== */
-
 function getQuestionTypeName(question) {
-
     if (question.type === "interactive") {
-
         if (question.answerMode === "single") {
             return "One Correct Answer";
         }
@@ -513,7 +456,6 @@ function getQuestionTypeName(question) {
         }
     }
 
-
     if (
         question.type === "sql-filter" ||
         question.dataset
@@ -521,8 +463,20 @@ function getQuestionTypeName(question) {
         return "SQL Filter";
     }
 
-
     return question.type || "Question";
+}
+
+
+function isSQLQuestion(question) {
+    return (
+        question.type === "sql-filter" ||
+        (
+            question.sql &&
+            question.dataset &&
+            question.answer &&
+            question.answer.conditions
+        )
+    );
 }
 
 
@@ -531,15 +485,9 @@ function getQuestionTypeName(question) {
 ================================================== */
 
 function startLevel() {
-
-    const allQuestions =
-        getAllQuestions();
-
-
-    /* ---------- NO QUESTIONS ---------- */
+    const allQuestions = getAllQuestions();
 
     if (allQuestions.length === 0) {
-
         gameActive = false;
 
         message.innerHTML = `
@@ -554,26 +502,17 @@ function startLevel() {
         return;
     }
 
-
-    /* ---------- GAME FINISHED ---------- */
-
     if (currentLevel >= allQuestions.length) {
-
         finishGame();
-
         return;
     }
 
-
-    currentQuestion =
-        allQuestions[currentLevel];
-
+    currentQuestion = allQuestions[currentLevel];
     gameActive = true;
 
     clearInterval(timer);
 
     time = 30;
-
     timerText.textContent = time;
 
     timer = setInterval(
@@ -581,65 +520,57 @@ function startLevel() {
         1000
     );
 
-
     cards.innerHTML = "";
-
     currentResults = [];
 
     updateResultTable();
 
-
     scoreText.textContent = score;
-
     livesText.textContent = lives;
 
     levelText.textContent =
         currentLevel + 1;
 
-
     progress.style.width =
-        (
-            currentLevel /
-            allQuestions.length
-        ) * 100 + "%";
-
+        (currentLevel / allQuestions.length) * 100 + "%";
 
     nextBtn.style.display = "none";
-
     restartBtn.style.display = "none";
-
 
     message.innerHTML =
         "Choose the correct answer.";
 
-
-    hintText.innerHTML =
-        "Press the hint button when you need help.";
-
-
-    hintBtn.onclick = () => {
-
-        hintText.innerHTML =
-            currentQuestion.hint ||
-            "Think carefully about the question.";
-    };
-
-
-    /* ---------- SQL QUESTION ---------- */
-
-    if (isSQLQuestion(currentQuestion)) {
-
-        startSQLMission(currentQuestion);
-
+    if (feedbackPanel) {
+        feedbackPanel.style.display = "none";
     }
 
+    hintText.innerHTML =
+        currentQuestion.hint ||
+        "Think carefully about the question.";
 
-    /* ---------- NORMAL QUESTION ---------- */
+    hintText.style.display = "none";
 
-    else {
+    if (hintInstruction) {
+        hintInstruction.style.display = "block";
+    }
 
+    hintBtn.style.display = "block";
+    hintBtn.textContent = "💡 Show Hint";
+
+    hintBtn.onclick = () => {
+        hintText.style.display = "block";
+
+        if (hintInstruction) {
+            hintInstruction.style.display = "none";
+        }
+
+        hintBtn.style.display = "none";
+    };
+
+    if (isSQLQuestion(currentQuestion)) {
+        startSQLMission(currentQuestion);
+    } else {
         startNormalQuestion(currentQuestion);
-
     }
 }
 
@@ -649,16 +580,12 @@ function startLevel() {
 ================================================== */
 
 function updateTimer() {
-
     if (!gameActive) {
         return;
     }
 
-
     time--;
-
     timerText.textContent = time;
-
 
     if (time <= 0) {
         loseLife();
@@ -671,9 +598,7 @@ function updateTimer() {
 ================================================== */
 
 function startNormalQuestion(question) {
-
     resultPanel.style.display = "none";
-
 
     queryText.innerHTML = `
         <div class="question-display">
@@ -681,19 +606,14 @@ function startNormalQuestion(question) {
         </div>
     `;
 
-
-    lesson.innerHTML =
-        escapeHTML(
-            question.explanation ||
-            "Think carefully about each answer."
-        );
-
+    lesson.innerHTML = escapeHTML(
+        question.explanation ||
+        "Think carefully about each answer."
+    );
 
     questionImageDisplay.innerHTML = "";
 
-
     if (question.image) {
-
         questionImageDisplay.innerHTML = `
             <img
                 src="${question.image}"
@@ -702,38 +622,25 @@ function startNormalQuestion(question) {
         `;
     }
 
-
     if (question.answerMode === "multiple") {
-
         answerInstruction.textContent =
             "Drag ALL correct answers into 🟢 CORRECT.";
-
-    }
-
-    else {
-
+    } else {
         answerInstruction.textContent =
             "Drag each answer into the correct zone.";
     }
 
-
-    const answers =
-        [...(question.answers || [])]
-            .sort(
-                () => Math.random() - 0.5
-            );
-
+    const answers = [...(question.answers || [])].sort(
+        () => Math.random() - 0.5
+    );
 
     remaining = answers.length;
 
-
     answers.forEach(answer => {
-
         createAnswerCard(
             answer,
             question
         );
-
     });
 }
 
@@ -742,20 +649,11 @@ function startNormalQuestion(question) {
    CREATE ANSWER CARD
 ================================================== */
 
-function createAnswerCard(
-    answer,
-    question
-) {
+function createAnswerCard(answer, question) {
+    const card = document.createElement("div");
 
-    const card =
-        document.createElement("div");
-
-
-    card.className =
-        "card answer-card";
-
+    card.className = "card answer-card";
     card.draggable = true;
-
 
     card.innerHTML = `
         <h3>
@@ -763,10 +661,8 @@ function createAnswerCard(
         </h3>
     `;
 
-
     card.answer = answer;
     card.question = question;
-
 
     card.addEventListener(
         "dragstart",
@@ -775,14 +671,12 @@ function createAnswerCard(
         }
     );
 
-
     card.addEventListener(
         "dragend",
         () => {
             card.classList.remove("dragging");
         }
     );
-
 
     cards.appendChild(card);
 }
@@ -792,34 +686,21 @@ function createAnswerCard(
    CHECK NORMAL ANSWER
 ================================================== */
 
-function checkNormalAnswer(
-    card,
-    droppedCorrect
-) {
-
-    const answer =
-        card.answer;
-
-    const question =
-        card.question;
-
+function checkNormalAnswer(card, droppedCorrect) {
+    const answer = card.answer;
+    const question = card.question;
 
     const isCorrect =
         answer.correct === droppedCorrect;
 
-
     if (isCorrect) {
-
         playCorrectSound();
 
         correctAnswers++;
-
         score += 50;
-
 
         message.innerHTML = `
             <div class="success-message">
-
                 ✅ Correct! +50 points
 
                 <br><br>
@@ -829,30 +710,22 @@ function checkNormalAnswer(
                     question.explanation ||
                     "Great job!"
                 )}
-
             </div>
         `;
-
-    }
-
-    else {
-
+    } else {
         playWrongSound();
 
         wrongAnswers++;
 
-        score =
-            Math.max(
-                0,
-                score - 20
-            );
+        score = Math.max(
+            0,
+            score - 20
+        );
 
         lives--;
 
-
         message.innerHTML = `
             <div class="error-message">
-
                 ❌ Incorrect!
 
                 <br><br>
@@ -862,28 +735,24 @@ function checkNormalAnswer(
                     question.explanation ||
                     "Review the question and try again."
                 )}
-
             </div>
         `;
     }
 
-
     scoreText.textContent = score;
     livesText.textContent = lives;
 
-
-    card.remove();
-
-    remaining--;
-
-
-    if (lives <= 0) {
-
-        gameOver();
-
-        return;
+    if (feedbackPanel) {
+        feedbackPanel.style.display = "block";
     }
 
+    card.remove();
+    remaining--;
+
+    if (lives <= 0) {
+        gameOver();
+        return;
+    }
 
     if (remaining <= 0) {
         finishCurrentQuestion();
@@ -892,66 +761,34 @@ function checkNormalAnswer(
 
 
 /* ==================================================
-   SQL QUESTION DETECTION
-================================================== */
-
-function isSQLQuestion(question) {
-
-    return (
-        question.type === "sql-filter" ||
-        (
-            question.sql &&
-            question.dataset &&
-            question.answer &&
-            question.answer.conditions
-        )
-    );
-}
-
-
-/* ==================================================
-   START SQL MISSION
+   SQL MISSION
 ================================================== */
 
 function startSQLMission(question) {
-
     resultPanel.style.display = "block";
-
 
     queryText.innerHTML = `
         <div class="sql-animation">
-
             ${escapeHTML(question.sql)}
-
         </div>
     `;
 
-
-    lesson.innerHTML =
-        escapeHTML(
-            question.lesson ||
-            "SQL uses conditions to filter records."
-        );
-
+    lesson.innerHTML = escapeHTML(
+        question.lesson ||
+        "SQL uses conditions to filter records."
+    );
 
     answerInstruction.textContent =
         "Drag each student into the correct zone.";
 
-
-    const shuffled =
-        [...question.dataset]
-            .sort(
-                () => Math.random() - 0.5
-            );
-
+    const shuffled = [...question.dataset].sort(
+        () => Math.random() - 0.5
+    );
 
     remaining = shuffled.length;
 
-
     shuffled.forEach(student => {
-
         createStudentCard(student);
-
     });
 }
 
@@ -961,15 +798,10 @@ function startSQLMission(question) {
 ================================================== */
 
 function createStudentCard(student) {
-
-    const card =
-        document.createElement("div");
-
+    const card = document.createElement("div");
 
     card.className = "card";
-
     card.draggable = true;
-
 
     card.innerHTML = `
         <h3>
@@ -989,9 +821,7 @@ function createStudentCard(student) {
         </p>
     `;
 
-
     card.student = student;
-
 
     card.addEventListener(
         "dragstart",
@@ -1000,7 +830,6 @@ function createStudentCard(student) {
         }
     );
 
-
     card.addEventListener(
         "dragend",
         () => {
@@ -1008,37 +837,29 @@ function createStudentCard(student) {
         }
     );
 
-
     cards.appendChild(card);
 }
 
 
 /* ==================================================
-   SQL VALUE CONVERSION
+   SQL HELPERS
 ================================================== */
 
 function convertValue(value) {
-
     if (typeof value !== "string") {
         return value;
     }
 
-
     const lower =
-        value
-            .toLowerCase()
-            .trim();
-
+        value.toLowerCase().trim();
 
     if (lower === "true") {
         return true;
     }
 
-
     if (lower === "false") {
         return false;
     }
-
 
     if (
         value.trim() !== "" &&
@@ -1047,29 +868,18 @@ function convertValue(value) {
         return Number(value);
     }
 
-
     return value;
 }
 
 
-/* ==================================================
-   SQL CONDITION
-================================================== */
-
-function checkCondition(
-    student,
-    condition
-) {
-
+function checkCondition(student, condition) {
     const studentValue =
         student[condition.field];
 
     const expectedValue =
         convertValue(condition.value);
 
-
     switch (condition.operator) {
-
         case ">":
             return studentValue > expectedValue;
 
@@ -1095,41 +905,27 @@ function checkCondition(
 }
 
 
-/* ==================================================
-   SQL MISSION ANSWER
-================================================== */
-
-function checkMissionAnswer(
-    student,
-    question
-) {
-
+function checkMissionAnswer(student, question) {
     const conditions =
         question.answer?.conditions || [];
-
 
     if (!conditions.length) {
         return false;
     }
 
-
-    const results =
-        conditions.map(
-            condition =>
-                checkCondition(
-                    student,
-                    condition
-                )
-        );
-
+    const results = conditions.map(
+        condition =>
+            checkCondition(
+                student,
+                condition
+            )
+    );
 
     if (question.answer.logic === "OR") {
-
         return results.some(
             result => result
         );
     }
-
 
     return results.every(
         result => result
@@ -1141,17 +937,9 @@ function checkMissionAnswer(
    CHECK SQL ANSWER
 ================================================== */
 
-function checkSQLAnswer(
-    card,
-    correctZone
-) {
-
-    const student =
-        card.student;
-
-    const question =
-        currentQuestion;
-
+function checkSQLAnswer(card, correctZone) {
+    const student = card.student;
+    const question = currentQuestion;
 
     const answer =
         checkMissionAnswer(
@@ -1159,22 +947,16 @@ function checkSQLAnswer(
             question
         );
 
-
     if (answer === correctZone) {
-
         playCorrectSound();
 
         correctAnswers++;
-
         score += 50;
-
 
         currentResults.push(student);
 
-
         message.innerHTML = `
             <div class="success-message">
-
                 ✅ Correct! +50 points
 
                 <br><br>
@@ -1183,33 +965,24 @@ function checkSQLAnswer(
                     question.explanation ||
                     "The record matches the condition."
                 )}
-
             </div>
         `;
 
-
         updateResultTable();
-
-    }
-
-    else {
-
+    } else {
         playWrongSound();
 
         wrongAnswers++;
 
-        score =
-            Math.max(
-                0,
-                score - 20
-            );
+        score = Math.max(
+            0,
+            score - 20
+        );
 
         lives--;
 
-
         message.innerHTML = `
             <div class="error-message">
-
                 ❌ Incorrect!
 
                 <br><br>
@@ -1218,28 +991,20 @@ function checkSQLAnswer(
                     question.explanation ||
                     "The record does not match the condition."
                 )}
-
             </div>
         `;
     }
 
-
     scoreText.textContent = score;
     livesText.textContent = lives;
 
-
     card.remove();
-
     remaining--;
 
-
     if (lives <= 0) {
-
         gameOver();
-
         return;
     }
-
 
     if (remaining <= 0) {
         finishCurrentQuestion();
@@ -1252,20 +1017,15 @@ function checkSQLAnswer(
 ================================================== */
 
 function updateResultTable() {
-
     if (!resultTable) {
         return;
     }
 
-
     resultTable.innerHTML = "";
 
-
     currentResults.forEach(student => {
-
         const row =
             document.createElement("tr");
-
 
         row.innerHTML = `
             <td>
@@ -1285,7 +1045,6 @@ function updateResultTable() {
             </td>
         `;
 
-
         resultTable.appendChild(row);
     });
 }
@@ -1296,7 +1055,6 @@ function updateResultTable() {
 ================================================== */
 
 function finishCurrentQuestion() {
-
     clearInterval(timer);
 
     gameActive = false;
@@ -1309,61 +1067,44 @@ function finishCurrentQuestion() {
    DROP ZONES
 ================================================== */
 
-function setupBin(
-    bin,
-    type
-) {
-
+function setupBin(bin, type) {
     if (!bin) {
         return;
     }
 
-
     bin.addEventListener(
         "dragover",
         event => {
-
             event.preventDefault();
 
             bin.classList.add("bin-hover");
         }
     );
 
-
     bin.addEventListener(
         "dragleave",
         () => {
-
             bin.classList.remove("bin-hover");
         }
     );
 
-
     bin.addEventListener(
         "drop",
         () => {
-
             bin.classList.remove("bin-hover");
-
 
             if (!gameActive) {
                 return;
             }
 
-
             const card =
                 document.querySelector(".dragging");
-
 
             if (!card) {
                 return;
             }
 
-
-            /* ---------- NORMAL QUESTION ---------- */
-
             if (card.answer) {
-
                 checkNormalAnswer(
                     card,
                     type
@@ -1372,11 +1113,7 @@ function setupBin(
                 return;
             }
 
-
-            /* ---------- SQL QUESTION ---------- */
-
             if (card.student) {
-
                 checkSQLAnswer(
                     card,
                     type
@@ -1392,18 +1129,14 @@ function setupBin(
 ================================================== */
 
 function loseLife() {
-
     playTimeoutSound();
 
     lives--;
 
     livesText.textContent = lives;
 
-
     time = 30;
-
     timerText.textContent = time;
-
 
     if (lives <= 0) {
         gameOver();
@@ -1416,11 +1149,9 @@ function loseLife() {
 ================================================== */
 
 function gameOver() {
-
     gameActive = false;
 
     clearInterval(timer);
-
 
     message.innerHTML = `
         💀 Mission Failed
@@ -1431,7 +1162,6 @@ function gameOver() {
         ${score}
     `;
 
-
     restartBtn.style.display = "block";
 }
 
@@ -1441,22 +1171,14 @@ function gameOver() {
 ================================================== */
 
 function finishGame() {
-
     gameActive = false;
 
     clearInterval(timer);
 
     playVictorySound();
 
-
     const allQuestions =
         getAllQuestions();
-
-
-    /*
-        Save final game results
-        so finish.html can read them.
-    */
 
     localStorage.setItem(
         "dataQuestzScore",
@@ -1483,13 +1205,9 @@ function finishGame() {
         wrongAnswers
     );
 
-
-    /*
-        Open the dedicated Finish Game page.
-    */
-
-    window.location.href =
-        "finish.html";
+   setTimeout(() => {
+    window.location.href = "finish.html";
+}, 800);
 }
 
 
@@ -1498,26 +1216,17 @@ function finishGame() {
 ================================================== */
 
 nextBtn.onclick = () => {
-
     currentLevel++;
 
     nextBtn.style.display = "none";
 
-
     const allQuestions =
         getAllQuestions();
 
-
     if (currentLevel < allQuestions.length) {
-
         startLevel();
-
-    }
-
-    else {
-
+    } else {
         finishGame();
-
     }
 };
 
@@ -1527,11 +1236,9 @@ nextBtn.onclick = () => {
 ================================================== */
 
 function openQuestionCreator() {
-
     if (!questionModal) {
         return;
     }
-
 
     questionModal.classList.add("active");
 
@@ -1540,37 +1247,30 @@ function openQuestionCreator() {
 
 
 function closeQuestionCreator() {
-
     if (!questionModal) {
         return;
     }
-
 
     questionModal.classList.remove("active");
 }
 
 
 /* ==================================================
-   ADD ANSWER ROW
+   ANSWER BUILDER
 ================================================== */
 
 function addAnswerRow() {
-
     if (!answerList) {
         return;
     }
 
-
     const row =
         document.createElement("div");
 
-
     row.className = "answer-row";
-
 
     const answerNumber =
         answerList.children.length + 1;
-
 
     row.innerHTML = `
         <input
@@ -1593,16 +1293,13 @@ function addAnswerRow() {
         </button>
     `;
 
-
     row.querySelector(
         ".remove-answer"
     ).onclick = () => {
-
         row.remove();
 
         updateAnswerControls();
     };
-
 
     answerList.appendChild(row);
 
@@ -1610,91 +1307,62 @@ function addAnswerRow() {
 }
 
 
-/* ==================================================
-   UPDATE ANSWER CONTROLS
-================================================== */
-
 function updateAnswerControls() {
-
     if (!answerList || !answerMode) {
         return;
     }
-
 
     const rows =
         answerList.querySelectorAll(
             ".answer-row"
         );
 
-
     const mode =
         answerMode.value;
 
-
     rows.forEach(row => {
-
         const control =
             row.querySelector(
                 ".correct-answer"
             );
 
-
         if (mode === "multiple") {
-
             control.type = "checkbox";
-
-        }
-
-        else {
-
+        } else {
             control.type = "radio";
         }
     });
-
 
     const description =
         document.getElementById(
             "answer-mode-description"
         );
 
-
     if (!description) {
         return;
     }
 
-
     if (mode === "single") {
-
         description.textContent =
             "Add as many answers as you want. Select ONE correct answer.";
     }
 
-
     if (mode === "multiple") {
-
         description.textContent =
             "Add as many answers as you want. Select ALL correct answers.";
     }
 }
 
 
-/* ==================================================
-   UPDATE ANSWER MODE
-================================================== */
-
 function updateAnswerMode() {
-
     if (!answerMode) {
         return;
     }
 
-
     const mode =
         answerMode.value;
 
-
     if (mode === "true-false") {
-
         answerBuilder.classList.add(
             "hidden-section"
         );
@@ -1706,7 +1374,6 @@ function updateAnswerMode() {
         return;
     }
 
-
     trueFalseBuilder.classList.add(
         "hidden-section"
     );
@@ -1715,25 +1382,17 @@ function updateAnswerMode() {
         "hidden-section"
     );
 
-
     updateAnswerControls();
 }
 
 
-/* ==================================================
-   COLLECT ANSWERS
-================================================== */
-
 function collectAnswers() {
-
     const rows =
         answerList.querySelectorAll(
             ".answer-row"
         );
 
-
     if (rows.length < 2) {
-
         alert(
             "Please add at least two answers."
         );
@@ -1741,37 +1400,30 @@ function collectAnswers() {
         return null;
     }
 
-
     const answers = [];
 
-
     rows.forEach(row => {
-
         const text =
             row.querySelector(
                 ".answer-input"
             ).value.trim();
-
 
         const correct =
             row.querySelector(
                 ".correct-answer"
             ).checked;
 
-
         answers.push({
-            text: text,
-            correct: correct
+            text,
+            correct
         });
     });
-
 
     if (
         answers.some(
             answer => !answer.text
         )
     ) {
-
         alert(
             "Please complete every answer."
         );
@@ -1779,17 +1431,13 @@ function collectAnswers() {
         return null;
     }
 
-
     const correctCount =
         answers.filter(
             answer => answer.correct
         ).length;
 
-
     if (answerMode.value === "single") {
-
         if (correctCount !== 1) {
-
             alert(
                 "Please select exactly ONE correct answer."
             );
@@ -1798,11 +1446,8 @@ function collectAnswers() {
         }
     }
 
-
     if (answerMode.value === "multiple") {
-
         if (correctCount < 1) {
-
             alert(
                 "Please select at least ONE correct answer."
             );
@@ -1810,7 +1455,6 @@ function collectAnswers() {
             return null;
         }
     }
-
 
     return answers;
 }
@@ -1821,30 +1465,22 @@ function collectAnswers() {
 ================================================== */
 
 if (questionImage) {
-
     questionImage.addEventListener(
         "change",
         () => {
-
             const file =
                 questionImage.files[0];
 
-
             if (!file) {
-
                 imagePreview.innerHTML = "";
-
                 return;
             }
-
 
             const reader =
                 new FileReader();
 
-
             reader.onload =
                 event => {
-
                     imagePreview.innerHTML = `
                         <img
                             src="${event.target.result}"
@@ -1852,7 +1488,6 @@ if (questionImage) {
                         >
                     `;
                 };
-
 
             reader.readAsDataURL(file);
         }
@@ -1865,43 +1500,34 @@ if (questionImage) {
 ================================================== */
 
 function saveCustomQuestion() {
-
     const questionText =
         document.getElementById(
             "question-text"
         );
-
 
     const hintInput =
         document.getElementById(
             "question-hint"
         );
 
-
     const explanationInput =
         document.getElementById(
             "question-explanation"
         );
 
-
     const text =
         questionText.value.trim();
-
 
     const mode =
         answerMode.value;
 
-
     const hint =
         hintInput.value.trim();
-
 
     const explanation =
         explanationInput.value.trim();
 
-
     if (!text) {
-
         alert(
             "Please enter a question."
         );
@@ -1909,22 +1535,15 @@ function saveCustomQuestion() {
         return;
     }
 
-
     let answers;
 
-
-    /* ---------- TRUE / FALSE ---------- */
-
     if (mode === "true-false") {
-
         const selected =
             document.querySelector(
                 'input[name="true-false-answer"]:checked'
             );
 
-
         if (!selected) {
-
             alert(
                 "Please select TRUE or FALSE."
             );
@@ -1932,135 +1551,82 @@ function saveCustomQuestion() {
             return;
         }
 
-
         answers = [
-
             {
                 text: "TRUE",
                 correct:
                     selected.value === "true"
             },
-
             {
                 text: "FALSE",
                 correct:
                     selected.value === "false"
             }
-
         ];
-    }
-
-
-    /* ---------- SINGLE / MULTIPLE ---------- */
-
-    else {
-
+    } else {
         answers =
             collectAnswers();
-
 
         if (!answers) {
             return;
         }
     }
 
-
-    /* ---------- IMAGE ---------- */
-
     const image =
         imagePreview.querySelector("img");
-
 
     const imageData =
         image
             ? image.src
             : null;
 
-
-    /* ---------- CREATE QUESTION ---------- */
-
     const newQuestion = {
-
-        id:
-            "custom-" +
-            Date.now(),
-
-        type:
-            "interactive",
-
-        question:
-            text,
-
-        answerMode:
-            mode,
-
-        answers:
-            answers,
-
-        hint:
-            hint,
-
-        explanation:
-            explanation,
-
-        image:
-            imageData
+        id: "custom-" + Date.now(),
+        type: "interactive",
+        question: text,
+        answerMode: mode,
+        answers,
+        hint,
+        explanation,
+        image: imageData
     };
 
-
-    /* ---------- EDIT EXISTING QUESTION ---------- */
-
     if (questionToEdit) {
-
         const editedQuestion = {
             ...newQuestion,
             id: questionToEdit.question.id
         };
 
-
         const index =
             customQuestions.findIndex(
                 item =>
-                    item.id === questionToEdit.question.id
+                    item.id ===
+                    questionToEdit.question.id
             );
 
-
         if (index !== -1) {
-
             customQuestions[index] =
                 editedQuestion;
         }
 
-
         saveCustomQuestions();
-
 
         alert(
             "✅ Question updated successfully!"
         );
 
-
         questionToEdit = null;
-    }
-
-
-    /* ---------- CREATE NEW QUESTION ---------- */
-
-    else {
-
+    } else {
         customQuestions.push(
             newQuestion
         );
 
-
         saveCustomQuestions();
-
 
         alert(
             "✅ Question created successfully!"
         );
     }
-
 
     closeQuestionCreator();
 
@@ -2073,74 +1639,60 @@ function saveCustomQuestion() {
 ================================================== */
 
 function resetQuestionCreator() {
-
     const questionText =
         document.getElementById(
             "question-text"
         );
-
 
     const hintInput =
         document.getElementById(
             "question-hint"
         );
 
-
     const explanationInput =
         document.getElementById(
             "question-explanation"
         );
 
-
     if (questionText) {
         questionText.value = "";
     }
-
 
     if (answerMode) {
         answerMode.value = "single";
     }
 
-
     if (hintInput) {
         hintInput.value = "";
     }
-
 
     if (explanationInput) {
         explanationInput.value = "";
     }
 
-
     if (answerList) {
-
         answerList.innerHTML = "";
 
         addAnswerRow();
         addAnswerRow();
     }
 
-
     if (imagePreview) {
         imagePreview.innerHTML = "";
     }
 
-
     if (questionImage) {
         questionImage.value = "";
     }
-
 
     const trueOption =
         document.querySelector(
             'input[name="true-false-answer"][value="true"]'
         );
 
-
     if (trueOption) {
         trueOption.checked = true;
     }
-
 
     updateAnswerMode();
 }
@@ -2151,9 +1703,7 @@ function resetQuestionCreator() {
 ================================================== */
 
 function openQuestionManager() {
-
     if (!questionManagerModal) {
-
         console.error(
             "DATA QUESTZ: question-manager-modal was not found."
         );
@@ -2161,9 +1711,7 @@ function openQuestionManager() {
         return;
     }
 
-
     renderQuestionManager();
-
 
     questionManagerModal.classList.add(
         "active"
@@ -2172,11 +1720,9 @@ function openQuestionManager() {
 
 
 function closeQuestionManager() {
-
     if (!questionManagerModal) {
         return;
     }
-
 
     questionManagerModal.classList.remove(
         "active"
@@ -2189,23 +1735,16 @@ function closeQuestionManager() {
 ================================================== */
 
 function renderQuestionManager() {
-
     if (!questionManagerList) {
         return;
     }
 
-
     questionManagerList.innerHTML = "";
-
 
     let displayedQuestions = 0;
 
-
-    /* ---------- ORIGINAL QUESTIONS ---------- */
-
     questions.forEach(
         (question, index) => {
-
             if (
                 deletedOriginalQuestions.includes(
                     index
@@ -2214,24 +1753,18 @@ function renderQuestionManager() {
                 return;
             }
 
-
             createManagerItem(
                 question,
                 true,
                 index
             );
 
-
             displayedQuestions++;
         }
     );
 
-
-    /* ---------- CUSTOM QUESTIONS ---------- */
-
     customQuestions.forEach(
         question => {
-
             if (
                 deletedQuestions.includes(
                     question.id
@@ -2240,33 +1773,25 @@ function renderQuestionManager() {
                 return;
             }
 
-
             createManagerItem(
                 question,
                 false,
                 null
             );
 
-
             displayedQuestions++;
         }
     );
 
-
-    /* ---------- NO QUESTIONS ---------- */
-
     if (displayedQuestions === 0) {
-
         questionManagerList.innerHTML = `
             <div class="no-questions">
-
                 📭 No questions available.
 
                 <br><br>
 
                 Create a new question
                 to get started!
-
             </div>
         `;
     }
@@ -2282,24 +1807,35 @@ function createManagerItem(
     isOriginal,
     originalIndex
 ) {
-
     const item =
         document.createElement("div");
 
-
     item.className =
         "manager-question";
-
 
     const title =
         question.question ||
         question.sql ||
         "Untitled Question";
 
-
     const type =
         getQuestionTypeName(question);
 
+    function getQuestionTypeClass(question) {
+        if (isSQLQuestion(question)) {
+            return "type-sql";
+        }
+
+        if (question.answerMode === "multiple") {
+            return "type-multiple";
+        }
+
+        if (question.answerMode === "true-false") {
+            return "type-true-false";
+        }
+
+        return "type-single";
+    }
 
     item.innerHTML = `
         <div class="manager-question-info">
@@ -2333,39 +1869,17 @@ function createManagerItem(
         </div>
     `;
 
-
-    function getQuestionTypeClass(question) {
-
-        if (isSQLQuestion(question)) {
-            return "type-sql";
-        }
-
-        if (question.answerMode === "multiple") {
-            return "type-multiple";
-        }
-
-        if (question.answerMode === "true-false") {
-            return "type-true-false";
-        }
-
-        return "type-single";
-    }
-
-
     const deleteBtn =
         item.querySelector(
             ".delete-question-btn"
         );
-
 
     const editBtn =
         item.querySelector(
             ".edit-question-btn"
         );
 
-
     deleteBtn.onclick = () => {
-
         askDeleteQuestion(
             question,
             isOriginal,
@@ -2373,16 +1887,13 @@ function createManagerItem(
         );
     };
 
-
     editBtn.onclick = () => {
-
         openQuestionEditor(
             question,
             isOriginal,
             originalIndex
         );
     };
-
 
     questionManagerList.appendChild(item);
 }
@@ -2397,12 +1908,9 @@ function openQuestionEditor(
     isOriginal,
     originalIndex
 ) {
-
     closeQuestionManager();
 
-
     if (isSQLQuestion(question)) {
-
         alert(
             "SQL questions cannot be edited yet."
         );
@@ -2410,132 +1918,97 @@ function openQuestionEditor(
         return;
     }
 
-
     questionToEdit = {
-        question: question,
-        isOriginal: isOriginal,
-        originalIndex: originalIndex
+        question,
+        isOriginal,
+        originalIndex
     };
 
-
     questionModal.classList.add("active");
-
 
     const title =
         document.querySelector(
             ".creator-header h2"
         );
 
-
     const description =
         document.querySelector(
             ".creator-header p"
         );
 
-
     if (title) {
-
         title.textContent =
             "✏️ Edit Question";
     }
 
-
     if (description) {
-
         description.textContent =
             "Edit your DATA QUESTZ challenge.";
     }
-
 
     document.getElementById(
         "question-text"
     ).value =
         question.question || "";
 
-
     answerMode.value =
         question.answerMode || "single";
 
-
     answerList.innerHTML = "";
 
-
     if (question.answerMode === "true-false") {
-
         const trueOption =
             document.querySelector(
                 'input[name="true-false-answer"][value="true"]'
             );
-
 
         const falseOption =
             document.querySelector(
                 'input[name="true-false-answer"][value="false"]'
             );
 
-
         const correctAnswer =
             question.answers?.find(
                 answer => answer.correct
             );
 
-
         if (correctAnswer?.text === "FALSE") {
-
             falseOption.checked = true;
-
-        }
-
-        else {
-
+        } else {
             trueOption.checked = true;
         }
-    }
-
-
-    else {
-
+    } else {
         question.answers.forEach(answer => {
-
             addAnswerRow();
-
 
             const row =
                 answerList.lastElementChild;
-
 
             row.querySelector(
                 ".answer-input"
             ).value =
                 answer.text;
 
-
             row.querySelector(
                 ".correct-answer"
             ).checked =
                 answer.correct;
-
         });
     }
-
 
     document.getElementById(
         "question-hint"
     ).value =
         question.hint || "";
 
-
     document.getElementById(
         "question-explanation"
     ).value =
         question.explanation || "";
 
-
     imagePreview.innerHTML = "";
 
-
     if (question.image) {
-
         imagePreview.innerHTML = `
             <img
                 src="${question.image}"
@@ -2544,17 +2017,15 @@ function openQuestionEditor(
         `;
     }
 
-
     saveQuestionBtn.textContent =
         "💾 Save Changes";
-
 
     updateAnswerMode();
 }
 
 
 /* ==================================================
-   ASK DELETE QUESTION
+   DELETE QUESTION
 ================================================== */
 
 function askDeleteQuestion(
@@ -2562,19 +2033,16 @@ function askDeleteQuestion(
     isOriginal,
     originalIndex
 ) {
-
     questionToDelete = {
-        question: question,
-        isOriginal: isOriginal,
-        originalIndex: originalIndex
+        question,
+        isOriginal,
+        originalIndex
     };
-
 
     const title =
         question.question ||
         question.sql ||
         "Untitled Question";
-
 
     deleteConfirmationText.innerHTML = `
         Are you sure you want to delete:
@@ -2591,93 +2059,62 @@ function askDeleteQuestion(
         appear in the game.
     `;
 
-
     deleteConfirmation.classList.add(
         "active"
     );
 }
 
 
-/* ==================================================
-   CONFIRM DELETE
-================================================== */
-
 function deleteSelectedQuestion() {
-
     if (!questionToDelete) {
         return;
     }
 
-
     const data =
         questionToDelete;
-
 
     const question =
         data.question;
 
-
-    /* ---------- ORIGINAL QUESTION ---------- */
-
     if (data.isOriginal) {
-
         if (
             !deletedOriginalQuestions.includes(
                 data.originalIndex
             )
         ) {
-
             deletedOriginalQuestions.push(
                 data.originalIndex
             );
         }
 
-
         saveDeletedOriginalQuestions();
-    }
-
-
-    /* ---------- CUSTOM QUESTION ---------- */
-
-    else {
-
+    } else {
         customQuestions =
             customQuestions.filter(
                 item =>
                     item.id !== question.id
             );
 
-
         saveCustomQuestions();
-
 
         if (
             !deletedQuestions.includes(
                 question.id
             )
         ) {
-
             deletedQuestions.push(
                 question.id
             );
         }
 
-
         saveDeletedQuestions();
     }
 
-
-    /* ---------- RESET DELETE STATE ---------- */
-
     questionToDelete = null;
-
 
     deleteConfirmation.classList.remove(
         "active"
     );
-
-
-    /* ---------- REFRESH MANAGER ---------- */
 
     renderQuestionManager();
 }
@@ -2688,16 +2125,13 @@ function deleteSelectedQuestion() {
 ================================================== */
 
 if (confirmDeleteBtn) {
-
     confirmDeleteBtn.onclick =
         deleteSelectedQuestion;
 }
 
 
 if (cancelDeleteBtn) {
-
     cancelDeleteBtn.onclick = () => {
-
         questionToDelete = null;
 
         deleteConfirmation.classList.remove(
@@ -2708,16 +2142,13 @@ if (cancelDeleteBtn) {
 
 
 if (deleteConfirmation) {
-
     deleteConfirmation.addEventListener(
         "click",
         event => {
-
             if (
                 event.target ===
                 deleteConfirmation
             ) {
-
                 questionToDelete = null;
 
                 deleteConfirmation.classList.remove(
@@ -2734,58 +2165,49 @@ if (deleteConfirmation) {
 ================================================== */
 
 if (addQuestionBtn) {
-
     addQuestionBtn.onclick =
         openQuestionCreator;
 }
 
 
 if (closeQuestionBtn) {
-
     closeQuestionBtn.onclick =
         closeQuestionCreator;
 }
 
 
 if (cancelQuestionBtn) {
-
     cancelQuestionBtn.onclick =
         closeQuestionCreator;
 }
 
 
 if (answerMode) {
-
     answerMode.onchange =
         updateAnswerMode;
 }
 
 
 if (addAnswerBtn) {
-
     addAnswerBtn.onclick =
         addAnswerRow;
 }
 
 
 if (saveQuestionBtn) {
-
     saveQuestionBtn.onclick =
         saveCustomQuestion;
 }
 
 
 if (questionModal) {
-
     questionModal.addEventListener(
         "click",
         event => {
-
             if (
                 event.target ===
                 questionModal
             ) {
-
                 closeQuestionCreator();
             }
         }
@@ -2798,37 +2220,31 @@ if (questionModal) {
 ================================================== */
 
 if (manageQuestionBtn) {
-
     manageQuestionBtn.onclick =
         openQuestionManager;
 }
 
 
 if (closeManagerBtn) {
-
     closeManagerBtn.onclick =
         closeQuestionManager;
 }
 
 
 if (closeManagerBottomBtn) {
-
     closeManagerBottomBtn.onclick =
         closeQuestionManager;
 }
 
 
 if (questionManagerModal) {
-
     questionManagerModal.addEventListener(
         "click",
         event => {
-
             if (
                 event.target ===
                 questionManagerModal
             ) {
-
                 closeQuestionManager();
             }
         }
@@ -2845,17 +2261,13 @@ setupBin(
     true
 );
 
-
 setupBin(
     trash,
     false
 );
 
-
 nextBtn.style.display = "none";
-
 restartBtn.style.display = "none";
-
 resultPanel.style.display = "none";
 
 
@@ -2864,8 +2276,17 @@ resultPanel.style.display = "none";
 ================================================== */
 
 startBtn.onclick = () => {
-
     startScreen.style.display = "none";
+
+    if (howToPlay) {
+        howToPlay.style.display = "none";
+    }
+
+    if (gameInterface) {
+        gameInterface.classList.add("active");
+    }
+
+    playStartSound();
 
     startLevel();
 };
@@ -2881,11 +2302,19 @@ const playAgain =
     ).get("playAgain");
 
 if (playAgain === "true") {
-
     startScreen.style.display = "none";
 
-    startLevel();
+    if (howToPlay) {
+        howToPlay.style.display = "none";
+    }
 
+    if (gameInterface) {
+        gameInterface.classList.add("active");
+    }
+
+    playStartSound();
+
+    startLevel();
 }
 
 
@@ -2894,8 +2323,33 @@ if (playAgain === "true") {
 ================================================== */
 
 restartBtn.onclick = () => {
+    score = 0;
+    lives = 3;
+    currentLevel = 0;
+    correctAnswers = 0;
+    wrongAnswers = 0;
 
-    location.reload();
+    scoreText.textContent = score;
+    livesText.textContent = lives;
+    levelText.textContent = 1;
+
+    progress.style.width = "0%";
+
+    if (feedbackPanel) {
+        feedbackPanel.style.display = "none";
+    }
+
+    if (hintPanel) {
+        hintPanel.style.display = "block";
+    }
+
+    if (hintText) {
+        hintText.style.display = "none";
+    }
+
+    playStartSound();
+
+    startLevel();
 };
 
 
@@ -2904,9 +2358,7 @@ restartBtn.onclick = () => {
 ================================================== */
 
 if (logoutBtn) {
-
     logoutBtn.onclick = () => {
-
         localStorage.removeItem(
             "dataQuestzRole"
         );

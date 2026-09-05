@@ -5,11 +5,10 @@
 
 
 // ==========================================================
-// 1. LECTURER ACCESS PROTECTION
+// LECTURER ACCESS
 // ==========================================================
 
-const userRole =
-    localStorage.getItem("dataQuestzRole");
+const userRole = localStorage.getItem("dataQuestzRole");
 
 if (userRole !== "lecturer") {
     window.location.href = "login.html";
@@ -17,7 +16,7 @@ if (userRole !== "lecturer") {
 
 
 // ==========================================================
-// 2. QUESTION STORAGE
+// QUESTION STORAGE
 // ==========================================================
 
 let customQuestions = JSON.parse(
@@ -37,7 +36,109 @@ let questionToEdit = null;
 
 
 // ==========================================================
-// 3. STORAGE FUNCTIONS
+// DOM ELEMENTS
+// ==========================================================
+
+// Dashboard
+const addQuestionBtn =
+    document.getElementById("add-question-btn");
+
+const manageQuestionBtn =
+    document.getElementById("manage-question-btn");
+
+const logoutBtn =
+    document.getElementById("logout-btn");
+
+// Question creator
+const questionModal =
+    document.getElementById("question-modal");
+
+const closeQuestionBtn =
+    document.getElementById("close-question-btn");
+
+const cancelQuestionBtn =
+    document.getElementById("cancel-question-btn");
+
+const saveQuestionBtn =
+    document.getElementById("save-question-btn");
+
+const creatorTitle =
+    document.getElementById("creator-title");
+
+const creatorSubtitle =
+    document.getElementById("creator-subtitle");
+
+// Question fields
+const questionText =
+    document.getElementById("question-text");
+
+const answerMode =
+    document.getElementById("answer-mode");
+
+const answerBuilder =
+    document.getElementById("answer-builder");
+
+const answerList =
+    document.getElementById("answer-list");
+
+const addAnswerBtn =
+    document.getElementById("add-answer-btn");
+
+const answerModeDescription =
+    document.getElementById("answer-mode-description");
+
+const trueFalseBuilder =
+    document.getElementById("true-false-builder");
+
+// Image
+const questionImage =
+    document.getElementById("question-image");
+
+const imagePreview =
+    document.getElementById("image-preview");
+
+// Hint and explanation
+const questionHint =
+    document.getElementById("question-hint");
+
+const questionExplanation =
+    document.getElementById("question-explanation");
+
+const trueExplanation =
+    document.getElementById("true-explanation");
+
+const falseExplanation =
+    document.getElementById("false-explanation");
+
+// Question manager
+const questionManagerModal =
+    document.getElementById("question-manager-modal");
+
+const closeManagerBtn =
+    document.getElementById("close-manager-btn");
+
+const closeManagerBottomBtn =
+    document.getElementById("close-manager-bottom-btn");
+
+const questionManagerList =
+    document.getElementById("question-manager-list");
+
+// Delete confirmation
+const deleteConfirmation =
+    document.getElementById("delete-confirmation");
+
+const deleteConfirmationText =
+    document.getElementById("delete-confirmation-text");
+
+const cancelDeleteBtn =
+    document.getElementById("cancel-delete-btn");
+
+const confirmDeleteBtn =
+    document.getElementById("confirm-delete-btn");
+
+
+// ==========================================================
+// STORAGE FUNCTIONS
 // ==========================================================
 
 function saveCustomQuestions() {
@@ -63,16 +164,11 @@ function saveDeletedOriginalQuestions() {
 
 
 // ==========================================================
-// 4. SECURITY HELPER
+// SECURITY HELPER
 // ==========================================================
 
 function escapeHTML(value) {
-
-    if (value === null || value === undefined) {
-        return "";
-    }
-
-    return String(value)
+    return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -82,38 +178,34 @@ function escapeHTML(value) {
 
 
 // ==========================================================
-// 5. GET ALL ACTIVE QUESTIONS
+// GET ACTIVE QUESTIONS
 // ==========================================================
 
 function getAllQuestions() {
-
-    const originalQuestions =
-        questions.filter((question, index) => {
-
-            return !deletedOriginalQuestions.includes(index);
-
-        });
+    const activeOriginalQuestions =
+        questions.filter(
+            (question, index) =>
+                !deletedOriginalQuestions.includes(index)
+        );
 
     const activeCustomQuestions =
-        customQuestions.filter(question => {
-
-            return !deletedQuestions.includes(question.id);
-
-        });
+        customQuestions.filter(
+            question =>
+                !deletedQuestions.includes(question.id)
+        );
 
     return [
-        ...originalQuestions,
+        ...activeOriginalQuestions,
         ...activeCustomQuestions
     ];
 }
 
 
 // ==========================================================
-// 6. QUESTION TYPE
+// QUESTION TYPE
 // ==========================================================
 
 function getQuestionTypeName(question) {
-
     if (
         question.sql ||
         question.dataset ||
@@ -146,13 +238,7 @@ function getQuestionTypeName(question) {
     return "Interactive Question";
 }
 
-
-// ==========================================================
-// 7. QUESTION TYPE CSS CLASS
-// ==========================================================
-
 function getQuestionTypeClass(question) {
-
     if (
         question.sql ||
         question.dataset ||
@@ -180,126 +266,10 @@ function getQuestionTypeClass(question) {
 
 
 // ==========================================================
-// 8. DOM REFERENCES
-// ==========================================================
-
-// Dashboard buttons
-
-const addQuestionBtn =
-    document.getElementById("add-question-btn");
-
-const manageQuestionBtn =
-    document.getElementById("manage-question-btn");
-
-const logoutBtn =
-    document.getElementById("logout-btn");
-
-
-// Create question modal
-
-const questionModal =
-    document.getElementById("question-modal");
-
-const closeQuestionBtn =
-    document.getElementById("close-question-btn");
-
-const cancelQuestionBtn =
-    document.getElementById("cancel-question-btn");
-
-const saveQuestionBtn =
-    document.getElementById("save-question-btn");
-
-const creatorTitle =
-    document.getElementById("creator-title");
-
-const creatorSubtitle =
-    document.getElementById("creator-subtitle");
-
-
-// Question fields
-
-const questionText =
-    document.getElementById("question-text");
-
-const answerMode =
-    document.getElementById("answer-mode");
-
-const answerBuilder =
-    document.getElementById("answer-builder");
-
-const answerList =
-    document.getElementById("answer-list");
-
-const addAnswerBtn =
-    document.getElementById("add-answer-btn");
-
-const answerModeDescription =
-    document.getElementById("answer-mode-description");
-
-const trueFalseBuilder =
-    document.getElementById("true-false-builder");
-
-
-// Image
-
-const questionImage =
-    document.getElementById("question-image");
-
-const imagePreview =
-    document.getElementById("image-preview");
-
-
-// Hint / explanation
-
-const questionHint =
-    document.getElementById("question-hint");
-
-const questionExplanation =
-    document.getElementById("question-explanation");
-
-const trueExplanation =
-    document.getElementById("true-explanation");
-
-const falseExplanation =
-    document.getElementById("false-explanation");
-
-
-// Manager
-
-const questionManagerModal =
-    document.getElementById("question-manager-modal");
-
-const closeManagerBtn =
-    document.getElementById("close-manager-btn");
-
-const closeManagerBottomBtn =
-    document.getElementById("close-manager-bottom-btn");
-
-const questionManagerList =
-    document.getElementById("question-manager-list");
-
-
-// Delete confirmation
-
-const deleteConfirmation =
-    document.getElementById("delete-confirmation");
-
-const deleteConfirmationText =
-    document.getElementById("delete-confirmation-text");
-
-const cancelDeleteBtn =
-    document.getElementById("cancel-delete-btn");
-
-const confirmDeleteBtn =
-    document.getElementById("confirm-delete-btn");
-
-
-// ==========================================================
-// 9. OPEN CREATE QUESTION
+// QUESTION CREATOR
 // ==========================================================
 
 function openQuestionCreator() {
-
     questionToEdit = null;
 
     resetQuestionCreator();
@@ -318,13 +288,7 @@ function openQuestionCreator() {
     updateAnswerMode();
 }
 
-
-// ==========================================================
-// 10. CLOSE CREATE QUESTION
-// ==========================================================
-
 function closeQuestionCreator() {
-
     questionModal.classList.remove("active");
 
     questionToEdit = null;
@@ -332,13 +296,7 @@ function closeQuestionCreator() {
     resetQuestionCreator();
 }
 
-
-// ==========================================================
-// 11. RESET QUESTION CREATOR
-// ==========================================================
-
 function resetQuestionCreator() {
-
     questionText.value = "";
     answerMode.value = "single";
     questionHint.value = "";
@@ -381,7 +339,7 @@ function resetQuestionCreator() {
 
 
 // ==========================================================
-// 12. ADD ANSWER ROW
+// ANSWER ROWS
 // ==========================================================
 
 function addAnswerRow(
@@ -389,13 +347,10 @@ function addAnswerRow(
     isCorrect = false,
     explanation = ""
 ) {
-
     const row =
         document.createElement("div");
 
-    row.className =
-        "answer-row";
-
+    row.className = "answer-row";
 
     const correctInput =
         document.createElement("input");
@@ -414,7 +369,6 @@ function addAnswerRow(
     correctInput.checked =
         isCorrect;
 
-
     const answerInput =
         document.createElement("textarea");
 
@@ -426,7 +380,6 @@ function addAnswerRow(
 
     answerInput.value =
         text;
-
 
     const explanationInput =
         document.createElement("textarea");
@@ -440,34 +393,23 @@ function addAnswerRow(
     explanationInput.value =
         explanation;
 
-
     const removeButton =
         document.createElement("button");
 
-    removeButton.type =
-        "button";
-
-    removeButton.className =
-        "remove-answer";
-
-    removeButton.textContent =
-        "🗑️";
-
-    removeButton.title =
-        "Remove answer";
-
+    removeButton.type = "button";
+    removeButton.className = "remove-answer";
+    removeButton.textContent = "🗑️";
+    removeButton.title = "Remove answer";
 
     removeButton.addEventListener(
         "click",
         () => {
-
             const rows =
                 answerList.querySelectorAll(
                     ".answer-row"
                 );
 
             if (rows.length <= 2) {
-
                 alert(
                     "You need at least 2 answer choices."
                 );
@@ -476,10 +418,8 @@ function addAnswerRow(
             }
 
             row.remove();
-
         }
     );
-
 
     row.appendChild(correctInput);
     row.appendChild(answerInput);
@@ -489,13 +429,7 @@ function addAnswerRow(
     answerList.appendChild(row);
 }
 
-
-// ==========================================================
-// 13. UPDATE ANSWER CONTROLS
-// ==========================================================
-
 function updateAnswerControls() {
-
     const mode =
         answerMode.value;
 
@@ -505,7 +439,6 @@ function updateAnswerControls() {
         );
 
     correctInputs.forEach(input => {
-
         const wasChecked =
             input.checked;
 
@@ -519,45 +452,31 @@ function updateAnswerControls() {
 
         input.checked =
             wasChecked;
-
     });
 
-
     if (mode === "single") {
-
         const checked =
             answerList.querySelectorAll(
                 ".answer-correct:checked"
             );
 
         if (checked.length > 1) {
-
-            checked.forEach((input, index) => {
-
-                if (index > 0) {
-                    input.checked = false;
+            checked.forEach(
+                (input, index) => {
+                    if (index > 0) {
+                        input.checked = false;
+                    }
                 }
-
-            });
-
+            );
         }
-
     }
 }
 
-
-// ==========================================================
-// 14. UPDATE ANSWER MODE
-// ==========================================================
-
 function updateAnswerMode() {
-
     const mode =
         answerMode.value;
 
-
     if (mode === "true-false") {
-
         answerBuilder.classList.add(
             "hidden-section"
         );
@@ -572,7 +491,6 @@ function updateAnswerMode() {
         return;
     }
 
-
     answerBuilder.classList.remove(
         "hidden-section"
     );
@@ -581,46 +499,42 @@ function updateAnswerMode() {
         "hidden-section"
     );
 
-
     if (mode === "single") {
-
         answerModeDescription.textContent =
             "Add as many answers as you want and mark one as correct.";
-
     }
 
-    if (mode === "multiple") {
-
+    else if (mode === "multiple") {
         answerModeDescription.textContent =
             "Add as many answers as you want and mark all correct answers.";
-
     }
 
     updateAnswerControls();
 }
 
-
-// ==========================================================
-// 15. COLLECT NORMAL ANSWERS
-// ==========================================================
-
 function collectAnswers() {
-
     const rows =
-        answerList.querySelectorAll(".answer-row");
+        answerList.querySelectorAll(
+            ".answer-row"
+        );
 
     const answers = [];
 
     rows.forEach(row => {
-
         const input =
-            row.querySelector(".answer-input");
+            row.querySelector(
+                ".answer-input"
+            );
 
         const correct =
-            row.querySelector(".answer-correct");
+            row.querySelector(
+                ".answer-correct"
+            );
 
         const explanationInput =
-            row.querySelector(".answer-explanation");
+            row.querySelector(
+                ".answer-explanation"
+            );
 
         const text =
             input.value.trim();
@@ -631,15 +545,12 @@ function collectAnswers() {
                 : "";
 
         if (text !== "") {
-
             answers.push({
-                text: text,
+                text,
                 correct: correct.checked,
-                explanation: explanation
+                explanation
             });
-
         }
-
     });
 
     return answers;
@@ -647,28 +558,22 @@ function collectAnswers() {
 
 
 // ==========================================================
-// 16. IMAGE PREVIEW
+// IMAGE PREVIEW
 // ==========================================================
 
 if (questionImage) {
-
     questionImage.addEventListener(
         "change",
         function () {
-
             const file =
                 this.files[0];
 
             if (!file) {
-
                 imagePreview.innerHTML = "";
-
                 return;
             }
 
-
             if (!file.type.startsWith("image/")) {
-
                 alert(
                     "Please choose an image file."
                 );
@@ -678,38 +583,32 @@ if (questionImage) {
                 return;
             }
 
-
             const reader =
                 new FileReader();
 
             reader.onload =
                 function (event) {
-
                     imagePreview.innerHTML = `
                         <img
                             src="${event.target.result}"
                             alt="Question image preview"
                         >
                     `;
-
                 };
 
             reader.readAsDataURL(file);
-
         }
     );
-
 }
 
 
 // ==========================================================
-// 17. SAVE QUESTION
+// SAVE QUESTION
 // ==========================================================
 
 saveQuestionBtn.addEventListener(
     "click",
     function () {
-
         const text =
             questionText.value.trim();
 
@@ -722,9 +621,7 @@ saveQuestionBtn.addEventListener(
         const explanation =
             questionExplanation.value.trim();
 
-
         if (!text) {
-
             alert(
                 "Please enter a question."
             );
@@ -734,14 +631,9 @@ saveQuestionBtn.addEventListener(
             return;
         }
 
-
         let answers = [];
 
-
-        // TRUE / FALSE
-
         if (mode === "true-false") {
-
             const selected =
                 document.querySelector(
                     'input[name="true-false-answer"]:checked'
@@ -772,20 +664,13 @@ saveQuestionBtn.addEventListener(
                             : ""
                 }
             ];
-
         }
 
-
-        // SINGLE / MULTIPLE
-
         else {
-
             answers =
                 collectAnswers();
 
-
             if (answers.length < 2) {
-
                 alert(
                     "Please provide at least 2 answer choices."
                 );
@@ -793,15 +678,12 @@ saveQuestionBtn.addEventListener(
                 return;
             }
 
-
             const correctAnswers =
                 answers.filter(
                     answer => answer.correct
                 );
 
-
             if (correctAnswers.length === 0) {
-
                 alert(
                     "Please mark at least one correct answer."
                 );
@@ -809,23 +691,17 @@ saveQuestionBtn.addEventListener(
                 return;
             }
 
-
             if (
                 mode === "single" &&
                 correctAnswers.length > 1
             ) {
-
                 alert(
                     "One Correct Answer mode can only have ONE correct answer."
                 );
 
                 return;
             }
-
         }
-
-
-        // IMAGE
 
         let image = "";
 
@@ -836,47 +712,31 @@ saveQuestionBtn.addEventListener(
             image = previewImage.src;
         }
 
-
-        // QUESTION DATA
-
         const questionData = {
-
             id:
                 questionToEdit
                     ? questionToEdit.id
                     : "custom-" + Date.now(),
 
-            type:
-                mode,
+            type: mode,
 
-            answerMode:
-                mode,
+            answerMode: mode,
 
-            question:
-                text,
+            question: text,
 
-            answers:
-                answers,
+            answers,
 
-            hint:
-                hint,
+            hint,
 
-            explanation:
-                explanation,
+            explanation,
 
-            image:
-                image
-
+            image
         };
-
-
-        // SAVE EDIT OR CREATE
 
         const isEditing =
             Boolean(questionToEdit);
 
         if (isEditing) {
-
             const index =
                 customQuestions.findIndex(
                     question =>
@@ -884,125 +744,42 @@ saveQuestionBtn.addEventListener(
                 );
 
             if (index !== -1) {
-
                 customQuestions[index] =
                     questionData;
-
             }
-
         }
-        else {
 
+        else {
             customQuestions.push(
                 questionData
             );
-
         }
-
-
-        // SAVE
 
         saveCustomQuestions();
 
-
-        // CLOSE
-
         closeQuestionCreator();
 
-
-        // REFRESH MANAGER
-
         renderQuestionManager();
-
 
         alert(
             isEditing
                 ? "✅ Question updated successfully!"
                 : "✅ Question created successfully!"
         );
-
     }
 );
 
 
 // ==========================================================
-// 18. ANSWER MODE CHANGE
-// ==========================================================
-
-answerMode.addEventListener(
-    "change",
-    function () {
-
-        updateAnswerMode();
-
-    }
-);
-
-
-// ==========================================================
-// 19. ADD ANSWER BUTTON
-// ==========================================================
-
-addAnswerBtn.addEventListener(
-    "click",
-    function () {
-
-        addAnswerRow();
-
-    }
-);
-
-
-// ==========================================================
-// 20. CREATE QUESTION BUTTON
-// ==========================================================
-
-addQuestionBtn.addEventListener(
-    "click",
-    function () {
-
-        openQuestionCreator();
-
-    }
-);
-
-
-// ==========================================================
-// 21. CLOSE QUESTION BUTTONS
-// ==========================================================
-
-closeQuestionBtn.addEventListener(
-    "click",
-    function () {
-
-        closeQuestionCreator();
-
-    }
-);
-
-
-cancelQuestionBtn.addEventListener(
-    "click",
-    function () {
-
-        closeQuestionCreator();
-
-    }
-);
-
-
-// ==========================================================
-// 22. OPEN QUESTION EDITOR
+// QUESTION EDITOR
 // ==========================================================
 
 function openQuestionEditor(question) {
-
     if (
         question.sql ||
         question.dataset ||
         question.answer?.conditions
     ) {
-
         alert(
             "SQL questions cannot be edited yet."
         );
@@ -1010,10 +787,7 @@ function openQuestionEditor(question) {
         return;
     }
 
-
-    questionToEdit =
-        question;
-
+    questionToEdit = question;
 
     questionManagerModal.classList.remove(
         "active"
@@ -1022,7 +796,6 @@ function openQuestionEditor(question) {
     questionModal.classList.add(
         "active"
     );
-
 
     creatorTitle.textContent =
         "✏️ Edit Question";
@@ -1033,58 +806,34 @@ function openQuestionEditor(question) {
     saveQuestionBtn.textContent =
         "💾 Save Changes";
 
-
-    // QUESTION
-
     questionText.value =
         question.question || "";
-
-
-    // MODE
 
     answerMode.value =
         question.answerMode ||
         question.type ||
         "single";
 
-
-    // HINT
-
     questionHint.value =
         question.hint || "";
-
-
-    // EXPLANATION
 
     questionExplanation.value =
         question.explanation || "";
 
-
-    // IMAGE
-
     imagePreview.innerHTML = "";
 
     if (question.image) {
-
         imagePreview.innerHTML = `
             <img
                 src="${question.image}"
                 alt="Question image preview"
             >
         `;
-
     }
-
-
-    // ANSWER LIST
 
     answerList.innerHTML = "";
 
-
-    // TRUE / FALSE
-
     if (answerMode.value === "true-false") {
-
         const trueAnswer =
             question.answers?.find(
                 answer =>
@@ -1097,7 +846,6 @@ function openQuestionEditor(question) {
                     answer.text === "FALSE"
             );
 
-
         const trueRadio =
             document.querySelector(
                 'input[name="true-false-answer"][value="true"]'
@@ -1108,121 +856,80 @@ function openQuestionEditor(question) {
                 'input[name="true-false-answer"][value="false"]'
             );
 
-
         if (trueRadio) {
-
             trueRadio.checked =
                 trueAnswer
                     ? trueAnswer.correct
                     : true;
-
         }
 
-
         if (falseRadio) {
-
             falseRadio.checked =
                 falseAnswer
                     ? falseAnswer.correct
                     : false;
-
         }
-
 
         if (trueExplanation) {
-
             trueExplanation.value =
                 trueAnswer?.explanation || "";
-
         }
-
 
         if (falseExplanation) {
-
             falseExplanation.value =
                 falseAnswer?.explanation || "";
-
         }
-
     }
 
-
-    // NORMAL ANSWERS
-
     else {
-
         const answers =
             question.answers || [];
 
         if (answers.length === 0) {
-
             addAnswerRow();
             addAnswerRow();
-
         }
+
         else {
-
             answers.forEach(answer => {
-
                 addAnswerRow(
                     answer.text || "",
                     answer.correct === true,
                     answer.explanation || ""
                 );
-
             });
-
         }
-
     }
-
 
     updateAnswerMode();
 }
 
 
 // ==========================================================
-// 23. OPEN QUESTION MANAGER
+// QUESTION MANAGER
 // ==========================================================
 
 function openQuestionManager() {
-
     renderQuestionManager();
 
     questionManagerModal.classList.add(
         "active"
     );
-
 }
 
-
-// ==========================================================
-// 24. CLOSE QUESTION MANAGER
-// ==========================================================
-
 function closeQuestionManager() {
-
     questionManagerModal.classList.remove(
         "active"
     );
-
 }
 
-
-// ==========================================================
-// 25. RENDER QUESTION MANAGER
-// ==========================================================
-
 function renderQuestionManager() {
-
     questionManagerList.innerHTML = "";
 
     const allQuestions =
         getAllQuestions();
 
-
     if (allQuestions.length === 0) {
-
         questionManagerList.innerHTML = `
             <div class="no-questions">
                 No questions available.
@@ -1232,63 +939,41 @@ function renderQuestionManager() {
         return;
     }
 
-
     allQuestions.forEach(
         (question, index) => {
-
             createManagerItem(
                 question,
                 index
             );
-
         }
     );
-
 }
-
-
-// ==========================================================
-// 26. CREATE MANAGER ITEM
-// ==========================================================
 
 function createManagerItem(
     question,
     index
 ) {
-
     const item =
         document.createElement("div");
 
     item.className =
         "question-manager-item";
 
-
-    // QUESTION TITLE
-
     let questionTitle =
         question.question;
-
 
     if (
         !questionTitle &&
         question.sql
     ) {
-
         questionTitle =
             question.sql;
-
     }
-
 
     if (!questionTitle) {
-
         questionTitle =
             "Untitled Question";
-
     }
-
-
-    // TYPE
 
     const typeName =
         getQuestionTypeName(question);
@@ -1296,27 +981,20 @@ function createManagerItem(
     const typeClass =
         getQuestionTypeClass(question);
 
-
-    // CHECK WHETHER ORIGINAL
-
     const isOriginal =
         questions.some(
             original =>
                 original === question
         );
 
-
     item.innerHTML = `
-
         <div class="question-manager-info">
 
             <h3>
                 ${index + 1}. ${escapeHTML(questionTitle)}
             </h3>
 
-            <p
-                class="manager-question-type ${typeClass}"
-            >
+            <p class="manager-question-type ${typeClass}">
                 ${escapeHTML(typeName)}
             </p>
 
@@ -1339,11 +1017,7 @@ function createManagerItem(
             </button>
 
         </div>
-
     `;
-
-
-    // EDIT
 
     const editButton =
         item.querySelector(
@@ -1352,17 +1026,8 @@ function createManagerItem(
 
     editButton.addEventListener(
         "click",
-        function () {
-
-            openQuestionEditor(
-                question
-            );
-
-        }
+        () => openQuestionEditor(question)
     );
-
-
-    // DELETE
 
     const deleteButton =
         item.querySelector(
@@ -1371,61 +1036,45 @@ function createManagerItem(
 
     deleteButton.addEventListener(
         "click",
-        function () {
-
+        () =>
             askDeleteQuestion(
                 question,
                 isOriginal
-            );
-
-        }
+            )
     );
 
-
-    questionManagerList.appendChild(
-        item
-    );
-
+    questionManagerList.appendChild(item);
 }
 
 
 // ==========================================================
-// 27. ASK DELETE QUESTION
+// DELETE QUESTION
 // ==========================================================
 
 function askDeleteQuestion(
     question,
     isOriginal
 ) {
-
     questionToDelete = {
-        question: question,
-        isOriginal: isOriginal
+        question,
+        isOriginal
     };
-
 
     let title =
         question.question;
-
 
     if (
         !title &&
         question.sql
     ) {
-
         title =
             question.sql;
-
     }
-
 
     if (!title) {
-
         title =
             "this question";
-
     }
-
 
     deleteConfirmationText.textContent =
         `Are you sure you want to delete "${title}"?`;
@@ -1433,41 +1082,25 @@ function askDeleteQuestion(
     deleteConfirmation.classList.add(
         "active"
     );
-
 }
-
-
-// ==========================================================
-// 28. CANCEL DELETE
-// ==========================================================
 
 cancelDeleteBtn.addEventListener(
     "click",
     function () {
-
-        questionToDelete =
-            null;
+        questionToDelete = null;
 
         deleteConfirmation.classList.remove(
             "active"
         );
-
     }
 );
-
-
-// ==========================================================
-// 29. CONFIRM DELETE
-// ==========================================================
 
 confirmDeleteBtn.addEventListener(
     "click",
     function () {
-
         if (!questionToDelete) {
             return;
         }
-
 
         const question =
             questionToDelete.question;
@@ -1475,151 +1108,124 @@ confirmDeleteBtn.addEventListener(
         const isOriginal =
             questionToDelete.isOriginal;
 
-
-        // DELETE ORIGINAL QUESTION
-
         if (isOriginal) {
-
             const originalIndex =
                 questions.indexOf(question);
 
             if (originalIndex !== -1) {
-
                 if (
                     !deletedOriginalQuestions.includes(
                         originalIndex
                     )
                 ) {
-
                     deletedOriginalQuestions.push(
                         originalIndex
                     );
-
                 }
 
                 saveDeletedOriginalQuestions();
-
             }
-
         }
 
-
-        // DELETE CUSTOM QUESTION
-
         else {
-
             customQuestions =
                 customQuestions.filter(
                     item =>
                         item.id !== question.id
                 );
 
-
             if (
                 !deletedQuestions.includes(
                     question.id
                 )
             ) {
-
                 deletedQuestions.push(
                     question.id
                 );
-
             }
-
 
             saveCustomQuestions();
             saveDeletedQuestions();
-
         }
-
-
-        // CLOSE CONFIRMATION
 
         deleteConfirmation.classList.remove(
             "active"
         );
 
-        questionToDelete =
-            null;
-
-
-        // REFRESH MANAGER
+        questionToDelete = null;
 
         renderQuestionManager();
-
 
         alert(
             "🗑️ Question deleted successfully."
         );
-
     }
 );
 
 
 // ==========================================================
-// 30. MANAGER BUTTON
+// BUTTON EVENTS
 // ==========================================================
+
+answerMode.addEventListener(
+    "change",
+    updateAnswerMode
+);
+
+addAnswerBtn.addEventListener(
+    "click",
+    addAnswerRow
+);
+
+addQuestionBtn.addEventListener(
+    "click",
+    openQuestionCreator
+);
+
+closeQuestionBtn.addEventListener(
+    "click",
+    closeQuestionCreator
+);
+
+cancelQuestionBtn.addEventListener(
+    "click",
+    closeQuestionCreator
+);
 
 manageQuestionBtn.addEventListener(
     "click",
-    function () {
-
-        openQuestionManager();
-
-    }
+    openQuestionManager
 );
-
-
-// ==========================================================
-// 31. CLOSE MANAGER BUTTONS
-// ==========================================================
 
 closeManagerBtn.addEventListener(
     "click",
-    function () {
-
-        closeQuestionManager();
-
-    }
+    closeQuestionManager
 );
-
 
 closeManagerBottomBtn.addEventListener(
     "click",
-    function () {
-
-        closeQuestionManager();
-
-    }
+    closeQuestionManager
 );
-
-
-// ==========================================================
-// 32. LOGOUT
-// ==========================================================
 
 logoutBtn.addEventListener(
     "click",
     function () {
-
         localStorage.removeItem(
             "dataQuestzRole"
         );
 
-        window.location.href =
-            "login.html";
-
+        window.location.href ="login.html";
     }
 );
 
 
 // ==========================================================
-// 33. CLOSE MODALS WHEN CLICKING BACKGROUND
+// MODAL BACKGROUND EVENTS
 // ==========================================================
 
 questionModal.addEventListener(
     "click",
+
     function (event) {
 
         if (event.target === questionModal) {
@@ -1629,27 +1235,32 @@ questionModal.addEventListener(
         }
 
     }
+
 );
 
 
 questionManagerModal.addEventListener(
     "click",
+    
     function (event) {
-
+        
         if (
             event.target === questionManagerModal
-        ) {
-
+        ) 
+        
+        {
+           
             closeQuestionManager();
-
+        
         }
-
+    
     }
+
 );
 
 
 // ==========================================================
-// 34. INITIAL SETUP
+// INITIAL SETUP
 // ==========================================================
 
 resetQuestionCreator();

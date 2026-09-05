@@ -1,22 +1,16 @@
-// =========================================================
+// ==========================================================
 // DATA QUESTZ
 // FINISH GAME SCRIPT
-// =========================================================
+// ==========================================================
 
 
-// ---------------------------------------------------------
-// GET FINISH SCREEN ELEMENTS
-// ---------------------------------------------------------
+// ==========================================================
+// DOM ELEMENTS
+// ==========================================================
 
-const finalScore =
-    document.getElementById("final-score");
-
-const correctAnswers =
-    document.getElementById("correct-answers");
-
-const wrongAnswers =
-    document.getElementById("wrong-answers");
-
+const finalScore = document.getElementById("final-score");
+const correctAnswers = document.getElementById("correct-answers");
+const wrongAnswers = document.getElementById("wrong-answers");
 const missionsCompleted =
     document.getElementById("missions-completed");
 
@@ -29,63 +23,45 @@ const finishPlayAgainBtn =
 const finishMainMenuBtn =
     document.getElementById("finish-main-menu-btn");
 
-const accuracy =
-    document.getElementById("accuracy");
-
-const feedback =
-    document.getElementById("finish-feedback");
+const accuracy = document.getElementById("accuracy");
+const feedback = document.getElementById("finish-feedback");
 
 
-// ---------------------------------------------------------
-// GET SAVED GAME RESULTS
-// ---------------------------------------------------------
+// ==========================================================
+// SAVED GAME RESULTS
+// ==========================================================
 
 const savedScore =
-    Number(
-        localStorage.getItem("dataQuestzScore")
-    ) || 0;
+    Number(localStorage.getItem("dataQuestzScore")) || 0;
 
 const savedCorrect =
-    Number(
-        localStorage.getItem("dataQuestzCorrect")
-    ) || 0;
+    Number(localStorage.getItem("dataQuestzCorrect")) || 0;
 
 const savedWrong =
-    Number(
-        localStorage.getItem("dataQuestzWrong")
-    ) || 0;
+    Number(localStorage.getItem("dataQuestzWrong")) || 0;
 
 const savedCompleted =
-    Number(
-        localStorage.getItem("dataQuestzCompleted")
-    ) || 0;
+    Number(localStorage.getItem("dataQuestzCompleted")) || 0;
 
 const savedTotal =
-    Number(
-        localStorage.getItem("dataQuestzTotal")
-    ) || 0;
+    Number(localStorage.getItem("dataQuestzTotal")) || 0;
 
 
-// ---------------------------------------------------------
-// DISPLAY FINAL RESULTS
-// ---------------------------------------------------------
+// ==========================================================
+// DISPLAY RESULTS
+// ==========================================================
 
-finalScore.textContent =
-    savedScore;
-
-correctAnswers.textContent =
-    savedCorrect;
-
-wrongAnswers.textContent =
-    savedWrong;
+finalScore.textContent = savedScore;
+correctAnswers.textContent = savedCorrect;
+wrongAnswers.textContent = savedWrong;
 
 missionsCompleted.textContent =
     `${savedCompleted} / ${savedTotal || savedCompleted}`;
 
 
-// ---------------------------------------------------------
+// ==========================================================
 // CALCULATE ACCURACY
-// ---------------------------------------------------------
+// ==========================================================
 
 let percentage = 0;
 
@@ -93,19 +69,17 @@ const totalAnswers =
     savedCorrect + savedWrong;
 
 if (totalAnswers > 0) {
-
     percentage =
         (savedCorrect / totalAnswers) * 100;
-
 }
 
 accuracy.textContent =
     `${Math.round(percentage)}%`;
 
 
-// ---------------------------------------------------------
+// ==========================================================
 // DISPLAY FEEDBACK
-// ---------------------------------------------------------
+// ==========================================================
 
 if (percentage >= 90) {
 
@@ -139,76 +113,131 @@ else {
 }
 
 
-// ---------------------------------------------------------
-// DISPLAY PERFORMANCE STARS
-// ---------------------------------------------------------
+// ==========================================================
+// PERFORMANCE STARS
+// ==========================================================
 
 let stars = 1;
 
 if (percentage >= 90) {
-
     stars = 5;
-
 }
 else if (percentage >= 75) {
-
     stars = 4;
-
 }
 else if (percentage >= 60) {
-
     stars = 3;
-
 }
 else if (percentage >= 40) {
-
     stars = 2;
-
 }
 
 performanceStars.textContent =
     "⭐".repeat(stars);
 
 
-// ---------------------------------------------------------
+// ==========================================================
+// PLAY AGAIN SOUND
+// ==========================================================
+
+let finishAudioContext = null;
+
+function playFinishStartSound() {
+
+    finishAudioContext =
+        finishAudioContext ||
+        new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+    if (finishAudioContext.state === "suspended") {
+        finishAudioContext.resume();
+    }
+
+    function playNote(frequency, delay) {
+
+        setTimeout(() => {
+
+            const oscillator =
+                finishAudioContext.createOscillator();
+
+            const gain =
+                finishAudioContext.createGain();
+
+            oscillator.type = "sine";
+
+            oscillator.frequency.value =
+                frequency;
+
+            gain.gain.setValueAtTime(
+                0.28,
+                finishAudioContext.currentTime
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.001,
+                finishAudioContext.currentTime + 0.2
+            );
+
+            oscillator.connect(gain);
+
+            gain.connect(
+                finishAudioContext.destination
+            );
+
+            oscillator.start();
+
+            oscillator.stop(
+                finishAudioContext.currentTime + 0.2
+            );
+
+        }, delay);
+    }
+
+    playNote(392, 0);
+    playNote(523.25, 120);
+}
+
+
+// ==========================================================
 // PLAY AGAIN
-// ---------------------------------------------------------
+// ==========================================================
 
-finishPlayAgainBtn.onclick = () => {
+finishPlayAgainBtn.addEventListener(
+    "click",
+    () => {
 
-    localStorage.removeItem(
-        "dataQuestzScore"
-    );
+        // Play sound directly from the button click
+        playFinishStartSound();
 
-    localStorage.removeItem(
-        "dataQuestzCorrect"
-    );
+        // Clear previous game results
+        localStorage.removeItem("dataQuestzScore");
+        localStorage.removeItem("dataQuestzCorrect");
+        localStorage.removeItem("dataQuestzWrong");
+        localStorage.removeItem("dataQuestzCompleted");
+        localStorage.removeItem("dataQuestzTotal");
 
-    localStorage.removeItem(
-        "dataQuestzWrong"
-    );
+        // Wait briefly so the sound can play
+        setTimeout(() => {
 
-    localStorage.removeItem(
-        "dataQuestzCompleted"
-    );
+            window.location.href =
+                "index.html?playAgain=true";
 
-    localStorage.removeItem(
-        "dataQuestzTotal"
-    );
-
-    window.location.href =
-        "index.html?playAgain=true";
-
-};
+        }, 350);
+    }
+);
 
 
-// ---------------------------------------------------------
+// ==========================================================
 // MAIN MENU
-// ---------------------------------------------------------
+// ==========================================================
 
-finishMainMenuBtn.onclick = () => {
+finishMainMenuBtn.addEventListener(
+    "click",
+    () => {
 
-    window.location.href =
-        "index.html";
-
-};
+        window.location.href =
+            "index.html";
+    }
+);

@@ -140,7 +140,7 @@ section h2 {
 
 
 /* =========================================================
-   7. START SCREEN
+   7. START SCREEN / GAME VISIBILITY
    ========================================================= */
 
 .start-screen {
@@ -160,6 +160,14 @@ section h2 {
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 25px;
+}
+
+.game-interface {
+    display: none;
+}
+
+.game-interface.active {
+    display: block;
 }
 
 
@@ -360,9 +368,19 @@ button:focus-visible {
    15. HINT
    ========================================================= */
 
+#hint-instruction {
+    margin-bottom: 12px;
+    color: #cbd5e1;
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
 #hint-text {
+    margin-top: 12px;
     color: #fde68a;
     font-size: 18px;
+    line-height: 1.6;
 }
 
 
@@ -569,11 +587,64 @@ tr:nth-child(even) td {
    22. CHEAT SHEET
    ========================================================= */
 
-.cheatsheet ul {
+.cheatsheet {
+    margin-bottom: 25px;
+    padding: 20px 25px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-large);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.cheatsheet summary {
+    margin-bottom: 8px;
+    color: #93c5fd;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cheatsheet summary:hover {
+    color: #bfdbfe;
+}
+
+.cheatsheet h3 {
+    margin: 12px 0 8px;
+    font-size: 18px;
+    color: white;
+}
+
+.cheat-item {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.cheat-item strong {
+    font-weight: bold;
+}
+
+.sql-example {
+    background: #020617;
+    color: #22c55e;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.how-to-play ul {
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
 
-.cheatsheet li {
+.how-to-play li {
     margin: 8px 0;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
@@ -1926,6 +1997,7 @@ body:has(.login-screen) .login-screen {
     }
 
     /* Answer rows */
+
     .answer-row {
         grid-template-columns: 35px 1fr;
         gap: 10px;
@@ -1942,6 +2014,7 @@ body:has(.login-screen) .login-screen {
     }
 
     /* Lecturer dashboard */
+
     .lecturer-content {
         padding: 30px 20px;
     }
