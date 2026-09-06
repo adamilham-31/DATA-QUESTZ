@@ -118,6 +118,15 @@ const answerBuilder =
 const trueFalseBuilder =
     document.getElementById("true-false-builder");
 
+    const fillBlankAnswerArea =
+    document.getElementById("fill-blank-answer-area");
+
+const studentFillBlankAnswer =
+    document.getElementById("student-fill-blank-answer");
+
+const submitFillBlankAnswer =
+    document.getElementById("submit-fill-blank-answer");
+
 const questionImage =
     document.getElementById("question-image");
 
@@ -520,8 +529,22 @@ function startLevel() {
         1000
     );
 
-    cards.innerHTML = "";
-    currentResults = [];
+   cards.innerHTML = "";
+
+if (fillBlankAnswerArea) {
+    fillBlankAnswerArea.style.display = "none";
+}
+
+if (studentFillBlankAnswer) {
+    studentFillBlankAnswer.value = "";
+    studentFillBlankAnswer.disabled = false;
+}
+
+if (submitFillBlankAnswer) {
+    submitFillBlankAnswer.disabled = false;
+}
+
+currentResults = [];
 
     updateResultTable();
 
@@ -568,12 +591,15 @@ function startLevel() {
     };
 
     if (isSQLQuestion(currentQuestion)) {
-        startSQLMission(currentQuestion);
-    } else {
-        startNormalQuestion(currentQuestion);
-    }
+    startSQLMission(currentQuestion);
+} else if (
+    currentQuestion.answerMode === "fill-blank"
+) {
+    startFillBlankQuestion(currentQuestion);
+} else {
+    startNormalQuestion(currentQuestion);
 }
-
+}
 
 /* ==================================================
    TIMER
@@ -598,7 +624,19 @@ function updateTimer() {
 ================================================== */
 
 function startNormalQuestion(question) {
-    resultPanel.style.display = "none";
+
+    if (fillBlankAnswerArea) {
+        fillBlankAnswerArea.style.display = "none";
+    }
+
+    if (database) {
+        database.style.display = "flex";
+    }
+
+    if (trash) {
+        trash.style.display = "flex";
+    }
+    resultPanel.style.display = "block";
 
     queryText.innerHTML = `
         <div class="question-display">
@@ -644,6 +682,161 @@ function startNormalQuestion(question) {
     });
 }
 
+
+/* ==================================================
+   FILL IN THE BLANK QUESTION
+================================================== */
+
+function startFillBlankQuestion(question) {
+    resultPanel.style.display = "block";
+
+    queryText.innerHTML = `
+        <div class="question-display">
+            ${escapeHTML(question.question)}
+        </div>
+    `;
+
+    lesson.innerHTML = "Type the correct answer.";
+
+    questionImageDisplay.innerHTML = "";
+
+    if (question.image) {
+        questionImageDisplay.innerHTML = `
+            <img
+                src="${question.image}"
+                alt="Question image"
+            >
+        `;
+    }
+
+    answerInstruction.textContent =
+        "Type the correct answer and submit.";
+
+    cards.innerHTML = "";
+
+    database.style.display = "none";
+    trash.style.display = "none";
+
+    fillBlankAnswerArea.style.display = "flex";
+
+    studentFillBlankAnswer.value = "";
+    studentFillBlankAnswer.focus();
+
+    submitFillBlankAnswer.onclick = () => {
+        const studentAnswer =
+            studentFillBlankAnswer.value.trim();
+
+        if (!studentAnswer) {
+            alert("Please enter an answer.");
+            studentFillBlankAnswer.focus();
+            return;
+        }
+
+        const answerData =
+            question.answers?.[0] || {};
+
+        const correctAnswer =
+            String(answerData.text || "").trim();
+
+        const rawKeywords = answerData.keyword;
+
+        // New format: each keyword/phrase is stored as its own item.
+        // Backward compatibility: old comma-separated strings are still supported.
+        const keywords = Array.isArray(rawKeywords)
+            ? rawKeywords.map(k => String(k).trim()).filter(Boolean)
+            : String(rawKeywords || "")
+                .split(",")
+                .map(k => k.trim())
+                .filter(Boolean);
+
+        let isCorrect = false;
+
+        if (keywords.length > 0) {
+            isCorrect = keywords.some(keyword => {
+                // Match each keyword as a whole word/phrase, not inside another word.
+                const escapedKeyword =
+                    keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+                const keywordPattern =
+                    new RegExp(
+                        "(^|\\s|[^\\p{L}\\p{N}_])" +
+                        escapedKeyword.replace(/\\s+/g, "\\s+") +
+                        "($|\\s|[^\\p{L}\\p{N}_])",
+                        "iu"
+                    );
+
+                return keywordPattern.test(studentAnswer);
+            });
+        } else {
+            // No keyword means the lecturer wants the normal exact-answer check.
+            isCorrect =
+                studentAnswer.toLowerCase() ===
+                correctAnswer.toLowerCase();
+        }
+
+        if (isCorrect) {
+            playCorrectSound();
+
+            correctAnswers++;
+            score += 50;
+
+            currentResults.push({
+                answer: studentAnswer,
+                correct: true
+            });
+
+            message.innerHTML = `
+                <div class="success-message">
+                    ✅ Correct! +50 points
+
+                    <br><br>
+
+                    Great job!
+                </div>
+            `;
+        } else {
+            playWrongSound();
+
+            wrongAnswers++;
+            score = Math.max(0, score - 20);
+            lives--;
+
+            currentResults.push({
+                answer: studentAnswer,
+                correct: false
+            });
+
+            message.innerHTML = `
+                <div class="error-message">
+                    ❌ Incorrect!
+
+                    <br><br>
+
+                    Review the question and try again.
+                </div>
+            `;
+        }
+
+        updateResultTable();
+
+        scoreText.textContent = score;
+        livesText.textContent = lives;
+
+        if (feedbackPanel) {
+            feedbackPanel.style.display = "block";
+        }
+
+        submitFillBlankAnswer.disabled = true;
+        studentFillBlankAnswer.disabled = true;
+
+        if (lives <= 0) {
+            gameOver();
+            return;
+        }
+
+        finishCurrentQuestion();
+    };
+}
 
 /* ==================================================
    CREATE ANSWER CARD
@@ -699,6 +892,13 @@ function checkNormalAnswer(card, droppedCorrect) {
         correctAnswers++;
         score += 50;
 
+        currentResults.push({
+    answer: answer.text,
+    correct: true
+});
+
+updateResultTable();
+
         message.innerHTML = `
             <div class="success-message">
                 ✅ Correct! +50 points
@@ -721,6 +921,13 @@ function checkNormalAnswer(card, droppedCorrect) {
             0,
             score - 20
         );
+
+        currentResults.push({
+    answer: answer.text,
+    correct: false
+});
+
+updateResultTable();
 
         lives--;
 
@@ -765,6 +972,19 @@ function checkNormalAnswer(card, droppedCorrect) {
 ================================================== */
 
 function startSQLMission(question) {
+    /* SQL missions use the drag-and-drop zones. */
+    if (database) {
+        database.style.display = "flex";
+    }
+
+    if (trash) {
+        trash.style.display = "flex";
+    }
+
+    if (fillBlankAnswerArea) {
+        fillBlankAnswerArea.style.display = "none";
+    }
+
     resultPanel.style.display = "block";
 
     queryText.innerHTML = `
@@ -953,7 +1173,10 @@ function checkSQLAnswer(card, correctZone) {
         correctAnswers++;
         score += 50;
 
-        currentResults.push(student);
+        currentResults.push({
+    answer: student.name,
+    correct: true
+});
 
         message.innerHTML = `
             <div class="success-message">
@@ -969,20 +1192,28 @@ function checkSQLAnswer(card, correctZone) {
         `;
 
         updateResultTable();
+
     } else {
-        playWrongSound();
+    playWrongSound();
 
-        wrongAnswers++;
+    wrongAnswers++;
 
-        score = Math.max(
-            0,
-            score - 20
-        );
+    score = Math.max(
+        0,
+        score - 20
+    );
 
-        lives--;
+    currentResults.push({
+        answer: student.name,
+        correct: false
+    });
 
-        message.innerHTML = `
-            <div class="error-message">
+    updateResultTable();
+
+    lives--;
+
+    message.innerHTML = `
+    <div class="error-message">
                 ❌ Incorrect!
 
                 <br><br>
@@ -1000,6 +1231,7 @@ function checkSQLAnswer(card, correctZone) {
 
     if (feedbackPanel) {
     feedbackPanel.style.display = "block";
+    
     }
 
     card.remove();
@@ -1027,25 +1259,19 @@ function updateResultTable() {
 
     resultTable.innerHTML = "";
 
-    currentResults.forEach(student => {
+    currentResults.forEach(result => {
         const row =
             document.createElement("tr");
 
         row.innerHTML = `
             <td>
-                ${escapeHTML(student.name)}
+                ${escapeHTML(result.answer)}
             </td>
 
             <td>
-                ${escapeHTML(student.age)}
-            </td>
-
-            <td>
-                ${escapeHTML(student.passed)}
-            </td>
-
-            <td>
-                ${escapeHTML(student.gpa)}
+                ${result.correct
+                    ? "✅ Correct"
+                    : "❌ Wrong"}
             </td>
         `;
 

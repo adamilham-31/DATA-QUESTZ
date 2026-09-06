@@ -318,6 +318,26 @@
                 class="cards"
             ></div>
 
+            <div
+    id="fill-blank-answer-area"
+    class="fill-blank-answer-area"
+    style="display: none;"
+>
+    <input
+        type="text"
+        id="student-fill-blank-answer"
+        placeholder="Type your answer..."
+        autocomplete="off"
+    >
+
+    <button
+        type="button"
+        id="submit-fill-blank-answer"
+    >
+        ✅ Submit Answer
+    </button>
+</div>
+
 
 
             <!-- =================================================
@@ -354,7 +374,7 @@
             >
 
                 <h2>
-                    📊 Query Result
+                    📊 Answer Result
                 </h2>
 
                 <table id="result-table">
@@ -363,10 +383,8 @@
 
                         <tr>
 
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Passed</th>
-                            <th>GPA</th>
+                            <th>Answer</th>
+                            <th>Result</th>
 
                         </tr>
 

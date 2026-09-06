@@ -1,2293 +1,4070 @@
 /* =========================================================
+
    DATA QUESTZ
+
    CLEAN COMPETITION EDITION
+
    ========================================================= */
+
 
 
 /* =========================================================
+
    1. VARIABLES
+
    ========================================================= */
 
 :root {
+
     --bg-dark: #0f172a;
+
     --bg-blue: #1e3a8a;
 
     --primary: #2563eb;
+
     --primary-hover: #1d4ed8;
 
     --secondary: #22c55e;
+
     --secondary-hover: #16a34a;
 
     --danger: #ef4444;
+
     --danger-hover: #dc2626;
 
     --warning: #f59e0b;
+
     --warning-hover: #d97706;
 
     --purple: #8b5cf6;
+
     --purple-hover: #7c3aed;
 
     --card: #ffffff;
 
     --text-dark: #1e293b;
+
     --text-light: #f8fafc;
+
     --text-muted: #cbd5e1;
 
     --input-bg: #020617;
 
     --glass: rgba(255, 255, 255, 0.12);
+
     --glass-light: rgba(255, 255, 255, 0.07);
+
     --glass-border: rgba(255, 255, 255, 0.15);
 
     --radius-small: 10px;
+
     --radius-medium: 15px;
+
     --radius-large: 20px;
+
     --radius-xl: 25px;
 
     --shadow-card: 0 15px 25px rgba(0, 0, 0, 0.25);
+
     --shadow-panel: 0 25px 70px rgba(0, 0, 0, 0.6);
+
 }
 
 
+
 /* =========================================================
+
    2. RESET
+
    ========================================================= */
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
     font-family: "Segoe UI", Arial, sans-serif;
+
 }
 
 html {
+
     scroll-behavior: smooth;
+
 }
 
 body {
+
     min-height: 100vh;
+
     padding: 30px;
+
     background: linear-gradient(
+
         135deg,
+
         var(--bg-dark),
+
         var(--bg-blue)
+
     );
+
     color: var(--text-light);
+
 }
 
 
+
 /* =========================================================
+
    3. MAIN CONTAINER
+
    ========================================================= */
 
 .game-container {
+
     width: 100%;
+
     max-width: 1500px;
+
     margin: 0 auto;
+
 }
 
 
+
 /* =========================================================
+
    4. HEADER
+
    ========================================================= */
 
 header {
+
     margin-bottom: 30px;
+
     text-align: center;
+
 }
 
 header h1 {
+
     font-size: 48px;
+
     letter-spacing: 1px;
+
     text-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+
 }
 
 header p {
+
     margin-top: 10px;
+
     color: var(--text-muted);
+
     font-size: 20px;
+
 }
 
 
+
 /* =========================================================
+
    5. GENERAL SECTIONS
+
    ========================================================= */
 
 section {
+
     margin-bottom: 25px;
+
     padding: 25px;
+
     background: var(--glass);
+
     border: 1px solid var(--glass-border);
+
     border-radius: var(--radius-large);
+
     backdrop-filter: blur(15px);
+
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+
 }
 
 section h2 {
+
     margin-bottom: 15px;
+
     color: #93c5fd;
+
 }
 
 
+
 /* =========================================================
+
    6. OBJECTIVE
+
    ========================================================= */
 
 .objective p {
+
     color: #e2e8f0;
+
     font-size: 18px;
+
 }
 
 
+
 /* =========================================================
+
    7. START SCREEN / GAME VISIBILITY
+
    ========================================================= */
 
 .start-screen {
+
     padding: 40px;
+
     text-align: center;
+
 }
 
 .start-screen p {
+
     margin-bottom: 25px;
+
     font-size: 20px;
+
     line-height: 1.6;
+
 }
 
 .start-buttons {
+
     display: flex;
+
     justify-content: center;
+
     flex-wrap: wrap;
+
     gap: 15px;
+
     margin-top: 25px;
+
 }
 
 .game-interface {
+
     display: none;
+
 }
 
 .game-interface.active {
+
     display: block;
+
 }
 
 
+
 /* =========================================================
+
    8. BUTTONS
+
    ========================================================= */
 
 button {
+
     padding: 14px 30px;
+
     background: var(--primary);
+
     color: white;
+
     border: none;
+
     border-radius: 12px;
+
     font-size: 17px;
+
     font-weight: bold;
+
     cursor: pointer;
+
     transition:
+
         transform 0.3s,
+
         background 0.3s,
+
         box-shadow 0.3s;
+
 }
 
 button:hover {
+
     transform: translateY(-3px);
+
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+
 }
 
 button:active {
+
     transform: translateY(0);
+
 }
 
 button:focus-visible {
+
     outline: 3px solid rgba(147, 197, 253, 0.6);
+
     outline-offset: 2px;
+
 }
 
 
+
 /* =========================================================
+
    9. START / RESTART / QUESTION BUTTONS
+
    ========================================================= */
 
 #start-btn {
+
     padding: 18px 50px;
+
     background: var(--secondary);
+
     font-size: 22px;
+
 }
 
 #start-btn:hover {
+
     background: var(--secondary-hover);
+
 }
 
 #restart-btn {
+
     display: none;
+
     margin: 20px auto;
+
     background: var(--danger);
+
 }
 
 #restart-btn:hover {
+
     background: var(--danger-hover);
+
 }
 
 .add-question-btn,
+
 .add-mission-btn {
+
     background: var(--purple);
+
 }
 
 .add-question-btn:hover,
+
 .add-mission-btn:hover {
+
     background: var(--purple-hover);
+
 }
 
 .manage-question-btn {
+
     background: var(--warning);
+
 }
 
 .manage-question-btn:hover {
+
     background: var(--warning-hover);
+
 }
 
 
+
 /* =========================================================
+
    10. STATUS BAR
+
    ========================================================= */
 
 .status-bar {
+
     display: grid;
+
     grid-template-columns: repeat(4, 1fr);
+
     gap: 15px;
+
     margin-bottom: 20px;
+
 }
 
 .status-bar div {
+
     padding: 18px;
+
     background: white;
+
     color: var(--text-dark);
+
     border-radius: var(--radius-medium);
+
     text-align: center;
+
     font-size: 18px;
+
     font-weight: bold;
+
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+
 }
 
 .status-bar span {
+
     display: block;
+
     margin-top: 5px;
+
     color: var(--primary);
+
     font-size: 30px;
+
 }
 
 
+
 /* =========================================================
+
    11. PROGRESS BAR
+
    ========================================================= */
 
 .progress {
+
     height: 18px;
+
     margin-bottom: 25px;
+
     background: #334155;
+
     border-radius: 20px;
+
     overflow: hidden;
+
 }
 
 #progress-bar {
+
     width: 0%;
+
     height: 100%;
+
     background: linear-gradient(
+
         90deg,
+
         #22c55e,
+
         #4ade80
+
     );
+
     transition: width 0.5s ease;
+
 }
 
 
+
 /* =========================================================
+
    12. MISSION / QUERY
+
    ========================================================= */
 
 .mission {
+
     text-align: center;
+
 }
 
 #query {
+
     margin-bottom: 20px;
+
     padding: 25px;
+
     background: #020617;
+
     border-left: 5px solid var(--secondary);
+
     border-radius: 15px;
+
     color: #4ade80;
+
     font-family: "Courier New", monospace;
+
     font-size: 22px;
+
     animation: appear 0.5s ease;
+
 }
 
 .sql-animation {
+
     white-space: pre-wrap;
+
 }
 
 
+
 /* =========================================================
+
    13. QUESTION DISPLAY
+
    ========================================================= */
 
 .question-display {
+
     color: #4ade80;
+
     font-size: 26px;
+
     line-height: 1.5;
+
 }
 
 .question-image-display {
+
     margin: 20px auto;
+
     text-align: center;
+
 }
 
 .question-image-display img {
+
     max-width: 100%;
+
     max-height: 350px;
+
     border-radius: 18px;
+
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+
 }
 
 
+
 /* =========================================================
+
    14. INSTRUCTIONS
+
    ========================================================= */
 
 .instruction {
+
     margin: 20px;
+
     text-align: center;
+
 }
 
 #answer-instruction {
+
     text-align: center;
+
 }
 
 
+
 /* =========================================================
+
    15. HINT
+
    ========================================================= */
 
 #hint-instruction {
+
     margin-bottom: 12px;
+
     color: #cbd5e1;
+
     font-size: 17px;
+
     line-height: 1.6;
+
     font-weight: 500;
+
 }
 
 #hint-text {
+
     margin-top: 12px;
+
     color: #fde68a;
+
     font-size: 18px;
+
     line-height: 1.6;
+
 }
 
 
+
 /* =========================================================
+
    16. LESSON
+
    ========================================================= */
 
 #lesson {
+
     font-size: 18px;
+
     line-height: 1.7;
+
 }
 
 
+
 /* =========================================================
+
    17. ANSWER / STUDENT CARDS
+
    ========================================================= */
 
 .cards {
+
     display: flex;
+
     justify-content: center;
+
     flex-wrap: wrap;
+
     gap: 25px;
+
     margin-bottom: 35px;
+
 }
 
 .card {
+
     width: 276px;
+
     padding: 25px;
+
     background: var(--card);
+
     color: var(--text-dark);
+
     border-radius: var(--radius-large);
+
     cursor: grab;
+
     box-shadow: var(--shadow-card);
+
     transition:
+
         transform 0.3s,
+
         box-shadow 0.3s;
+
 }
 
 .card:hover {
+
     transform: translateY(-10px) scale(1.03);
+
 }
 
 .card h3 {
+
     margin-bottom: 15px;
+
     color: var(--primary);
+
 }
 
 .card p {
+
     margin: 8px 0;
+
 }
 
 .answer-card {
+
     width: 276px;
+
     min-height: 110px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     padding: 25px;
+
     background: var(--card);
+
     color: var(--text-dark);
+
     border-radius: var(--radius-large);
+
     box-shadow: var(--shadow-card);
+
     text-align: center;
+
     white-space: pre-wrap;
+
     overflow-wrap: anywhere;
+
     word-break: normal;
+
     transition:
+
         transform 0.3s,
+
         box-shadow 0.3s;
+
 }
 
 .answer-card:hover {
+
     transform: translateY(-10px) scale(1.03);
+
 }
 
 .answer-card h3 {
+
     width: 100%;
+
     margin: 0;
+
     color: #111827;
+
     font-size: 17px;
+
     font-weight: 400;
+
     line-height: 1.2;
+
     text-align: center;
+
     white-space: normal;
+
     overflow-wrap: break-word;
+
     word-break: normal;
+
 }
 
 .dragging {
+
     opacity: 0.5;
+
 }
+
+
 
 
 /* =========================================================
-   18. DROP ZONES
+   17A. FILL-IN-THE-BLANK ANSWER
    ========================================================= */
 
-.bins {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-bottom: 30px;
-}
-
-.bin {
-    width: 320px;
-    height: 170px;
+.fill-blank-answer-area {
+    width: 100%;
+    max-width: 850px;
+    margin: 10px auto 35px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 4px dashed white;
-    border-radius: 25px;
-    font-size: 28px;
-    font-weight: bold;
-    transition:
-        transform 0.3s,
-        box-shadow 0.3s;
-}
-
-.database {
-    background: linear-gradient(
-        135deg,
-        #15803d,
-        #22c55e
-    );
-}
-
-.trash {
-    background: linear-gradient(
-        135deg,
-        #b91c1c,
-        #ef4444
-    );
-}
-
-.bin:hover {
-    transform: scale(1.05);
-}
-
-.bin-hover {
-    transform: scale(1.06);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.35);
-}
-
-
-/* =========================================================
-   19. RESULT TABLE
-   ========================================================= */
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 15px;
-}
-
-th {
-    padding: 15px;
-    background: var(--primary);
-}
-
-td {
-    padding: 12px;
-    background: white;
-    color: #111827;
-    text-align: center;
-}
-
-tr:nth-child(even) td {
-    background: #e2e8f0;
-}
-
-
-/* =========================================================
-   20. RESULT / FEEDBACK
-   ========================================================= */
-
-#message {
-    text-align: center;
-    font-size: 20px;
-    line-height: 1.6;
-}
-
-.success-message {
-    color: #86efac;
-}
-
-.error-message {
-    color: #fca5a5;
-}
-
-
-/* =========================================================
-   21. NEXT BUTTON
-   ========================================================= */
-
-#next-btn {
-    display: block;
-    margin: 30px auto;
-}
-
-
-/* =========================================================
-   22. CHEAT SHEET
-   ========================================================= */
-
-.cheatsheet {
-    margin-bottom: 25px;
-    padding: 20px 25px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-large);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-}
-
-.cheatsheet summary {
-    margin-bottom: 8px;
-    color: #93c5fd;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-}
-
-.cheatsheet summary:hover {
-    color: #bfdbfe;
-}
-
-.cheatsheet h3 {
-    margin: 12px 0 8px;
-    font-size: 18px;
-    color: white;
-}
-
-.cheat-item {
-    padding: 10px 12px;
-    margin-bottom: 8px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    color: white;
-    font-size: 16px;
-}
-
-.cheat-item strong {
-    font-weight: bold;
-}
-
-.sql-example {
-    background: #020617;
-    color: #22c55e;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 16px;
-    line-height: 1.5;
-}
-
-.how-to-play ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.how-to-play li {
-    margin: 8px 0;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-
-/* =========================================================
-   23. MODAL BASE
-   ========================================================= */
-
-.question-modal,
-.mission-modal,
-.manage-modal,
-.delete-confirmation {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    padding: 30px;
-    background: rgba(2, 6, 23, 0.88);
-    backdrop-filter: blur(10px);
-    overflow-y: auto;
-}
-
-
-/* =========================================================
-   24. MODAL VISIBILITY
-   ========================================================= */
-
-.question-modal,
-.mission-modal,
-.manage-modal,
-.delete-confirmation {
-    display: none;
-}
-
-.question-modal.active,
-.mission-modal.active,
-.manage-modal.active,
-.delete-confirmation.active {
-    display: flex;
-}
-
-
-/* =========================================================
-   25. QUESTION CREATOR
-   ========================================================= */
-
-.question-modal.active {
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.question-creator {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 35px;
-    background: linear-gradient(
-        145deg,
-        #1e293b,
-        #0f172a
-    );
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 25px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
-}
-
-.creator-header {
-    margin-bottom: 30px;
-}
-
-.creator-header h2 {
-    margin-bottom: 8px;
-    color: #93c5fd;
-    font-size: 30px;
-}
-
-.creator-header p {
-    color: var(--text-muted);
-}
-
-
-/* =========================================================
-   26. CLOSE BUTTONS
-   ========================================================= */
-
-.close-question-btn,
-.close-manage-btn,
-.close-mission-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    padding: 0;
-    background: #334155;
-    border-radius: 50%;
-}
-
-.close-question-btn:hover,
-.close-manage-btn:hover,
-.close-mission-btn:hover {
-    background: var(--danger);
-}
-
-
-/* =========================================================
-   27. CREATOR SECTIONS
-   ========================================================= */
-
-.creator-section {
-    margin-bottom: 25px;
-}
-
-.creator-section label,
-.form-group label,
-.condition-field label {
-    display: block;
-    margin-bottom: 9px;
-    color: #e2e8f0;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.creator-section textarea,
-.creator-section select,
-.creator-section input,
-.form-group textarea,
-.condition-field select,
-.condition-field input,
-.full-input {
-    width: 100%;
-    padding: 14px;
-    background: var(--input-bg);
-    color: white;
-    border: 1px solid #475569;
-    border-radius: 12px;
-    font-size: 16px;
-    outline: none;
-}
-
-.creator-section textarea,
-.form-group textarea {
-    min-height: 120px;
-    resize: vertical;
-    line-height: 1.5;
-}
-
-.creator-section textarea:focus,
-.creator-section select:focus,
-.creator-section input:focus,
-.form-group textarea:focus,
-.condition-field select:focus,
-.condition-field input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-.field-description {
-    margin-top: 8px;
-    color: #94a3b8;
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   28. ANSWER MODE
-   ========================================================= */
-
-#answer-mode {
-    width: 100%;
-    padding: 14px;
-    background: var(--input-bg);
-    color: white;
-    border: 1px solid #475569;
-    border-radius: 10px;
-    font-size: 16px;
-}
-
-
-/* =========================================================
-   29. ANSWER SECTION
-   ========================================================= */
-
-.answer-section {
-    margin-bottom: 25px;
-    padding: 22px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 18px;
-}
-
-.hidden-section {
-    display: none !important;
-}
-
-.section-title {
-    margin-bottom: 20px;
-}
-
-.section-title h3 {
-    margin-bottom: 6px;
-    color: #86efac;
-}
-
-.section-title p {
-    color: var(--text-muted);
-}
-
-
-/* =========================================================
-   30. ANSWER ROWS
-   ========================================================= */
-
-.answer-row {
-    display: grid;
-    grid-template-columns:
-        40px
-        minmax(250px, 1.2fr)
-        minmax(220px, 1fr)
-        60px;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    margin-bottom: 16px;
-}
-
-.answer-row input[type="radio"],
-.answer-row input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--secondary);
-}
-
-.answer-row .answer-input,
-.answer-row .answer-explanation {
-    width: 100%;
-    min-width: 0;
-}
-
-.answer-input {
-    min-height: 60px;
-    padding: 10px;
-    box-sizing: border-box;
-    resize: vertical;
-    background: var(--input-bg);
-    color: white;
-    border: 1px solid #475569;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 16px;
-    line-height: 1.5;
-    outline: none;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
-.answer-input:focus {
-    border-color: var(--secondary);
-}
-
-
-/* =========================================================
-   31. INDIVIDUAL ANSWER EXPLANATION
-   ========================================================= */
-
-.answer-row .answer-explanation {
-    min-height: 88px;
-    padding: 16px;
-    background: #020617;
-    color: #f1f5f9;
-    border: 1px solid #475569;
-    border-radius: 14px;
-    font-size: 16px;
-    font-family: inherit;
-    resize: vertical;
-    box-sizing: border-box;
-}
-
-.answer-row .answer-explanation::placeholder {
-    color: #9ca3af;
-    opacity: 1;
-}
-
-.answer-row .answer-explanation:focus {
-    outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
-}
-
-
-/* =========================================================
-   32. ANSWER BUTTONS
-   ========================================================= */
-
-.remove-answer,
-.remove-student {
-    width: 60px;
-    height: 54px;
-    padding: 0;
-    background: #7f1d1d;
-    border-radius: 10px;
-}
-
-.remove-answer:hover,
-.remove-student:hover {
-    background: var(--danger);
-}
-
-.add-answer-btn {
-    margin-top: 10px;
-    background: var(--purple);
-}
-
-.add-answer-btn:hover {
-    background: var(--purple-hover);
-}
-
-
-/* =========================================================
-   33. TRUE / FALSE
-   ========================================================= */
-
-.true-false-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.true-false-options label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 25px;
-    background: var(--input-bg);
-    border-radius: 12px;
-    color: white;
-    cursor: pointer;
-}
-
-.true-false-options input {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--secondary);
-}
-
-
-/* =========================================================
-   34. TRUE / FALSE EXPLANATIONS
-   ========================================================= */
-
-.true-false-explanation {
-    width: 100%;
-    margin-top: 18px;
-}
-
-.true-false-explanation label {
-    display: block;
-    margin-bottom: 8px;
-    color: #f1f5f9;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.true-false-explanation textarea {
-    width: 100%;
-    min-height: 88px;
-    padding: 16px;
-    background: #020617;
-    color: #f1f5f9;
-    border: 1px solid #475569;
-    border-radius: 14px;
-    font-size: 16px;
-    font-family: inherit;
-    resize: vertical;
-    box-sizing: border-box;
-}
-
-.true-false-explanation textarea::placeholder {
-    color: #9ca3af;
-    opacity: 1;
-}
-
-.true-false-explanation textarea:focus {
-    outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
-}
-
-
-/* =========================================================
-   35. IMAGE UPLOAD
-   ========================================================= */
-
-.file-upload {
-    margin-top: 10px;
-    padding: 25px;
-    border: 2px dashed #475569;
-    border-radius: 15px;
-    text-align: center;
-}
-
-.file-upload input {
-    display: none;
-}
-
-.file-upload label {
-    display: inline-block;
-    padding: 12px 22px;
-    background: #334155;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.file-upload label:hover {
-    background: #475569;
-}
-
-.image-preview {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.image-preview img {
-    max-width: 100%;
-    max-height: 300px;
-    border: 2px solid #475569;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-
-/* =========================================================
-   36. CREATOR BUTTONS
-   ========================================================= */
-
-.creator-buttons,
-.builder-buttons {
-    display: flex;
-    justify-content: flex-end;
     gap: 15px;
-    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    box-sizing: border-box;
 }
 
-.cancel-question-btn,
-.cancel-btn {
-    background: #475569;
+#student-fill-blank-answer {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 56px;
+    padding: 0 18px;
+    background: var(--input-bg);
+    color: white;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    font-size: 17px;
+    outline: none;
+    box-sizing: border-box;
 }
 
-.cancel-question-btn:hover,
-.cancel-btn:hover {
-    background: #64748b;
+#student-fill-blank-answer::placeholder {
+    color: #94a3b8;
 }
 
-.save-question-btn,
-.save-mission-btn {
+#student-fill-blank-answer:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
+
+#submit-fill-blank-answer {
+    flex: 0 0 auto;
+    min-height: 56px;
+    white-space: nowrap;
     background: var(--secondary);
 }
 
-.save-question-btn:hover,
-.save-mission-btn:hover {
+#submit-fill-blank-answer:hover {
     background: var(--secondary-hover);
 }
 
-
-/* =========================================================
-   37. SQL CREATOR
-   ========================================================= */
-
-.sql-input {
-    min-height: 170px !important;
-    font-family: "Courier New", monospace !important;
-    color: #4ade80 !important;
+#student-fill-blank-answer:disabled,
+#submit-fill-blank-answer:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
-#mission-sql {
-    min-height: 150px;
-    font-family: "Courier New", monospace;
-    color: #4ade80;
+/* JavaScript controls visibility of these drop zones. */
+#database,
+#trash {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
 }
 
-
 /* =========================================================
-   38. DATASET BUILDER
+   17B. FILL-IN-THE-BLANK KEYWORD FIELD
    ========================================================= */
 
-.dataset-builder {
-    margin-top: 25px;
-    padding-top: 25px;
+.fill-blank-keyword-field {
+    margin-top: 22px;
+    padding-top: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.dataset-builder h3 {
-    margin-bottom: 6px;
-    color: #60a5fa;
+.fill-blank-keyword-field label {
+    display: block;
+    margin-bottom: 8px;
 }
 
-.dataset-builder > p {
-    margin-bottom: 20px;
-    color: var(--text-muted);
+.optional-label {
+    opacity: 0.65;
+    font-weight: 400;
 }
 
-.dataset-row {
-    display: grid;
-    grid-template-columns:
-        1.5fr
-        1fr
-        1fr
-        1fr
-        45px;
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-.dataset-row input,
-.dataset-row select {
+#fill-blank-keyword {
     width: 100%;
-    padding: 12px;
+    min-height: 52px;
+    padding: 14px 16px;
     background: var(--input-bg);
     color: white;
-    border: 1px solid #475569;
-    border-radius: 9px;
-}
-
-
-/* =========================================================
-   39. MISSION BUILDER
-   ========================================================= */
-
-.mission-modal {
-    z-index: 1000;
-}
-
-.mission-modal.active {
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.mission-builder {
-    position: relative;
-    width: 100%;
-    max-width: 850px;
-    margin: 30px auto;
-    padding: 35px;
-    background: linear-gradient(
-        145deg,
-        #1e293b,
-        #0f172a
-    );
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 25px;
-    box-shadow: var(--shadow-panel);
-}
-
-.mission-builder h2 {
-    margin-bottom: 8px;
-    color: #93c5fd;
-}
-
-.builder-description {
-    margin-bottom: 30px;
-    color: var(--text-muted);
-}
-
-.condition-section {
-    margin-bottom: 25px;
-    padding: 22px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 18px;
-}
-
-.condition-section h3 {
-    margin-bottom: 8px;
-    color: #86efac;
-}
-
-.condition-section > p {
-    margin-bottom: 20px;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
-
-.condition-builder {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 15px;
-}
-
-
-/* =========================================================
-   40. QUESTION MANAGER
-   ========================================================= */
-
-.manage-modal {
-    z-index: 3000;
-}
-
-.manage-modal.active {
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.manage-panel {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 35px;
-    background: linear-gradient(
-        145deg,
-        #1e293b,
-        #0f172a
-    );
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 25px;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
-}
-
-.manage-header {
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.manage-header h2 {
-    margin-bottom: 8px;
-    color: #93c5fd;
-    font-size: 30px;
-}
-
-.manage-header p {
-    color: var(--text-muted);
-}
-
-.question-manager {
-    width: 100%;
-    max-width: 900px;
-}
-
-.question-manager-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.manager-question,
-.question-manager-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 18px;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 15px;
-    transition:
-        background 0.3s,
-        transform 0.3s;
-}
-
-.manager-question:hover,
-.question-manager-item:hover {
-    background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-2px);
-}
-
-.manager-question-info,
-.question-manager-info {
-    flex: 1;
-}
-
-.manager-question-number {
-    margin-bottom: 5px;
-    color: #60a5fa;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.manager-question-text {
-    color: var(--text-light);
-    font-size: 17px;
-    line-height: 1.4;
-}
-
-.manager-question-type {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.question-manager-info h3 {
-    margin-bottom: 8px;
-    color: var(--text-light);
-}
-
-.question-manager-info p {
-    color: #94a3b8;
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   41. QUESTION MANAGER ACTIONS
-   ========================================================= */
-
-.manager-question-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: stretch;
-}
-
-.edit-question-btn,
-.delete-question-btn {
-    border: none;
-    border-radius: 10px;
-    padding: 10px 16px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.edit-question-btn {
-    background: var(--primary);
-    color: white;
-}
-
-.edit-question-btn:hover {
-    background: var(--primary-hover);
-}
-
-.delete-question-btn {
-    background: var(--danger);
-    color: white;
-    white-space: nowrap;
-}
-
-.delete-question-btn:hover {
-    background: var(--danger-hover);
-}
-
-
-/* =========================================================
-   42. QUESTION TYPE COLORS
-   ========================================================= */
-
-.type-sql {
-    background: #16a34a;
-}
-
-.type-single {
-    background: #2563eb;
-}
-
-.type-multiple {
-    background: #8b5cf6;
-}
-
-.type-true-false {
-    background: #f59e0b;
-}
-
-
-/* =========================================================
-   43. EMPTY QUESTION LIST
-   ========================================================= */
-
-.no-questions {
-    padding: 40px 20px;
-    color: #94a3b8;
-    font-size: 18px;
-    text-align: center;
-}
-
-
-/* =========================================================
-   44. DELETE CONFIRMATION
-   ========================================================= */
-
-.delete-confirmation {
-    z-index: 4000;
-    align-items: center;
-    justify-content: center;
-    background: rgba(2, 6, 23, 0.85);
-}
-
-.delete-confirmation-box {
-    width: 100%;
-    max-width: 500px;
-    padding: 30px;
-    background: linear-gradient(
-        145deg,
-        #1e293b,
-        #0f172a
-    );
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: var(--shadow-panel);
-}
-
-.delete-confirmation-box h2 {
-    margin-bottom: 15px;
-    color: #fca5a5;
-}
-
-.delete-confirmation-box p {
-    margin-bottom: 25px;
-    color: var(--text-muted);
-    line-height: 1.6;
-}
-
-.delete-confirmation-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.confirm-delete-btn {
-    background: var(--danger);
-}
-
-.confirm-delete-btn:hover {
-    background: var(--danger-hover);
-}
-
-.cancel-delete-btn {
-    background: #475569;
-}
-
-.cancel-delete-btn:hover {
-    background: #64748b;
-}
-
-
-/* =========================================================
-   45. FINISH GAME SCREEN
-   ========================================================= */
-
-.finish-screen {
-    display: none;
-    min-height: 70vh;
-    align-items: center;
-    justify-content: center;
-    padding: 50px 25px;
-    background: linear-gradient(
-        145deg,
-        rgba(30, 64, 175, 0.95),
-        rgba(15, 23, 42, 0.98)
-    );
-    border: 1px solid rgba(147, 197, 253, 0.25);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-    text-align: center;
-    animation: finishAppear 0.6s ease;
-}
-
-.finish-screen.active {
-    display: flex;
-}
-
-.finish-content {
-    width: 100%;
-    max-width: 650px;
-}
-
-.finish-trophy {
-    margin-bottom: 20px;
-    font-size: 90px;
-    animation: trophyBounce 1.2s ease;
-}
-
-.finish-content h2 {
-    margin-bottom: 15px;
-    color: #facc15;
-    font-size: 42px;
-    font-weight: 800;
-    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-}
-
-.finish-message {
-    margin-bottom: 35px;
-    color: #e2e8f0;
-    font-size: 20px;
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   46. FINISH FEEDBACK
-   ========================================================= */
-
-.finish-feedback {
-    width: 100%;
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 18px 25px;
-    background: rgba(250, 204, 21, 0.10);
-    border: 1px solid rgba(250, 204, 21, 0.25);
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.finish-feedback p {
-    margin: 0;
-    color: #fef3c7;
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   47. FINISH STATISTICS
-   ========================================================= */
-
-.finish-stat {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 500px;
-    margin: 15px auto;
-    padding: 20px 25px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 15px;
-}
-
-.finish-stat-label {
-    color: #cbd5e1;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.finish-stat strong {
-    color: #4ade80;
-    font-size: 28px;
-}
-
-
-/* =========================================================
-   48. FINISH PERFORMANCE
-   ========================================================= */
-
-.finish-performance {
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 15px;
-}
-
-.finish-performance p {
-    margin-bottom: 12px;
-    color: #cbd5e1;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-#performance-stars {
-    font-size: 32px;
-    letter-spacing: 5px;
-    animation: starsAppear 0.8s ease;
-}
-
-
-/* =========================================================
-   49. FINISH BUTTONS
-   ========================================================= */
-
-.finish-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 30px;
-}
-
-#finish-play-again-btn {
-    background: var(--secondary);
-}
-
-#finish-play-again-btn:hover {
-    background: var(--secondary-hover);
-}
-
-#finish-main-menu-btn {
-    background: var(--primary);
-}
-
-#finish-main-menu-btn:hover {
-    background: var(--primary-hover);
-}
-
-
-/* =========================================================
-   50. LOGIN PAGE
-   ========================================================= */
-
-.login-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-}
-
-.login-content {
-    width: 100%;
-    max-width: 600px;
-    padding: 40px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-}
-
-.login-logo {
-    margin-bottom: 10px;
-    font-size: 50px;
-}
-
-.login-content h1 {
-    margin: 0;
-    font-size: 32px;
-}
-
-.login-subtitle {
-    margin: 8px 0 25px;
-    opacity: 0.8;
-}
-
-
-/* =========================================================
-   51. ROLE SELECTION
-   ========================================================= */
-
-.login-section h2 {
-    margin-bottom: 15px;
-}
-
-.role-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.role-btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.role-btn.active {
-    transform: scale(1.03);
-}
-
-
-/* =========================================================
-   52. LOGIN FORM
-   ========================================================= */
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-}
-
-.login-form p {
-    margin: 0 0 5px;
-}
-
-.login-form label {
-    width: 100%;
-    text-align: left;
-    font-weight: bold;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-}
-
-.login-btn {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 15px;
-    margin-top: 5px;
-}
-
-.hidden-login {
-    display: none;
-}
-
-.login-message {
-    min-height: 24px;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-
-/* =========================================================
-   53. LOGIN FULL SCREEN
-   ========================================================= */
-
-body:has(.login-screen) .game-container {
-    width: 100%;
-    max-width: none;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
-body:has(.login-screen) .login-screen {
-    width: 100%;
-    min-height: 100vh;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
     box-sizing: border-box;
 }
 
+#fill-blank-keyword::placeholder {
+    color: #94a3b8;
+}
+
+#fill-blank-keyword:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
 
 /* =========================================================
+
+   18. DROP ZONES
+
+   ========================================================= */
+
+.bins {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 40px;
+
+    margin-bottom: 30px;
+
+}
+
+.bin {
+
+    width: 320px;
+
+    height: 170px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 4px dashed white;
+
+    border-radius: 25px;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    transition:
+
+        transform 0.3s,
+
+        box-shadow 0.3s;
+
+}
+
+.database {
+
+    background: linear-gradient(
+
+        135deg,
+
+        #15803d,
+
+        #22c55e
+
+    );
+
+}
+
+.trash {
+
+    background: linear-gradient(
+
+        135deg,
+
+        #b91c1c,
+
+        #ef4444
+
+    );
+
+}
+
+.bin:hover {
+
+    transform: scale(1.05);
+
+}
+
+.bin-hover {
+
+    transform: scale(1.06);
+
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.35);
+
+}
+
+
+
+/* =========================================================
+
+   19. RESULT TABLE
+
+   ========================================================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+
+}
+
+th {
+
+    padding: 15px;
+
+    background: var(--primary);
+
+}
+
+td {
+
+    padding: 12px;
+
+    background: white;
+
+    color: #111827;
+
+    text-align: center;
+
+}
+
+tr:nth-child(even) td {
+
+    background: #e2e8f0;
+
+}
+
+
+
+/* =========================================================
+
+   20. RESULT / FEEDBACK
+
+   ========================================================= */
+
+#message {
+
+    text-align: center;
+
+    font-size: 20px;
+
+    line-height: 1.6;
+
+}
+
+.success-message {
+
+    color: #86efac;
+
+}
+
+.error-message {
+
+    color: #fca5a5;
+
+}
+
+
+
+/* =========================================================
+
+   21. NEXT BUTTON
+
+   ========================================================= */
+
+#next-btn {
+
+    display: block;
+
+    margin: 30px auto;
+
+}
+
+
+
+/* =========================================================
+
+   22. CHEAT SHEET
+
+   ========================================================= */
+
+.cheatsheet {
+
+    margin-bottom: 25px;
+
+    padding: 20px 25px;
+
+    background: var(--glass);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius-large);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+
+}
+
+.cheatsheet summary {
+
+    margin-bottom: 8px;
+
+    color: #93c5fd;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    user-select: none;
+
+}
+
+.cheatsheet summary:hover {
+
+    color: #bfdbfe;
+
+}
+
+.cheatsheet h3 {
+
+    margin: 12px 0 8px;
+
+    font-size: 18px;
+
+    color: white;
+
+}
+
+.cheat-item {
+
+    padding: 10px 12px;
+
+    margin-bottom: 8px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 16px;
+
+}
+
+.cheat-item strong {
+
+    font-weight: bold;
+
+}
+
+.sql-example {
+
+    background: #020617;
+
+    color: #22c55e;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+}
+
+.how-to-play ul {
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+}
+
+.how-to-play li {
+
+    margin: 8px 0;
+
+    padding: 10px;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    border-radius: 10px;
+
+}
+
+
+
+/* =========================================================
+
+   23. MODAL BASE
+
+   ========================================================= */
+
+.question-modal,
+
+.mission-modal,
+
+.manage-modal,
+
+.delete-confirmation {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    padding: 30px;
+
+    background: rgba(2, 6, 23, 0.88);
+
+    backdrop-filter: blur(10px);
+
+    overflow-y: auto;
+
+}
+
+
+
+/* =========================================================
+
+   24. MODAL VISIBILITY
+
+   ========================================================= */
+
+.question-modal,
+
+.mission-modal,
+
+.manage-modal,
+
+.delete-confirmation {
+
+    display: none;
+
+}
+
+.question-modal.active,
+
+.mission-modal.active,
+
+.manage-modal.active,
+
+.delete-confirmation.active {
+
+    display: flex;
+
+}
+
+
+
+/* =========================================================
+
+   25. QUESTION CREATOR
+
+   ========================================================= */
+
+.question-modal.active {
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+}
+
+.question-creator {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 30px auto;
+
+    padding: 35px;
+
+    background: linear-gradient(
+
+        145deg,
+
+        #1e293b,
+
+        #0f172a
+
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 25px;
+
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+
+}
+
+.creator-header {
+
+    margin-bottom: 30px;
+
+}
+
+.creator-header h2 {
+
+    margin-bottom: 8px;
+
+    color: #93c5fd;
+
+    font-size: 30px;
+
+}
+
+.creator-header p {
+
+    color: var(--text-muted);
+
+}
+
+
+
+/* =========================================================
+
+   26. CLOSE BUTTONS
+
+   ========================================================= */
+
+.close-question-btn,
+
+.close-manage-btn,
+
+.close-mission-btn {
+
+    position: absolute;
+
+    top: 20px;
+
+    right: 20px;
+
+    width: 45px;
+
+    height: 45px;
+
+    padding: 0;
+
+    background: #334155;
+
+    border-radius: 50%;
+
+}
+
+.close-question-btn:hover,
+
+.close-manage-btn:hover,
+
+.close-mission-btn:hover {
+
+    background: var(--danger);
+
+}
+
+
+
+/* =========================================================
+
+   27. CREATOR SECTIONS
+
+   ========================================================= */
+
+.creator-section {
+
+    margin-bottom: 25px;
+
+}
+
+.creator-section label,
+
+.form-group label,
+
+.condition-field label {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #e2e8f0;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+}
+
+.creator-section textarea,
+
+.creator-section select,
+
+.creator-section input,
+
+.form-group textarea,
+
+.condition-field select,
+
+.condition-field input,
+
+.full-input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    background: var(--input-bg);
+
+    color: white;
+
+    border: 1px solid #475569;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    outline: none;
+
+}
+
+.creator-section textarea,
+
+.form-group textarea {
+
+    min-height: 120px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+
+}
+
+.creator-section textarea:focus,
+
+.creator-section select:focus,
+
+.creator-section input:focus,
+
+.form-group textarea:focus,
+
+.condition-field select:focus,
+
+.condition-field input:focus {
+
+    border-color: #3b82f6;
+
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+
+}
+
+.field-description {
+
+    margin-top: 8px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+}
+
+
+
+/* =========================================================
+
+   28. ANSWER MODE
+
+   ========================================================= */
+
+#answer-mode {
+
+    width: 100%;
+
+    padding: 14px;
+
+    background: var(--input-bg);
+
+    color: white;
+
+    border: 1px solid #475569;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+}
+
+
+
+/* =========================================================
+
+   29. ANSWER SECTION
+
+   ========================================================= */
+
+.answer-section {
+
+    margin-bottom: 25px;
+
+    padding: 22px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 18px;
+
+}
+
+.hidden-section {
+
+    display: none !important;
+
+}
+
+.section-title {
+
+    margin-bottom: 20px;
+
+}
+
+.section-title h3 {
+
+    margin-bottom: 6px;
+
+    color: #86efac;
+
+}
+
+.section-title p {
+
+    color: var(--text-muted);
+
+}
+
+#fill-blank-answer {
+
+    width: 100%;
+
+    min-height: 100px;
+
+    padding: 14px;
+
+    background: var(--input-bg);
+
+    color: white;
+
+    border: 1px solid #475569;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    font-family: inherit;
+
+    resize: vertical;
+
+    outline: none;
+
+}
+
+#fill-blank-answer:focus {
+
+    border-color: var(--secondary);
+
+}
+
+/* =========================================================
+
+   30. ANSWER ROWS
+
+   ========================================================= */
+
+.answer-row {
+
+    display: grid;
+
+    grid-template-columns:
+
+        40px
+
+        minmax(250px, 1.2fr)
+
+        minmax(220px, 1fr)
+
+        60px;
+
+    align-items: center;
+
+    gap: 14px;
+
+    width: 100%;
+
+    margin-bottom: 16px;
+
+}
+
+.answer-row input[type="radio"],
+
+.answer-row input[type="checkbox"] {
+
+    width: 20px;
+
+    height: 20px;
+
+    accent-color: var(--secondary);
+
+}
+
+.answer-row .answer-input,
+
+.answer-row .answer-explanation {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+.answer-input {
+
+    min-height: 60px;
+
+    padding: 10px;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    background: var(--input-bg);
+
+    color: white;
+
+    border: 1px solid #475569;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+    outline: none;
+
+    white-space: pre-wrap;
+
+    overflow-wrap: break-word;
+
+    word-break: break-word;
+
+}
+
+.answer-input:focus {
+
+    border-color: var(--secondary);
+
+}
+
+
+
+/* =========================================================
+
+   31. INDIVIDUAL ANSWER EXPLANATION
+
+   ========================================================= */
+
+.answer-row .answer-explanation {
+
+    min-height: 88px;
+
+    padding: 16px;
+
+    background: #020617;
+
+    color: #f1f5f9;
+
+    border: 1px solid #475569;
+
+    border-radius: 14px;
+
+    font-size: 16px;
+
+    font-family: inherit;
+
+    resize: vertical;
+
+    box-sizing: border-box;
+
+}
+
+.answer-row .answer-explanation::placeholder {
+
+    color: #9ca3af;
+
+    opacity: 1;
+
+}
+
+.answer-row .answer-explanation:focus {
+
+    outline: none;
+
+    border-color: var(--purple);
+
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+
+}
+
+
+
+/* =========================================================
+
+   32. ANSWER BUTTONS
+
+   ========================================================= */
+
+.remove-answer,
+
+.remove-student {
+
+    width: 60px;
+
+    height: 54px;
+
+    padding: 0;
+
+    background: #7f1d1d;
+
+    border-radius: 10px;
+
+}
+
+.remove-answer:hover,
+
+.remove-student:hover {
+
+    background: var(--danger);
+
+}
+
+.add-answer-btn {
+
+    margin-top: 10px;
+
+    background: var(--purple);
+
+}
+
+.add-answer-btn:hover {
+
+    background: var(--purple-hover);
+
+}
+
+
+
+/* =========================================================
+
+   33. TRUE / FALSE
+
+   ========================================================= */
+
+.true-false-options {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+}
+
+.true-false-options label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px 25px;
+
+    background: var(--input-bg);
+
+    border-radius: 12px;
+
+    color: white;
+
+    cursor: pointer;
+
+}
+
+.true-false-options input {
+
+    width: 18px;
+
+    height: 18px;
+
+    accent-color: var(--secondary);
+
+}
+
+
+
+/* =========================================================
+
+   34. TRUE / FALSE EXPLANATIONS
+
+   ========================================================= */
+
+.true-false-explanation {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+}
+
+.true-false-explanation label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #f1f5f9;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+}
+
+.true-false-explanation textarea {
+
+    width: 100%;
+
+    min-height: 88px;
+
+    padding: 16px;
+
+    background: #020617;
+
+    color: #f1f5f9;
+
+    border: 1px solid #475569;
+
+    border-radius: 14px;
+
+    font-size: 16px;
+
+    font-family: inherit;
+
+    resize: vertical;
+
+    box-sizing: border-box;
+
+}
+
+.true-false-explanation textarea::placeholder {
+
+    color: #9ca3af;
+
+    opacity: 1;
+
+}
+
+.true-false-explanation textarea:focus {
+
+    outline: none;
+
+    border-color: var(--purple);
+
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+
+}
+
+
+
+/* =========================================================
+
+   35. IMAGE UPLOAD
+
+   ========================================================= */
+
+.file-upload {
+
+    margin-top: 10px;
+
+    padding: 25px;
+
+    border: 2px dashed #475569;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+}
+
+.file-upload input {
+
+    display: none;
+
+}
+
+.file-upload label {
+
+    display: inline-block;
+
+    padding: 12px 22px;
+
+    background: #334155;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: background 0.3s;
+
+}
+
+.file-upload label:hover {
+
+    background: #475569;
+
+}
+
+.image-preview {
+
+    margin-top: 20px;
+
+    text-align: center;
+
+}
+
+.image-preview img {
+
+    max-width: 100%;
+
+    max-height: 300px;
+
+    border: 2px solid #475569;
+
+    border-radius: 15px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+/* =========================================================
+
+   36. CREATOR BUTTONS
+
+   ========================================================= */
+
+.creator-buttons,
+
+.builder-buttons {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 15px;
+
+    margin-top: 30px;
+
+}
+
+.cancel-question-btn,
+
+.cancel-btn {
+
+    background: #475569;
+
+}
+
+.cancel-question-btn:hover,
+
+.cancel-btn:hover {
+
+    background: #64748b;
+
+}
+
+.save-question-btn,
+
+.save-mission-btn {
+
+    background: var(--secondary);
+
+}
+
+.save-question-btn:hover,
+
+.save-mission-btn:hover {
+
+    background: var(--secondary-hover);
+
+}
+
+
+
+/* =========================================================
+
+   37. SQL CREATOR
+
+   ========================================================= */
+
+.sql-input {
+
+    min-height: 170px !important;
+
+    font-family: "Courier New", monospace !important;
+
+    color: #4ade80 !important;
+
+}
+
+#mission-sql {
+
+    min-height: 150px;
+
+    font-family: "Courier New", monospace;
+
+    color: #4ade80;
+
+}
+
+
+
+/* =========================================================
+
+   38. DATASET BUILDER
+
+   ========================================================= */
+
+.dataset-builder {
+
+    margin-top: 25px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+}
+
+.dataset-builder h3 {
+
+    margin-bottom: 6px;
+
+    color: #60a5fa;
+
+}
+
+.dataset-builder > p {
+
+    margin-bottom: 20px;
+
+    color: var(--text-muted);
+
+}
+
+.dataset-row {
+
+    display: grid;
+
+    grid-template-columns:
+
+        1.5fr
+
+        1fr
+
+        1fr
+
+        1fr
+
+        45px;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+}
+
+.dataset-row input,
+
+.dataset-row select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    background: var(--input-bg);
+
+    color: white;
+
+    border: 1px solid #475569;
+
+    border-radius: 9px;
+
+}
+
+
+
+/* =========================================================
+
+   39. MISSION BUILDER
+
+   ========================================================= */
+
+.mission-modal {
+
+    z-index: 1000;
+
+}
+
+.mission-modal.active {
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+}
+
+.mission-builder {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: 30px auto;
+
+    padding: 35px;
+
+    background: linear-gradient(
+
+        145deg,
+
+        #1e293b,
+
+        #0f172a
+
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 25px;
+
+    box-shadow: var(--shadow-panel);
+
+}
+
+.mission-builder h2 {
+
+    margin-bottom: 8px;
+
+    color: #93c5fd;
+
+}
+
+.builder-description {
+
+    margin-bottom: 30px;
+
+    color: var(--text-muted);
+
+}
+
+.condition-section {
+
+    margin-bottom: 25px;
+
+    padding: 22px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 18px;
+
+}
+
+.condition-section h3 {
+
+    margin-bottom: 8px;
+
+    color: #86efac;
+
+}
+
+.condition-section > p {
+
+    margin-bottom: 20px;
+
+    color: var(--text-muted);
+
+    line-height: 1.5;
+
+}
+
+.condition-builder {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 1fr;
+
+    gap: 15px;
+
+}
+
+
+
+/* =========================================================
+
+   40. QUESTION MANAGER
+
+   ========================================================= */
+
+.manage-modal {
+
+    z-index: 3000;
+
+}
+
+.manage-modal.active {
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+}
+
+.manage-panel {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 30px auto;
+
+    padding: 35px;
+
+    background: linear-gradient(
+
+        145deg,
+
+        #1e293b,
+
+        #0f172a
+
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 25px;
+
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+
+}
+
+.manage-header {
+
+    margin-bottom: 30px;
+
+    text-align: center;
+
+}
+
+.manage-header h2 {
+
+    margin-bottom: 8px;
+
+    color: #93c5fd;
+
+    font-size: 30px;
+
+}
+
+.manage-header p {
+
+    color: var(--text-muted);
+
+}
+
+.question-manager {
+
+    width: 100%;
+
+    max-width: 900px;
+
+}
+
+.question-manager-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+.manager-question,
+
+.question-manager-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 18px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 15px;
+
+    transition:
+
+        background 0.3s,
+
+        transform 0.3s;
+
+}
+
+.manager-question:hover,
+
+.question-manager-item:hover {
+
+    background: rgba(255, 255, 255, 0.12);
+
+    transform: translateY(-2px);
+
+}
+
+.manager-question-info,
+
+.question-manager-info {
+
+    flex: 1;
+
+}
+
+.manager-question-number {
+
+    margin-bottom: 5px;
+
+    color: #60a5fa;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+.manager-question-text {
+
+    color: var(--text-light);
+
+    font-size: 17px;
+
+    line-height: 1.4;
+
+}
+
+.manager-question-type {
+
+    display: inline-block;
+
+    margin-top: 8px;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+}
+
+.question-manager-info h3 {
+
+    margin-bottom: 8px;
+
+    color: var(--text-light);
+
+}
+
+.question-manager-info p {
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+}
+
+
+
+/* =========================================================
+
+   41. QUESTION MANAGER ACTIONS
+
+   ========================================================= */
+
+.manager-question-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    align-items: stretch;
+
+}
+
+.edit-question-btn,
+
+.delete-question-btn {
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 10px 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+.edit-question-btn {
+
+    background: var(--primary);
+
+    color: white;
+
+}
+
+.edit-question-btn:hover {
+
+    background: var(--primary-hover);
+
+}
+
+.delete-question-btn {
+
+    background: var(--danger);
+
+    color: white;
+
+    white-space: nowrap;
+
+}
+
+.delete-question-btn:hover {
+
+    background: var(--danger-hover);
+
+}
+
+
+
+/* =========================================================
+
+   42. QUESTION TYPE COLORS
+
+   ========================================================= */
+
+.type-sql {
+
+    background: #16a34a;
+
+}
+
+.type-single {
+
+    background: #2563eb;
+
+}
+
+.type-multiple {
+
+    background: #8b5cf6;
+
+}
+
+.type-true-false {
+
+    background: #f59e0b;
+
+}
+
+.type-fill-blank {
+
+    background: #0ea5e9;
+
+}
+
+
+
+/* =========================================================
+
+   43. EMPTY QUESTION LIST
+
+   ========================================================= */
+
+.no-questions {
+
+    padding: 40px 20px;
+
+    color: #94a3b8;
+
+    font-size: 18px;
+
+    text-align: center;
+
+}
+
+
+
+/* =========================================================
+
+   44. DELETE CONFIRMATION
+
+   ========================================================= */
+
+.delete-confirmation {
+
+    z-index: 4000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(2, 6, 23, 0.85);
+
+}
+
+.delete-confirmation-box {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 30px;
+
+    background: linear-gradient(
+
+        145deg,
+
+        #1e293b,
+
+        #0f172a
+
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: var(--shadow-panel);
+
+}
+
+.delete-confirmation-box h2 {
+
+    margin-bottom: 15px;
+
+    color: #fca5a5;
+
+}
+
+.delete-confirmation-box p {
+
+    margin-bottom: 25px;
+
+    color: var(--text-muted);
+
+    line-height: 1.6;
+
+}
+
+.delete-confirmation-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+}
+
+.confirm-delete-btn {
+
+    background: var(--danger);
+
+}
+
+.confirm-delete-btn:hover {
+
+    background: var(--danger-hover);
+
+}
+
+.cancel-delete-btn {
+
+    background: #475569;
+
+}
+
+.cancel-delete-btn:hover {
+
+    background: #64748b;
+
+}
+
+
+
+/* =========================================================
+
+   45. FINISH GAME SCREEN
+
+   ========================================================= */
+
+.finish-screen {
+
+    display: none;
+
+    min-height: 70vh;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px 25px;
+
+    background: linear-gradient(
+
+        145deg,
+
+        rgba(30, 64, 175, 0.95),
+
+        rgba(15, 23, 42, 0.98)
+
+    );
+
+    border: 1px solid rgba(147, 197, 253, 0.25);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+
+    text-align: center;
+
+    animation: finishAppear 0.6s ease;
+
+}
+
+.finish-screen.active {
+
+    display: flex;
+
+}
+
+.finish-content {
+
+    width: 100%;
+
+    max-width: 650px;
+
+}
+
+.finish-trophy {
+
+    margin-bottom: 20px;
+
+    font-size: 90px;
+
+    animation: trophyBounce 1.2s ease;
+
+}
+
+.finish-content h2 {
+
+    margin-bottom: 15px;
+
+    color: #facc15;
+
+    font-size: 42px;
+
+    font-weight: 800;
+
+    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+
+}
+
+.finish-message {
+
+    margin-bottom: 35px;
+
+    color: #e2e8f0;
+
+    font-size: 20px;
+
+    line-height: 1.6;
+
+}
+
+
+
+/* =========================================================
+
+   46. FINISH FEEDBACK
+
+   ========================================================= */
+
+.finish-feedback {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    margin: 20px auto;
+
+    padding: 18px 25px;
+
+    background: rgba(250, 204, 21, 0.10);
+
+    border: 1px solid rgba(250, 204, 21, 0.25);
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+}
+
+.finish-feedback p {
+
+    margin: 0;
+
+    color: #fef3c7;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+
+}
+
+
+
+/* =========================================================
+
+   47. FINISH STATISTICS
+
+   ========================================================= */
+
+.finish-stat {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    max-width: 500px;
+
+    margin: 15px auto;
+
+    padding: 20px 25px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 15px;
+
+}
+
+.finish-stat-label {
+
+    color: #cbd5e1;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+.finish-stat strong {
+
+    color: #4ade80;
+
+    font-size: 28px;
+
+}
+
+
+
+/* =========================================================
+
+   48. FINISH PERFORMANCE
+
+   ========================================================= */
+
+.finish-performance {
+
+    max-width: 500px;
+
+    margin: 30px auto;
+
+    padding: 20px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border-radius: 15px;
+
+}
+
+.finish-performance p {
+
+    margin-bottom: 12px;
+
+    color: #cbd5e1;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+#performance-stars {
+
+    font-size: 32px;
+
+    letter-spacing: 5px;
+
+    animation: starsAppear 0.8s ease;
+
+}
+
+
+
+/* =========================================================
+
+   49. FINISH BUTTONS
+
+   ========================================================= */
+
+.finish-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 30px;
+
+}
+
+#finish-play-again-btn {
+
+    background: var(--secondary);
+
+}
+
+#finish-play-again-btn:hover {
+
+    background: var(--secondary-hover);
+
+}
+
+#finish-main-menu-btn {
+
+    background: var(--primary);
+
+}
+
+#finish-main-menu-btn:hover {
+
+    background: var(--primary-hover);
+
+}
+
+
+
+/* =========================================================
+
+   50. LOGIN PAGE
+
+   ========================================================= */
+
+.login-screen {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+}
+
+.login-content {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    border-radius: 20px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+
+}
+
+.login-logo {
+
+    margin-bottom: 10px;
+
+    font-size: 50px;
+
+}
+
+.login-content h1 {
+
+    margin: 0;
+
+    font-size: 32px;
+
+}
+
+.login-subtitle {
+
+    margin: 8px 0 25px;
+
+    opacity: 0.8;
+
+}
+
+
+
+/* =========================================================
+
+   51. ROLE SELECTION
+
+   ========================================================= */
+
+.login-section h2 {
+
+    margin-bottom: 15px;
+
+}
+
+.role-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+}
+
+.role-btn {
+
+    padding: 12px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+}
+
+.role-btn.active {
+
+    transform: scale(1.03);
+
+}
+
+
+
+/* =========================================================
+
+   52. LOGIN FORM
+
+   ========================================================= */
+
+.login-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    align-items: center;
+
+}
+
+.login-form p {
+
+    margin: 0 0 5px;
+
+}
+
+.login-form label {
+
+    width: 100%;
+
+    text-align: left;
+
+    font-weight: bold;
+
+}
+
+.login-form input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+}
+
+.login-btn {
+
+    padding: 12px 25px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    margin-top: 5px;
+
+}
+
+.hidden-login {
+
+    display: none;
+
+}
+
+.login-message {
+
+    min-height: 24px;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+
+}
+
+
+
+/* =========================================================
+
+   53. LOGIN FULL SCREEN
+
+   ========================================================= */
+
+body:has(.login-screen) .game-container {
+
+    width: 100%;
+
+    max-width: none;
+
+    min-height: 100vh;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+body:has(.login-screen) .login-screen {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+}
+
+
+
+/* =========================================================
+
    54. LECTURER DASHBOARD HEADER
+
    ========================================================= */
 
 .lecturer-header {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
     width: 100%;
+
     gap: 20px;
+
 }
 
 .lecturer-brand {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
+
 }
 
 .lecturer-brand .lecturer-logo {
+
     margin: 0;
+
 }
 
 .lecturer-brand h1 {
+
     margin: 0;
+
 }
 
 .lecturer-brand p {
+
     margin: 3px 0 0;
+
 }
 
 .lecturer-header .logout-btn {
+
     flex-shrink: 0;
+
 }
 
 
+
 /* =========================================================
+
    55. LECTURER DASHBOARD
+
    ========================================================= */
 
 .lecturer-screen {
+
     width: 100%;
+
     min-height: 80vh;
+
     display: flex;
+
     justify-content: center;
+
     align-items: flex-start;
+
     padding: 50px 20px;
+
 }
 
 .lecturer-content {
+
     width: 100%;
+
     max-width: 1000px;
+
     padding: 40px;
+
 }
 
 .lecturer-intro {
+
     margin-top: 60px;
+
     text-align: center;
+
 }
 
 .lecturer-intro h2 {
+
     margin: 0 0 10px;
+
     font-size: 32px;
+
 }
 
 .lecturer-intro .lecturer-subtitle {
+
     margin: 8px 0 0;
+
     font-size: 16px;
+
 }
 
 
+
 /* =========================================================
+
    56. LECTURER ACTION CARDS
+
    ========================================================= */
 
 .lecturer-buttons {
+
     display: grid;
+
     grid-template-columns: repeat(2, minmax(250px, 1fr));
+
     gap: 28px;
+
     max-width: 800px;
+
     margin: 40px auto 0;
+
 }
 
 .lecturer-buttons button {
+
     min-height: 210px;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 10px;
+
     padding: 30px;
+
     border: none;
+
     border-radius: 20px;
+
     font-size: 20px;
+
     font-weight: 700;
+
     cursor: pointer;
+
     text-align: center;
+
     transition:
+
         transform 0.2s,
+
         box-shadow 0.2s;
+
 }
 
 .lecturer-buttons button:hover {
+
     transform: translateY(-5px);
+
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+
 }
 
 .dashboard-action-icon {
+
     font-size: 44px;
+
     line-height: 1;
+
 }
 
 .dashboard-action-title {
+
     font-size: 22px;
+
     font-weight: 700;
+
     line-height: 1.2;
+
 }
 
 .dashboard-action-description {
+
     max-width: 280px;
+
     font-size: 15px;
+
     font-weight: 400;
+
     line-height: 1.5;
+
 }
 
 
+
 /* =========================================================
+
    57. ANIMATIONS
+
    ========================================================= */
 
 @keyframes appear {
+
     from {
+
         opacity: 0;
+
         transform: translateY(-20px);
+
     }
 
     to {
+
         opacity: 1;
+
         transform: translateY(0);
+
     }
+
 }
 
 @keyframes finishAppear {
+
     from {
+
         opacity: 0;
+
         transform: scale(0.95) translateY(20px);
+
     }
 
     to {
+
         opacity: 1;
+
         transform: scale(1) translateY(0);
+
     }
+
 }
 
 @keyframes trophyBounce {
+
     0% {
+
         transform: scale(0.5);
+
         opacity: 0;
+
     }
 
     60% {
+
         transform: scale(1.15);
+
     }
 
     100% {
+
         transform: scale(1);
+
         opacity: 1;
+
     }
+
 }
 
 @keyframes starsAppear {
+
     from {
+
         opacity: 0;
+
         transform: translateY(10px);
+
     }
 
     to {
+
         opacity: 1;
+
         transform: translateY(0);
+
     }
+
 }
 
 
+
 /* =========================================================
+
    58. TABLET
+
    ========================================================= */
 
 @media (max-width: 800px) {
 
     body {
+
         padding: 20px;
+
     }
 
     header h1 {
+
         font-size: 40px;
+
     }
 
     .status-bar {
+
         grid-template-columns: 1fr 1fr;
+
     }
 
     .bins {
+
         flex-direction: column;
+
         align-items: center;
+
     }
 
     .bin {
+
         width: 90%;
+
     }
 
     .condition-builder {
+
         grid-template-columns: 1fr;
+
     }
 
     /* Answer rows */
 
     .answer-row {
+
         grid-template-columns: 35px 1fr;
+
         gap: 10px;
+
     }
 
     .answer-row .answer-input,
+
     .answer-row .answer-explanation {
+
         grid-column: 2;
+
     }
 
     .answer-row .remove-answer {
+
         grid-column: 2;
+
         width: 60px;
+
     }
 
     /* Lecturer dashboard */
 
     .lecturer-content {
+
         padding: 30px 20px;
+
     }
+
 }
 
 
+
 /* =========================================================
+
    59. MOBILE
+
    ========================================================= */
 
 @media (max-width: 700px) {
 
     body {
+
         padding: 15px;
+
     }
 
     header h1 {
+
         font-size: 32px;
+
     }
 
     header p {
+
         font-size: 17px;
+
     }
 
     section {
+
         padding: 20px;
+
     }
 
     .status-bar {
+
         grid-template-columns: 1fr 1fr;
+
         gap: 10px;
+
     }
 
     .status-bar div {
+
         padding: 14px;
+
         font-size: 15px;
+
     }
 
     .status-bar span {
+
         font-size: 25px;
+
     }
 
     .question-display {
+
         font-size: 21px;
+
     }
 
     .card {
+
         width: 100%;
+
         max-width: 320px;
+
     }
 
     .bin {
+
         width: 100%;
+
         height: 140px;
+
         font-size: 22px;
+
     }
 
+
+
+
+    /* Fill-in-the-blank */
+    .fill-blank-answer-area {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    #student-fill-blank-answer,
+    #submit-fill-blank-answer {
+        width: 100%;
+        flex: none;
+    }
 
     /* Question modal */
 
     .question-modal,
+
     .mission-modal,
+
     .manage-modal {
+
         padding: 15px;
+
     }
 
     .question-creator,
+
     .mission-builder,
+
     .manage-panel {
+
         margin: 10px auto;
+
         padding: 25px 18px;
+
     }
 
     .creator-header h2,
+
     .manage-header h2 {
+
         font-size: 24px;
+
     }
+
 
 
     /* True / False */
 
     .true-false-options {
+
         flex-direction: column;
+
     }
 
     .true-false-options label {
+
         width: 100%;
+
     }
+
 
 
     /* Dataset */
 
     .dataset-row {
+
         grid-template-columns: 1fr;
+
     }
+
 
 
     /* Buttons */
 
     .creator-buttons,
+
     .builder-buttons,
+
     .delete-confirmation-buttons {
+
         flex-direction: column;
+
     }
 
     .creator-buttons button,
+
     .builder-buttons button,
+
     .delete-confirmation-buttons button {
+
         width: 100%;
+
     }
+
 
 
     /* Question manager */
 
     .manager-question,
+
     .question-manager-item {
+
         flex-direction: column;
+
         align-items: stretch;
+
     }
 
     .delete-question-btn {
+
         width: 100%;
+
     }
+
 
 
     /* Result table */
 
     table {
+
         display: block;
+
         overflow-x: auto;
+
     }
 
     th,
+
     td {
+
         white-space: nowrap;
+
     }
+
 
 
     /* Finish screen */
 
     .finish-screen {
+
         min-height: 75vh;
+
         padding: 40px 18px;
+
     }
 
     .finish-trophy {
+
         font-size: 70px;
+
     }
 
     .finish-content h2 {
+
         font-size: 30px;
+
     }
 
     .finish-message {
+
         font-size: 17px;
+
     }
 
     .finish-stat {
+
         padding: 17px 18px;
+
     }
 
     .finish-stat-label {
+
         font-size: 16px;
+
     }
 
     .finish-stat strong {
+
         font-size: 24px;
+
     }
 
     #performance-stars {
+
         font-size: 26px;
+
     }
 
     .finish-buttons {
+
         flex-direction: column;
+
         gap: 12px;
+
     }
 
     .finish-buttons button {
+
         width: 100%;
+
     }
+
 
 
     /* Lecturer dashboard */
 
     .lecturer-screen {
+
         padding: 30px 10px;
+
     }
 
     .lecturer-content {
+
         padding: 20px 10px;
+
     }
 
     .lecturer-header {
+
         align-items: flex-start;
+
     }
 
     .lecturer-buttons {
+
         grid-template-columns: 1fr;
+
         max-width: 500px;
+
     }
 
     .lecturer-buttons button {
+
         min-height: 180px;
+
     }
+
 }
 
 
+
 /* =========================================================
+
    60. SMALL PHONES
+
    ========================================================= */
 
 @media (max-width: 450px) {
 
     .status-bar {
+
         grid-template-columns: 1fr;
+
     }
 
     header h1 {
+
         font-size: 28px;
+
     }
 
     .start-screen {
+
         padding: 25px 15px;
+
     }
 
     #start-btn {
+
         width: 100%;
+
         padding: 16px;
+
         font-size: 19px;
+
     }
 
     .question-creator,
+
     .mission-builder,
+
     .manage-panel {
+
         padding: 20px 15px;
+
     }
 
     .answer-row {
+
         grid-template-columns: 25px 1fr;
+
     }
 
     .answer-row .remove-answer {
+
         width: 55px;
+
     }
 
     .finish-screen {
+
         padding: 35px 15px;
+
     }
 
     .finish-trophy {
+
         font-size: 60px;
+
     }
 
     .finish-content h2 {
+
         font-size: 26px;
+
     }
 
     .finish-stat {
+
         flex-direction: column;
+
         gap: 8px;
+
     }
 
     #performance-stars {
+
         font-size: 22px;
+
         letter-spacing: 3px;
+
     }
 
     .login-content {
+
         padding: 30px 20px;
+
     }
 
     .lecturer-brand h1 {
+
         font-size: 28px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   FILL-BLANK ACCEPTED KEYWORDS
+   ========================================================== */
+
+.fill-blank-keyword-field {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.keyword-header label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.optional-label {
+    opacity: 0.65;
+    font-weight: 400;
+}
+
+.fill-blank-keyword-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.fill-blank-keyword-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.fill-blank-keyword-input {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 16px;
+    background: var(--input-bg);
+    color: white;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.fill-blank-keyword-input::placeholder {
+    color: #94a3b8;
+}
+
+.fill-blank-keyword-input:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
+
+.remove-fill-blank-keyword {
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(239, 68, 68, 0.45);
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.12);
+    cursor: pointer;
+    font-size: 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.add-fill-blank-keyword-btn {
+    margin-top: 12px;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 2px dashed #475569;
+    border-radius: 12px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.add-fill-blank-keyword-btn:hover {
+    border-color: var(--secondary);
+}
+
+@media (max-width: 600px) {
+    .fill-blank-keyword-row {
+        grid-template-columns: 1fr;
+    }
+
+    .remove-fill-blank-keyword {
+        width: 100%;
     }
 }

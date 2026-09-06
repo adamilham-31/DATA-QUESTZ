@@ -90,6 +90,18 @@ const answerModeDescription =
 const trueFalseBuilder =
     document.getElementById("true-false-builder");
 
+const fillBlankBuilder =
+    document.getElementById("fill-blank-builder");
+
+const fillBlankAnswer =
+    document.getElementById("fill-blank-answer");
+
+const fillBlankKeywordList =
+    document.getElementById("fill-blank-keyword-list");
+
+const addFillBlankKeywordBtn =
+    document.getElementById("add-fill-blank-keyword-btn");
+
 // Image
 const questionImage =
     document.getElementById("question-image");
@@ -215,6 +227,13 @@ function getQuestionTypeName(question) {
     }
 
     if (
+        question.type === "fill-blank" ||
+        question.answerMode === "fill-blank"
+    ) {
+        return "Fill in the Blank";
+    }
+
+    if (
         question.type === "true-false" ||
         question.answerMode === "true-false"
     ) {
@@ -248,6 +267,13 @@ function getQuestionTypeClass(question) {
     }
 
     if (
+        question.type === "fill-blank" ||
+        question.answerMode === "fill-blank"
+    ) {
+        return "type-fill-blank";
+    }
+
+    if (
         question.type === "true-false" ||
         question.answerMode === "true-false"
     ) {
@@ -264,6 +290,70 @@ function getQuestionTypeClass(question) {
     return "type-single";
 }
 
+
+
+
+// ==========================================================
+// FILL-BLANK ACCEPTED KEYWORDS
+// ==========================================================
+
+function createFillBlankKeywordRow(value = "") {
+    if (!fillBlankKeywordList) return;
+
+    const row = document.createElement("div");
+    row.className = "fill-blank-keyword-row";
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "fill-blank-keyword-input";
+    input.placeholder = "Enter one accepted keyword or phrase...";
+    input.autocomplete = "off";
+    input.value = value;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "remove-fill-blank-keyword";
+    removeBtn.textContent = "🗑️";
+    removeBtn.title = "Remove keyword";
+    removeBtn.setAttribute("aria-label", "Remove keyword");
+
+    removeBtn.addEventListener("click", () => {
+        row.remove();
+    });
+
+    row.appendChild(input);
+    row.appendChild(removeBtn);
+    fillBlankKeywordList.appendChild(row);
+}
+
+function getFillBlankKeywords() {
+    if (!fillBlankKeywordList) return [];
+
+    return Array.from(
+        fillBlankKeywordList.querySelectorAll(".fill-blank-keyword-input")
+    )
+        .map(input => input.value.trim())
+        .filter(Boolean);
+}
+
+function setFillBlankKeywords(value) {
+    if (!fillBlankKeywordList) return;
+
+    fillBlankKeywordList.innerHTML = "";
+
+    let keywords = [];
+
+    if (Array.isArray(value)) {
+        keywords = value;
+    } else if (typeof value === "string" && value.trim()) {
+        // Backward compatibility with the previous comma-separated format.
+        keywords = value.split(",").map(k => k.trim()).filter(Boolean);
+    }
+
+    keywords.forEach(keyword =>
+        createFillBlankKeywordRow(keyword)
+    );
+}
 
 // ==========================================================
 // QUESTION CREATOR
@@ -304,6 +394,14 @@ function resetQuestionCreator() {
     questionImage.value = "";
     imagePreview.innerHTML = "";
     answerList.innerHTML = "";
+
+    if (fillBlankAnswer) {
+        fillBlankAnswer.value = "";
+    }
+
+    if (fillBlankKeywordList) {
+        fillBlankKeywordList.innerHTML = "";
+    }
 
     addAnswerRow();
     addAnswerRow();
@@ -481,6 +579,10 @@ function updateAnswerMode() {
             "hidden-section"
         );
 
+        fillBlankBuilder.classList.add(
+            "hidden-section"
+        );
+
         trueFalseBuilder.classList.remove(
             "hidden-section"
         );
@@ -491,11 +593,31 @@ function updateAnswerMode() {
         return;
     }
 
+    if (mode === "fill-blank") {
+        answerBuilder.classList.add(
+            "hidden-section"
+        );
+
+        trueFalseBuilder.classList.add(
+            "hidden-section"
+        );
+
+        fillBlankBuilder.classList.remove(
+            "hidden-section"
+        );
+
+        return;
+    }
+
     answerBuilder.classList.remove(
         "hidden-section"
     );
 
     trueFalseBuilder.classList.add(
+        "hidden-section"
+    );
+
+    fillBlankBuilder.classList.add(
         "hidden-section"
     );
 
@@ -666,6 +788,23 @@ saveQuestionBtn.addEventListener(
             ];
         }
 
+        else if (mode === "fill-blank") {
+            const correctAnswer =
+                fillBlankAnswer.value.trim();
+
+            if (!correctAnswer) {
+                alert(
+                    "Please enter the correct answer."
+                );
+
+                fillBlankAnswer.focus();
+
+                return;
+            }
+
+            answers = [];
+        }
+
         else {
             answers =
                 collectAnswers();
@@ -713,25 +852,36 @@ saveQuestionBtn.addEventListener(
         }
 
         const questionData = {
-            id:
-                questionToEdit
-                    ? questionToEdit.id
-                    : "custom-" + Date.now(),
+    id:
+        questionToEdit
+            ? questionToEdit.id
+            : "custom-" + Date.now(),
 
-            type: mode,
+    type: mode,
 
-            answerMode: mode,
+    answerMode: mode,
 
-            question: text,
+    question: text,
 
-            answers,
+    answers:
+        mode === "fill-blank"
+            ? [
+                {
+                    text:
+                        fillBlankAnswer.value.trim(),
+                    keyword: getFillBlankKeywords(),
+                    correct: true,
+                    explanation: ""
+                }
+            ]
+            : answers,
 
-            hint,
+    hint,
 
-            explanation,
+    explanation,
 
-            image
-        };
+    image
+};
 
         const isEditing =
             Boolean(questionToEdit);
@@ -879,6 +1029,18 @@ function openQuestionEditor(question) {
             falseExplanation.value =
                 falseAnswer?.explanation || "";
         }
+    }
+
+    else if (answerMode.value === "fill-blank") {
+        const fillBlankData =
+            question.answers?.[0] || {};
+
+        if (fillBlankAnswer) {
+            fillBlankAnswer.value =
+                fillBlankData.text || "";
+        }
+
+        setFillBlankKeywords(fillBlankData.keyword);
     }
 
     else {
@@ -1176,6 +1338,22 @@ addAnswerBtn.addEventListener(
     "click",
     () => addAnswerRow()
 );
+
+if (addFillBlankKeywordBtn) {
+    addFillBlankKeywordBtn.addEventListener(
+        "click",
+        () => {
+            createFillBlankKeywordRow();
+
+            const inputs =
+                fillBlankKeywordList?.querySelectorAll(
+                    ".fill-blank-keyword-input"
+                );
+
+            inputs?.[inputs.length - 1]?.focus();
+        }
+    );
+}
 
 addQuestionBtn.addEventListener(
     "click",
